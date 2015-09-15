@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html ng-app="issueTracker" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Issue Tracker LAB Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+    <script>
+        angular.module("issueTracker", [])
+                .controller("defaultCtrl", function($scope) {
+
+                    $scope.data = {
+                        users: [
+                            { username: "rekish", password: "test"},
+                            { username: "admin", password: "zero"}],
+                        product: [
+                            {product: "First Line"}
+                        ]
+                    };
+
+                    $scope.login = function() {
+                        for(var i = 0; i < $scope.data.users.length; i++) {
+                            if($scope.username === $scope.data.users[i].username
+                                && $scope.password === $scope.data.users[i].password) {
+                                console.log("Hello " + $scope.username
+                                        + " " + $scope.data.product[0].product);
+                            }
+                        }
+                    };
+                });
+    </script>
+
+</head>
+<body ng-controller="defaultCtrl">
+    <div class="login">
+        <div class="username">
+            <input name="username" placeholder="username" ng-model="username"/>
+        </div>
+
+        <div class="password">
+            <input name="password" type="password" placeholder="password" ng-model="password"/>
+        </div>
+
+        <button ng-click="login()">Login</button>
+        <h3>Hello {{ username }}</h3>
+     </div>
+</body>
+</html>
