@@ -13,6 +13,7 @@
 
         <!-- lijst van classes die @Entity zijn -->
         <class>nl.rivium.entities.Issue</class>
+        <class>nl.rivium.entities.User</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />

@@ -6,6 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
     <script>
         angular.module("issueTracker", [])
+                .constant("dataUrl", "http://localhost:8080/issueTrack/api/user/login")
                 .controller("defaultCtrl", function($scope) {
 
                     $scope.data = {
@@ -30,8 +31,8 @@
     </script>
 
 </head>
-<body ng-controller="defaultCtrl">
-    <div class="login">
+<body>
+    <div class="login" ng-controller="defaultCtrl">
         <div class="username">
             <input name="username" placeholder="username" ng-model="username"/>
         </div>
@@ -43,5 +44,11 @@
         <button ng-click="login()">Login</button>
         <h3>Hello {{ username }}</h3>
      </div>
+
+    <form action="api/user/login" method="post">
+        <input type="text" name="username"/>
+        <input type="password" name="password"/>
+        <input type="submit" value="SSS"/>
+    </form>
 </body>
 </html>
