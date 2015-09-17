@@ -53,6 +53,12 @@
             <version>${hibernate.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
         <!-- Hibernate dependency for connection pooling -->
         <dependency>
             <groupId>org.hibernate</groupId>

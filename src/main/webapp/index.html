@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Issue Tracker LAB Login</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
+    <script src="vendor/angular-resource.js"></script>
     <script>
         angular.module("issueTracker", [])
-                .constant("dataUrl", "http://localhost:8080/issueTrack/api/user/login")
-                .controller("defaultCtrl", function($scope) {
+                .constant("dataUrl", "http://localhost:8080/issueTracker/api/user/login")
+                .controller("defaultCtrl", function($scope, $http, dataUrl) {
 
-                    $scope.data = {
+                    /*$scope.data = {
                         users: [
                             { username: "rekish", password: "test"},
                             { username: "admin", password: "zero"}],
@@ -26,7 +27,23 @@
                                         + " " + $scope.data.product[0].product);
                             }
                         }
-                    };
+                    };*/
+
+                    $scope.login2 = function() {
+                        var input = {"username": $scope.username, "password": $scope.password};
+
+                        $http.post(dataUrl, input).then(
+                                function success() {
+                                    $scope.usernameData = $scope.username;
+                                },
+                                function error(response) {
+                                    var httpStatusCode = response.status;
+                                    if (httpStatusCode === 403) {
+                                        $scope.usernameData = "Bad";
+                                    }
+                                }
+                        )
+                    }
                 });
     </script>
 
@@ -41,14 +58,24 @@
             <input name="password" type="password" placeholder="password" ng-model="password"/>
         </div>
 
-        <button ng-click="login()">Login</button>
-        <h3>Hello {{ username }}</h3>
+        <button ng-click="login2()">Login</button>
+        <h3>Hello {{ usernameData }}</h3>
      </div>
 
-    <form action="api/user/login" method="post">
+    <form name="loginForm" action="api/user/login" method="post">
         <input type="text" name="username"/>
         <input type="password" name="password"/>
         <input type="submit" value="SSS"/>
     </form>
+    <form name="getAllIssues" action="api/issues/all" method="get">
+        <input type="submit" value="GET">
+    </form>
+
+    <div class="issueById">
+        <form name="inputForm" action="api/issues/get/">
+            <input type="text" name="'{id}'"/>
+        </form>
+
+    </div>
 </body>
 </html>

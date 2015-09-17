@@ -1,6 +1,7 @@
 package nl.rivium.resources;
 
 import nl.rivium.entities.Issue;
+import nl.rivium.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;

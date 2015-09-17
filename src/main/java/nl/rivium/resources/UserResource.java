@@ -1,5 +1,7 @@
 package nl.rivium.resources;
 
+import nl.rivium.dao.UserDAO;
+import nl.rivium.dao.UserDAOImpl;
 import nl.rivium.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -20,6 +22,7 @@ import java.util.List;
 @ApplicationScoped
 @Path("user")
 public class UserResource {
+    private static final UserDAO USER_DAO = new UserDAOImpl();
     @Context
     private static HttpServletRequest request;
 
@@ -32,17 +35,24 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response auth (User input) {
+        final boolean userFound = USER_DAO.auth(input.getUsername(), input.getPassword());
 
-        List<User> listUsers =
-                manager.createQuery("SELECT u FROM User u").getResultList();
-        System.out.println(listUsers);
-
-        if("rekish".equals(input.getUsername()) && "test".equals(input.getPassword())) {
-            request.getSession(true);
-            return Response.ok().build();
+        if(userFound) {
+            return Response.status(Response.Status.OK).entity(userFound).build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+//        List<User> listUsers =
+//                manager.createQuery("SELECT u FROM User u").getResultList();
+//        System.out.println(listUsers);
+
+//        if("rekish".equals(input.getUsername())) {
+//            request.getSession(true);
+//            return Response.ok().build();
+//        } else {
+//            return Response.status(Response.Status.FORBIDDEN).build();
+//        }
         //return Response.ok(listUsers).build();
     }
 }

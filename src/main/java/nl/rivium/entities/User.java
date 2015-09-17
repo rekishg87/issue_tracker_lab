@@ -53,5 +53,9 @@ public class User {
         this.email = email;
     }
 
+    public String toString() {
+        return "results: " + getUsername() + ", " + getPassword() + ", ";
+    }
+
 
 }
