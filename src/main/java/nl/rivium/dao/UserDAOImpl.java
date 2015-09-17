@@ -2,6 +2,7 @@ package nl.rivium.dao;
 
 import nl.rivium.entities.Issue;
 import nl.rivium.entities.User;
+import org.hibernate.HibernateException;
 
 import javax.persistence.*;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  */
 public class UserDAOImpl implements UserDAO {
     EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
-    EntityManager manager = factory.createEntityManager();
+    private EntityManager manager = factory.createEntityManager();
 
     @Override
     public boolean auth(String username, String password) {
@@ -37,20 +38,20 @@ public class UserDAOImpl implements UserDAO {
                 found = true;
             }
 
-        } catch (Exception ex) {
+        } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
 
-            factory.close();
+            manager.getTransaction().commit();
         }
 
         return found;
     }
 
-    /*public static void main(String[] args) {
+   /* public static void main(String[] args) {
         UserDAO USER_DAO = new UserDAOImpl();
-        boolean test = USER_DAO.auth("rekish1", "test");
-
+        boolean test = USER_DAO.auth("rekish", "test");
+        System.out.println("Userfound: " + test);
 
     }*/
 }

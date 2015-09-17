@@ -9,7 +9,7 @@
         <description>
             Persistence unit for Hibernate
         </description>
-       <provider>org.hibernate.ejb.HibernatePersistence</provider>
+       <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
         <!-- lijst van classes die @Entity zijn -->
         <class>nl.rivium.entities.Issue</class>

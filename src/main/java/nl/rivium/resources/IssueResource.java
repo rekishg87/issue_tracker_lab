@@ -60,14 +60,6 @@ public class IssueResource {
                 manager.createQuery("SELECT i FROM Issue i").getResultList();
         request.getSession(true);
 
-//        Cookie[] cookies = request.getCookies();
-//        for(int i = 0; i < cookies.length; i++){
-//            Cookie cookie = cookies[i];
-//            if(("JSESSIONID".equals(cookie.getName()))){
-//                cookie.setMaxAge(24*50*60); //max age of one day
-//            }
-//        }
-
         if (request.getSession(false) != null) {
             return Response.ok(listIssues).build();
         } else {
