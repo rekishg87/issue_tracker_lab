@@ -41,17 +41,18 @@ public class UserDAOImpl implements UserDAO {
         } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
-
             manager.getTransaction().commit();
         }
 
         return found;
     }
 
-   /* public static void main(String[] args) {
-        UserDAO USER_DAO = new UserDAOImpl();
-        boolean test = USER_DAO.auth("rekish", "test");
-        System.out.println("Userfound: " + test);
+    /*public static void main(String[] args) {
+        //UserDAO USER_DAO = new UserDAOImpl();
+        //boolean test = USER_DAO.auth("rekish", "test");
+        String password = "admin";
+        String passw = "password('" + password + "')";
+        System.out.println(passw);
 
     }*/
 }

@@ -14,6 +14,7 @@ public class User {
     private String username;
     private String password;
     private String email;
+    private String session_id;
 
     @Id
     @Column(name = "ID")
@@ -35,7 +36,7 @@ public class User {
         this.username = username;
     }
 
-    @Column(name = "PASSWORD")
+    @Column(name = "PASSW")
     public String getPassword() {
         return password;
     }
@@ -49,12 +50,17 @@ public class User {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Column(name = "SESSION_ID")
+    public String getSession_id() {
+        return session_id;
     }
 
-    public String toString() {
-        return "results: " + getUsername() + ", " + getPassword() + ", ";
+    public void setSession_id(String session_id) {
+        this.session_id = session_id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 

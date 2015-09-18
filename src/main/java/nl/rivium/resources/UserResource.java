@@ -8,12 +8,12 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List;
 
 /**
  * Created by Rekish on 9/15/2015.
@@ -22,13 +22,9 @@ import java.util.List;
 @ApplicationScoped
 @Path("user")
 public class UserResource {
-    private static final UserDAO USER_DAO = new UserDAOImpl();
+    private final UserDAO USER_DAO = new UserDAOImpl();
     @Context
     private static HttpServletRequest request;
-
-    private EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory("issueUnit");
-    private EntityManager manager = factory.createEntityManager();
 
     @POST
     @Path("login")
@@ -38,21 +34,21 @@ public class UserResource {
         final boolean userFound = USER_DAO.auth(input.getUsername(), input.getPassword());
 
         if(userFound) {
-            return Response.status(Response.Status.OK).entity(userFound).build();
+            boolean session = false;
+            if(request.getSession(false) == null) {
+                request.getSession(true);
+                session = true;
+            } else {
+                request.getSession(false);
+                session = false;
+            }
+
+            return Response
+                    .status(Response.Status.OK)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
-
-//        List<User> listUsers =
-//                manager.createQuery("SELECT u FROM User u").getResultList();
-//        System.out.println(listUsers);
-
-//        if("rekish".equals(input.getUsername())) {
-//            request.getSession(true);
-//            return Response.ok().build();
-//        } else {
-//            return Response.status(Response.Status.FORBIDDEN).build();
-//        }
-        //return Response.ok(listUsers).build();
     }
 }

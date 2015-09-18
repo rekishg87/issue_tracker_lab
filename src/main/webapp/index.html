@@ -3,12 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Issue Tracker LAB Login</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.js"></script>
-    <script src="vendor/angular-resource.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.js"></script>
+    <script src="vendor/angular-cookies.js"></script>
     <script>
-        angular.module("issueTracker", [])
+        angular.module("issueTracker", ["ngCookies"])
                 .constant("dataUrl", "http://localhost:8080/issueTracker/api/user/login")
-                .controller("defaultCtrl", function($scope, $http, dataUrl) {
+                .config(['$httpProvider', function($httpProvider) {
+                    $httpProvider.defaults.withCredentials = true;
+                }])
+                .controller("defaultCtrl", function($cookies, $scope, $http, dataUrl) {
+
 
                     /*$scope.data = {
                         users: [
@@ -28,21 +32,25 @@
                             }
                         }
                     };*/
-
-                    $scope.login2 = function() {
+                    $scope.showLoginButton = true;
+                    $scope.login2 = function($cookies) {
                         var input = {"username": $scope.username, "password": $scope.password};
 
                         $http.post(dataUrl, input).then(
                                 function success() {
                                     $scope.usernameData = $scope.username;
+                                    $scope.showLoginButton = false;
+                                    $scope.cooks = $cookies.get('JSESSIONID');
                                 },
                                 function error(response) {
                                     var httpStatusCode = response.status;
                                     if (httpStatusCode === 403) {
                                         $scope.usernameData = "Bad";
+                                        $scope.showLoginButton = true;
                                     }
                                 }
                         )
+
                     }
                 });
     </script>
@@ -58,8 +66,9 @@
             <input name="password" type="password" placeholder="password" ng-model="password"/>
         </div>
 
-        <button ng-click="login2()">Login</button>
+        <button ng-click="login2()" ng-show="showLoginButton">Login</button>
         <h3>Hello {{ usernameData }}</h3>
+        <h3>Cookie {{ cooks }}</h3>
      </div>
 
     <form name="loginForm" action="api/user/login" method="post">

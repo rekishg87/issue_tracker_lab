@@ -1,18 +1,14 @@
 package nl.rivium.resources;
 
 import nl.rivium.entities.Issue;
-import nl.rivium.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.*;
-import javax.servlet.ServletException;
 import javax.servlet.http.*;
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -25,14 +21,11 @@ public class IssueResource {
     @Context
     private static HttpServletRequest request;
 
-    //@PersistenceContext(name = "issueUnit")
     private EntityManagerFactory factory =
             Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
 
-
-
-    @GET()
+    @GET
     @Path("create/{name}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response create (@PathParam(value = "name") String name) {
@@ -53,12 +46,10 @@ public class IssueResource {
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
-    //@Consumes(MediaType.APPLICATION_JSON)
     public Response all() {
 
         List<Issue> listIssues =
                 manager.createQuery("SELECT i FROM Issue i").getResultList();
-        request.getSession(true);
 
         if (request.getSession(false) != null) {
             return Response.ok(listIssues).build();
