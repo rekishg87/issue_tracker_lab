@@ -4,55 +4,67 @@
     <meta charset="UTF-8">
     <title>Issue Tracker LAB Login</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.9/ngStorage.js"></script>
     <script src="vendor/angular-cookies.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="vendor/jquery-2.1.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.js"></script>
+    <script src="authentication/services.js"></script>
+    <script src="authentication/controllers.js"></script>
+    <script src="home/controllers.js"></script>
+
     <script>
-        angular.module("issueTracker", ["ngCookies"])
+        angular.module("issueTracker", ["ngStorage", "ngCookies"])
                 .constant("dataUrl", "http://localhost:8080/issueTracker/api/user/login")
                 .config(['$httpProvider', function($httpProvider) {
                     $httpProvider.defaults.withCredentials = true;
+
                 }])
-                .controller("defaultCtrl", function($cookies, $scope, $http, dataUrl) {
+                .controller("defaultCtrl", ['$cookies', '$scope', '$http', '$rootScope',
+                    '$location', '$localStorage', 'dataUrl',
+                        function($cookies, $scope, $http, $rootScope, $location, $localStorage, dataUrl) {
 
+                            $scope.save = function() {
+                                $localStorage.username = $scope.username;
+                            };
 
-                    /*$scope.data = {
-                        users: [
-                            { username: "rekish", password: "test"},
-                            { username: "admin", password: "zero"}],
-                        product: [
-                            {product: "First Line"}
-                        ]
-                    };
+                            $scope.load = function() {
+                                $scope.data = $localStorage.username;
+                            };
 
-                    $scope.login = function() {
-                        for(var i = 0; i < $scope.data.users.length; i++) {
-                            if($scope.username === $scope.data.users[i].username
-                                && $scope.password === $scope.data.users[i].password) {
-                                console.log("Hello " + $scope.username
-                                        + " " + $scope.data.product[0].product);
-                            }
-                        }
-                    };*/
+                        var usernameVal = $scope.username;
+                        $rootScope.usernameS = usernameVal;
+
                     $scope.showLoginButton = true;
-                    $scope.login2 = function($cookies) {
+                    $scope.login = function() {
                         var input = {"username": $scope.username, "password": $scope.password};
+
 
                         $http.post(dataUrl, input).then(
                                 function success() {
-                                    $scope.usernameData = $scope.username;
+                                    usernameVal = save();
+                                    usernameVal = load();
                                     $scope.showLoginButton = false;
-                                    $scope.cooks = $cookies.get('JSESSIONID');
-                                },
+                                 },
                                 function error(response) {
                                     var httpStatusCode = response.status;
                                     if (httpStatusCode === 403) {
-                                        $scope.usernameData = "Bad";
+                                        $rootScope.usernameData = "Bad";
                                         $scope.showLoginButton = true;
                                     }
                                 }
                         )
 
-                    }
-                });
+                    };
+                    $scope.cookieId = $cookies.get('JSESSIONID');
+                    var pData = $cookies.get('JSESSIONID');
+                    localStorage.setItem("cookieData", pData);
+                    localStorage.setItem("usernameData1", usernameVal);
+                    var pDataVal = localStorage.getItem("cookieData");
+                    var pUsernameVal = localStorage.getItem("usernameData1");
+                    $rootScope.pUsernameDataC = pUsernameVal;
+                    $rootScope.pDataValC = pDataVal;
+                }]);
     </script>
 
 </head>
@@ -66,9 +78,10 @@
             <input name="password" type="password" placeholder="password" ng-model="password"/>
         </div>
 
-        <button ng-click="login2()" ng-show="showLoginButton">Login</button>
-        <h3>Hello {{ usernameData }}</h3>
-        <h3>Cookie {{ cooks }}</h3>
+        <button ng-click="login()" ng-show="showLoginButton">Login</button>
+        <h3>Hello {{ pUsernameDataC }}</h3>
+        <h3>CookieId {{ cookieId }}</h3>
+        <h3>pDataValC {{ pDataValC }}</h3>
      </div>
 
     <form name="loginForm" action="api/user/login" method="post">

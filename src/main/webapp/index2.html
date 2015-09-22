@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html ng-app="BasicHttpAuth" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Http Basic Auth</title>
+    <link rel="stylesheet" href="vendor/bootstrap.css" />
+
+</head>
+<body>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="col-xs-offset-2 col-xs-8">
+                <div ng-view></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="vendor/jquery-2.1.4.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular-cookies.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="authentication/services.js"></script>
+    <script src="authentication/controllers.js"></script>
+    <script src="home/controllers.js"></script>
+
+</body>
+</html>
