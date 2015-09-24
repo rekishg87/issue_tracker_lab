@@ -3,61 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>Issue Tracker LAB Login</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.6/angular.js"></script>
+    <script src="vendor/angular_1.4.6.js"></script>
     <script src="vendor/angular-cookies.js"></script>
-    <script>
-        angular.module("issueTracker", ["ngCookies"])
-                .constant("dataUrl", "http://localhost:8080/issueTracker/api/user/login")
-                .config(['$httpProvider', function($httpProvider) {
-                    $httpProvider.defaults.withCredentials = true;
-                }])
-                .controller("defaultCtrl", function($cookies, $scope, $http, dataUrl) {
-
-
-                    /*$scope.data = {
-                        users: [
-                            { username: "rekish", password: "test"},
-                            { username: "admin", password: "zero"}],
-                        product: [
-                            {product: "First Line"}
-                        ]
-                    };
-
-                    $scope.login = function() {
-                        for(var i = 0; i < $scope.data.users.length; i++) {
-                            if($scope.username === $scope.data.users[i].username
-                                && $scope.password === $scope.data.users[i].password) {
-                                console.log("Hello " + $scope.username
-                                        + " " + $scope.data.product[0].product);
-                            }
-                        }
-                    };*/
-                    $scope.showLoginButton = true;
-                    $scope.login2 = function($cookies) {
-                        var input = {"username": $scope.username, "password": $scope.password};
-
-                        $http.post(dataUrl, input).then(
-                                function success() {
-                                    $scope.usernameData = $scope.username;
-                                    $scope.showLoginButton = false;
-                                    $scope.cooks = $cookies.get('JSESSIONID');
-                                },
-                                function error(response) {
-                                    var httpStatusCode = response.status;
-                                    if (httpStatusCode === 403) {
-                                        $scope.usernameData = "Bad";
-                                        $scope.showLoginButton = true;
-                                    }
-                                }
-                        )
-
-                    }
-                });
-    </script>
-
+    <script src="vendor/ngStorage.js"></script>
+    <script src="app.js"></script>
+    <script src="authentication/services.js"></script>
+    <script src="controllers/loginCtrl.js"></script>
 </head>
 <body>
-    <div class="login" ng-controller="defaultCtrl">
+    <div class="login" ng-controller="loginController as loginCtrl">
         <div class="username">
             <input name="username" placeholder="username" ng-model="username"/>
         </div>
@@ -66,9 +20,9 @@
             <input name="password" type="password" placeholder="password" ng-model="password"/>
         </div>
 
-        <button ng-click="login2()" ng-show="showLoginButton">Login</button>
-        <h3>Hello {{ usernameData }}</h3>
-        <h3>Cookie {{ cooks }}</h3>
+        <button ng-click="login()" ng-show="showLoginButton">Login</button>
+        <h3 ng-show="showUsernameSuccess">Hello {{ usernameSuccess }}</h3>
+        <h3 ng-show="showUsernameFailed">Bad Credentials entered for entered user {{ usernameFailed }}</h3>
      </div>
 
     <form name="loginForm" action="api/user/login" method="post">
