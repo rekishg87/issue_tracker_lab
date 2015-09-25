@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Issue Tracker LAB Login</title>
     <script src="vendor/angular_1.4.6.js"></script>
+    <script src="vendor/angular-route.min.js"></script>
     <script src="vendor/angular-cookies.js"></script>
     <script src="vendor/ngStorage.js"></script>
     <script src="app.js"></script>
@@ -11,34 +12,6 @@
     <script src="controllers/loginCtrl.js"></script>
 </head>
 <body>
-    <div class="login" ng-controller="loginController as loginCtrl">
-        <div class="username">
-            <input name="username" placeholder="username" ng-model="username"/>
-        </div>
-
-        <div class="password">
-            <input name="password" type="password" placeholder="password" ng-model="password"/>
-        </div>
-
-        <button ng-click="login()" ng-show="showLoginButton">Login</button>
-        <h3 ng-show="showUsernameSuccess">Hello {{ usernameSuccess }}</h3>
-        <h3 ng-show="showUsernameFailed">Bad Credentials entered for entered user {{ usernameFailed }}</h3>
-     </div>
-
-    <form name="loginForm" action="api/user/login" method="post">
-        <input type="text" name="username"/>
-        <input type="password" name="password"/>
-        <input type="submit" value="SSS"/>
-    </form>
-    <form name="getAllIssues" action="api/issues/all" method="get">
-        <input type="submit" value="GET">
-    </form>
-
-    <div class="issueById">
-        <form name="inputForm" action="api/issues/get/">
-            <input type="text" name="'{id}'"/>
-        </form>
-
-    </div>
+<div ng-view></div>
 </body>
 </html>

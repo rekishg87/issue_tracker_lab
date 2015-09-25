@@ -3,8 +3,11 @@
  */
 
 angular.module("Authentication")
-    .factory("AuthService", ['$http', '$rootScope', 'dataUrl',
-        function($http, $rootScope, dataUrl) {
+    .config(['$httpProvider', function($httpProvider) {
+        $httpProvider.defaults.withCredentials = true;
+    }])
+    .factory("AuthService", ['$http', '$rootScope', '$location', 'dataUrl',
+        function($http, $rootScope, $location, dataUrl) {
             var service = {};
             $rootScope.showLoginButton = true;
             $rootScope.showUsernameFailed = false;
@@ -21,7 +24,9 @@ angular.module("Authentication")
                         $rootScope.showUsernameFailed = false;
                         $rootScope.usernameSuccess = username;
                         $rootScope.showLoginButton = false;
+                        //$location.path("/home");
                         callback(response);
+
                     },
                     function error(response) {
                         var httpStatusCode = response.status;
@@ -36,4 +41,34 @@ angular.module("Authentication")
                 );
             };
             return service;
-        }]);
+
+        }])
+    .factory("LocalStorageService", ['$rootScope', '$localStorage', function($rootScope, $localStorage) {
+        var storageService = {};
+
+        storageService.save = function(object) {
+            var storage = $localStorage.storage = [];
+
+            var count = 0;
+            if($localStorage.storage.length <= count) {
+                if($localStorage.storage[count] !== "") {
+                    $localStorage.storage[count]++;
+                } else if ($localStorage.storage[count] === "") {
+                    $localStorage.storage[count] = [object];
+                    count++;
+                    return object;
+                }
+            }
+        };
+
+        storageService.load = function () {
+            for(var i = 0; i < $localStorage.storage.length; i++) {
+                console.log("Length: " + $localStorage.storage.length);
+                console.log($localStorage.storage[i]);
+                /*if($localStorage.storage[i].equals(object)) {
+                    return $localStorage.storage[i];
+                }*/
+            }
+        };
+    return storageService;
+    }]);
