@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
   <artifact type="war" name="issue_tracker:war">
     <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="issueTracker.war">
+    <root id="archive" name="issueTrackerlab.war">
       <element id="artifact" artifact-name="issue_tracker:war exploded" />
     </root>
   </artifact>

@@ -5,6 +5,7 @@ import nl.rivium.dao.UserDAOImpl;
 import nl.rivium.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.json.JsonArray;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -50,5 +51,32 @@ public class UserResource {
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
+    }
+
+    @POST
+    @Path("value")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response users (User input) {
+        final JsonArray userss = USER_DAO.value(input.getUsername(), input.getPassword());
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                .entity(userss)
+                .build();
+    }
+
+    @GET
+    @Path("getall")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getUsers() {
+        final JsonArray getUser = USER_DAO.val();
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                .entity(getUser)
+                .build();
     }
 }

@@ -23,7 +23,7 @@
 
             <property name="javax.persistence.jdbc.user" value="root" />
             <property name="javax.persistence.jdbc.password" value="Admin2015" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/issue_tracker_new" />
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/issue_tracker" />
 
             <!-- c3p0 hibernate connection pooling settings -->
             <property name="hibernate.c3p0.min_size" value="1"/>

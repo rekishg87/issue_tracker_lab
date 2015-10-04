@@ -4,6 +4,8 @@ import nl.rivium.entities.Issue;
 import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
 
+import javax.json.Json;
+import javax.json.JsonArray;
 import javax.persistence.*;
 import java.util.List;
 
@@ -46,6 +48,30 @@ public class UserDAOImpl implements UserDAO {
 
         return found;
     }
+
+    @Override
+    public JsonArray value(String username, String password) {
+        JsonArray value = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("username", username)
+                        .add("password", password))
+                .build();
+        System.out.println(value);
+    return value;
+    }
+
+    @Override
+    public JsonArray val() {
+        JsonArray val = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("username", "rekish")
+                        .add("password", "test"))
+                .build();
+        System.out.println(val);
+        return val;
+    }
+
+
 
     /*public static void main(String[] args) {
         //UserDAO USER_DAO = new UserDAOImpl();

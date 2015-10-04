@@ -3,8 +3,8 @@
  */
 
 angular.module("Authentication")
-    .controller("loginController", ['$scope', '$rootScope', 'AuthService', 'LocalStorageService',
-            function($scope, $rootScope, AuthService, LocalStorageService) {
+    .controller("loginController", ['$scope', '$rootScope', 'AuthService', 'LocalStorageService', 'ValueService', 'ValService',
+            function($scope, $rootScope, AuthService, LocalStorageService, ValueService, ValService) {
 
                 $scope.login = function() {
                     AuthService.login($scope.username, $scope.password, function(response){
@@ -24,4 +24,21 @@ angular.module("Authentication")
                         }
                     });*/
                 };
+
+                $scope.value = function() {
+                    ValueService.value($scope.username, $scope.password, function(response) {
+                        if(response.status === 200) {
+                            console.log("Log: " + response.status);
+                        }
+                    })
+                }
+
+                $scope.val = function() {
+                    ValService.val(function(response) {
+                        if(response.status === 200) {
+                            var rData = response.data;
+                            console.log("Log: " + rData.toString());
+                        }
+                    })
+                }
     }]);
