@@ -3,15 +3,17 @@
  */
 
 angular.module("Authentication")
-    .controller("loginController", ['$scope', '$rootScope', 'AuthService', 'LocalStorageService', 'ValueService', 'ValService',
-            function($scope, $rootScope, AuthService, LocalStorageService, ValueService, ValService) {
+    .controller("loginController", ['$scope', '$rootScope', 'AuthService', 'ValueService', 'ValService',
+            function($scope, $rootScope, AuthService, ValueService, ValService) {
+
+                $scope.isLoggedIn = false;
 
                 $scope.login = function() {
                     AuthService.login($scope.username, $scope.password, function(response){
                         if(response.status === 200) {
-                            $rootScope.dataSave = LocalStorageService.save("test1");
-                            $rootScope.dataSave2 = LocalStorageService.save("test2");
-                            $rootScope.dataLoad = LocalStorageService.load();
+                            response.sessionStorage
+                            $scope.isLoggedIn = true;
+
                         }
 
                     });

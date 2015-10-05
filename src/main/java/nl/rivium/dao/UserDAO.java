@@ -1,6 +1,10 @@
 package nl.rivium.dao;
 
+import nl.rivium.entities.Issue;
+import nl.rivium.entities.User;
+
 import javax.json.JsonArray;
+import java.util.List;
 
 /**
  * Created by Rekish on 9/17/2015.
@@ -8,5 +12,5 @@ import javax.json.JsonArray;
 public interface UserDAO {
     boolean auth (String username, String password);
     JsonArray value(String username, String password);
-    JsonArray val();
+    List<User> signupUser (String username, String password, String email);
 }

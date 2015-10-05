@@ -6,7 +6,7 @@
 angular.module("Authentication", []);
 
 angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngStorage"])
-    .constant("dataUrl", "api/user/login")
+    .constant("loginUrl", "api/user/login")
     .constant("valueUrl", "api/user/value")
     .constant("valUrl", "api/user/getall")
     .config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {

@@ -6,8 +6,8 @@ angular.module("Authentication")
     .config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.withCredentials = true;
     }])
-    .factory("AuthService", ['$http', '$rootScope', '$location', 'dataUrl',
-        function($http, $rootScope, $location, dataUrl) {
+    .factory("AuthService", ['$http', '$rootScope', '$location', 'loginUrl',
+        function($http, $rootScope, $location, loginUrl) {
             var service = {};
             $rootScope.showLoginButton = true;
             $rootScope.showUsernameFailed = false;
@@ -15,16 +15,16 @@ angular.module("Authentication")
 
 
             service.login = function(username, password, callback) {
-                var input = {username: username, password: password};
+                var credentials = {username: username, password: password};
 
-                $http.post(dataUrl, input)
+                $http.post(loginUrl, credentials)
                     .then(
                     function success(response) {
                         $rootScope.showUsernameSuccess = true;
                         $rootScope.showUsernameFailed = false;
                         $rootScope.usernameSuccess = username;
                         $rootScope.showLoginButton = false;
-                        //$location.path("/home");
+                        $location.path("/home");
                         callback(response);
 
                     },
@@ -41,38 +41,7 @@ angular.module("Authentication")
                 );
             };
             return service;
-
         }])
-    .factory("LocalStorageService", ['$rootScope', '$localStorage', function($rootScope, $localStorage) {
-        var storageService = {};
-
-        storageService.save = function(object) {
-            var storage = $localStorage.storage = [];
-
-            var count = 0;
-            if($localStorage.storage.length <= count) {
-                if($localStorage.storage[count] !== "") {
-                    $localStorage.storage[count]++;
-                } else if ($localStorage.storage[count] === "") {
-                    $localStorage.storage[count] = [object];
-                    count++;
-                    return object;
-                }
-            }
-        };
-
-        storageService.load = function () {
-            for(var i = 0; i < $localStorage.storage.length; i++) {
-                console.log("Length: " + $localStorage.storage.length);
-                console.log($localStorage.storage[i]);
-                /*if($localStorage.storage[i].equals(object)) {
-                    return $localStorage.storage[i];
-                }*/
-            }
-        };
-    return storageService;
-
-    }])
 
     .factory("ValueService", ['$http', '$rootScope', '$location', 'valueUrl',
         function($http, $rootScope, $location, dataUrl) {

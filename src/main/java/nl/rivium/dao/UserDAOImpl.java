@@ -61,17 +61,32 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public JsonArray val() {
-        JsonArray val = Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
-                        .add("username", "rekish")
-                        .add("password", "test"))
-                .build();
-        System.out.println(val);
-        return val;
+    public List<User> signupUser (String username, String password, String email) {
+        try{
+            manager.getTransaction().begin();
+            User user = new User();
+            user.setUsername(user.getUsername());
+            user.setEmail(user.getEmail());
+            user.setPassword(user.getPassword());
+            manager.persist(user);
+            System.out.println(user.toString());
+            /*Query query = manager.createQuery
+                    ("SELECT u FROM User u WHERE " +
+                            "u.username = :username and u.password = :password");
+
+            query.setParameter("username", username);
+            query.setParameter("password", password);
+
+            List<Issue> listIssues = query.getResultList();*/
+
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            manager.getTransaction().commit();
+        }
+
+        return null;
     }
-
-
 
     /*public static void main(String[] args) {
         //UserDAO USER_DAO = new UserDAOImpl();

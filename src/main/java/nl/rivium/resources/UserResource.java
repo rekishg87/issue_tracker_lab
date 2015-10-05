@@ -6,15 +6,12 @@ import nl.rivium.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.json.JsonArray;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * Created by Rekish on 9/15/2015.
@@ -24,6 +21,7 @@ import javax.ws.rs.core.Response;
 @Path("user")
 public class UserResource {
     private final UserDAO USER_DAO = new UserDAOImpl();
+
     @Context
     private static HttpServletRequest request;
 
@@ -49,6 +47,7 @@ public class UserResource {
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         } else {
+            System.out.println("test");
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
@@ -67,16 +66,16 @@ public class UserResource {
                 .build();
     }
 
-    @GET
-    @Path("getall")
+    @POST
+    @Path("signup")
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getUsers() {
-        final JsonArray getUser = USER_DAO.val();
+    public Response signupUser(User input) {
+        final List<User> user = USER_DAO.signupUser(input.getUsername(), input.getPassword(), input.getEmail());
 
         return Response
                 .status(Response.Status.OK)
                 .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                .entity(getUser)
                 .build();
     }
 }

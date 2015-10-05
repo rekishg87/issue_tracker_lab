@@ -1,5 +1,7 @@
 package nl.rivium.resources;
 
+import nl.rivium.dao.IssueDAO;
+import nl.rivium.dao.IssueDAOImpl;
 import nl.rivium.entities.Issue;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -18,6 +20,8 @@ import java.util.List;
 @ApplicationScoped
 @Path("issues")
 public class IssueResource {
+    private final IssueDAO ISSUE_DAO = new IssueDAOImpl();
+
     @Context
     private static HttpServletRequest request;
 
@@ -69,4 +73,18 @@ public class IssueResource {
 
         return Response.ok(listIssues).build();
     }
+
+    @GET
+    @Path("getall")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getAllIssues() {
+        final List<Issue> issues = ISSUE_DAO.allIssuesList();
+
+        return Response
+                .status(Response.Status.OK)
+                .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                .entity(issues)
+                .build();
+    }
+
 }
