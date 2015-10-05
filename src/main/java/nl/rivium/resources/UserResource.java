@@ -71,10 +71,11 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signupUser(User input) {
-        final List<User> user = USER_DAO.signupUser(input.getUsername(), input.getPassword(), input.getEmail());
+        final List<User> addUser = USER_DAO.signupUser(input.getUsername(), input.getPassword(), input.getEmail());
 
         return Response
                 .status(Response.Status.OK)
+                .entity(addUser)
                 .header("Access-Control-Allow-Origin", "http://localhost:8080")
                 .build();
     }

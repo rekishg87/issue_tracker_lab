@@ -7,6 +7,7 @@ import org.hibernate.HibernateException;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,14 +63,17 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> signupUser (String username, String password, String email) {
+        List<User> userAdded = new ArrayList<>();
+
         try{
             manager.getTransaction().begin();
             User user = new User();
-            user.setUsername(user.getUsername());
-            user.setEmail(user.getEmail());
-            user.setPassword(user.getPassword());
+            user.setUsername(username);
+            user.setPassword(password);
+            user.setEmail(email);
             manager.persist(user);
-            System.out.println(user.toString());
+            manager.getTransaction().commit();
+
             /*Query query = manager.createQuery
                     ("SELECT u FROM User u WHERE " +
                             "u.username = :username and u.password = :password");
@@ -85,7 +89,7 @@ public class UserDAOImpl implements UserDAO {
             manager.getTransaction().commit();
         }
 
-        return null;
+        return userAdded;
     }
 
     /*public static void main(String[] args) {
