@@ -1,4 +1,7 @@
-<h1>Home</h1>
-<p>You're logged in!!</p>
-<p>Session {{ sessionData }}</p>
-<p><a href="#/login">Logout</a></p>
+<div class="container" ng-controller="HomeController as HomeCtrl" ng-init="getUser()">
+    <h1>Home</h1>
+    <p>You're logged in!!</p>
+    <p>Session {{ sessionData }}</p>
+    <p><a href="#/login">Logout</a></p>
+    <button type="button" name="logout" ng-click="logout()">Logout</button>
+</div>

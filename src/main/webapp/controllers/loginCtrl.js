@@ -3,19 +3,19 @@
  */
 
 angular.module("Authentication")
-    .controller("loginController", ['$scope', '$rootScope', 'AuthService', 'ValueService', 'ValService',
-            function($scope, $rootScope, AuthService, ValueService, ValService) {
+    .controller("loginController", ['$scope', '$rootScope', '$sessionStorage', 'AuthService', 'ValueService', 'ValService',
+            function($scope, $rootScope, $sessionStorage, AuthService, ValueService, ValService) {
 
                 $scope.isLoggedIn = false;
+                $rootScope.sessionData = null;
 
                 $scope.login = function() {
                     AuthService.login($scope.username, $scope.password, function(response){
                         if(response.status === 200) {
-                            response.s
-                            response.sessionStorage
-                            $scope.sessionData = response.sessionStorage;
+                            $sessionStorage.sessionUser = $scope.username;
+                            $rootScope.sessionData = $sessionStorage.sessionUser;
                             $scope.isLoggedIn = true;
-
+                            window.location = '#/home';
                         }
 
                     });

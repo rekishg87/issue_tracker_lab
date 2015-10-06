@@ -31,11 +31,13 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response auth (User input) {
         final boolean userFound = USER_DAO.auth(input.getUsername(), input.getPassword());
+        String loggedInUser = "";
 
         if(userFound) {
             boolean session = false;
             if(request.getSession(false) == null) {
                 request.getSession(true);
+                loggedInUser = input.getUsername();
                 session = true;
             } else {
                 request.getSession(false);
@@ -44,10 +46,10 @@ public class UserResource {
 
             return Response
                     .status(Response.Status.OK)
+                    //.entity(loggedInUser)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         } else {
-            System.out.println("test");
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
@@ -73,10 +75,18 @@ public class UserResource {
     public Response signupUser(User input) {
         final List<User> addUser = USER_DAO.signupUser(input.getUsername(), input.getPassword(), input.getEmail());
 
-        return Response
-                .status(Response.Status.OK)
-                .entity(addUser)
-                .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                .build();
+
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(addUser)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+
+            /*return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(addUser)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();*/
+
     }
 }

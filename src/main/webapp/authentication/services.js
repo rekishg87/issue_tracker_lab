@@ -51,10 +51,10 @@ angular.module("Authentication")
                 $http.post(signupUrl, signupData)
                     .then(
                     function onSuccess(response) {
+                        response.entity;
                         callback(response);
                     },
                     function onError(err) {
-                        console.log("Error: " + err);
                         callback(err);
                     }
                 )

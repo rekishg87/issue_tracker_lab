@@ -10,12 +10,11 @@ angular.module("issueTracker")
 
             AuthService.signup($scope.username, $scope.password, $scope.email, function (response) {
                 if (response.status === 200) {
-                    console.log("Response: " + response.data);
+                    console.log("User " + $scope.username + "  added.");
+                } else {
+                    console.log("User already exists, please try again.");
                 }
 
-                if(response.status === 500) {
-                    console.log("Error: " + response.data);
-                }
             })
         }
     }]);

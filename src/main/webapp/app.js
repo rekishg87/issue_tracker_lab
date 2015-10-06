@@ -15,6 +15,7 @@ angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngSto
 
         $routeProvider
             .when("/home", {
+                controller: "HomeController",
                 templateUrl: "views/home.html"
             })
 
