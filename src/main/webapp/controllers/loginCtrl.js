@@ -29,6 +29,10 @@ angular.module("Authentication")
                     });*/
                 };
 
+                $scope.signup = function() {
+                    window.location = '#/signup';
+                };
+
                 $scope.value = function() {
                     ValueService.value($scope.username, $scope.password, function(response) {
                         if(response.status === 200) {
