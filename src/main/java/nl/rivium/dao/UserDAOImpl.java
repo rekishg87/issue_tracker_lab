@@ -4,6 +4,9 @@ import nl.rivium.entities.Issue;
 import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
 
+import javax.annotation.Resource;
+import javax.ejb.SessionContext;
+import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.persistence.*;
@@ -13,9 +16,11 @@ import java.util.List;
 /**
  * Created by Rekish on 9/17/2015.
  */
+
 public class UserDAOImpl implements UserDAO {
-    EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private EntityTransaction transaction = manager.getTransaction();
 
     @Override
     public boolean auth(String username, String password) {
@@ -58,21 +63,23 @@ public class UserDAOImpl implements UserDAO {
                         .add("password", password))
                 .build();
         System.out.println(value);
-    return value;
+        return value;
     }
 
     @Override
-    public List<User> signupUser (String username, String password, String email) {
+    public List<User> signupUser (String username, String password, String email) throws HibernateException {
+
         List<User> userAdded = new ArrayList<>();
 
         try{
-            manager.getTransaction().begin();
+            transaction.begin();
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
             user.setEmail(email);
             manager.persist(user);
-            manager.getTransaction().commit();
+            userAdded.add(user);
+            transaction.commit();
 
             /*Query query = manager.createQuery
                     ("SELECT u FROM User u WHERE " +
@@ -86,11 +93,14 @@ public class UserDAOImpl implements UserDAO {
         } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
-            manager.getTransaction().commit();
+            if(transaction.isActive()) {
+                transaction.rollback();
+            }
         }
 
         return userAdded;
     }
+
 
     /*public static void main(String[] args) {
         //UserDAO USER_DAO = new UserDAOImpl();

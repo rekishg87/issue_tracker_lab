@@ -1,7 +1,6 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Issue;
-import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
@@ -23,12 +22,17 @@ public class IssueDAOImpl implements IssueDAO{
 
         try{
             manager.getTransaction().begin();
-            User user = new User();
-            user.setUsername(user.getUsername());
-            user.setPassword(user.getPassword());
+            Issue issue = new Issue();
+            issue.getDescription();
+            issue.getAssigneeId();
+            issue.getCategoryId();
+            issue.getId();
+            issue.getPriorityId();
+            issue.getStatusId();
+            manager.persist(issue);
 
             Query query = manager.createQuery
-                    ("SELECT u FROM User u");
+                    ("SELECT i FROM Issue i");
 
 
             listIssues = query.getResultList();

@@ -50,15 +50,6 @@ public class User {
         return email;
     }
 
-    @Column(name = "SESSION_ID")
-    public String getSession_id() {
-        return session_id;
-    }
-
-    public void setSession_id(String session_id) {
-        this.session_id = session_id;
-    }
-
     public void setEmail(String email) {
         this.email = email;
     }

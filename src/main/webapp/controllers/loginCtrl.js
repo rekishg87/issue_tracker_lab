@@ -11,7 +11,9 @@ angular.module("Authentication")
                 $scope.login = function() {
                     AuthService.login($scope.username, $scope.password, function(response){
                         if(response.status === 200) {
+                            response.s
                             response.sessionStorage
+                            $scope.sessionData = response.sessionStorage;
                             $scope.isLoggedIn = true;
 
                         }

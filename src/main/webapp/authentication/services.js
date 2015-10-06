@@ -6,8 +6,8 @@ angular.module("Authentication")
     .config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.withCredentials = true;
     }])
-    .factory("AuthService", ['$http', '$rootScope', '$location', 'loginUrl',
-        function($http, $rootScope, $location, loginUrl) {
+    .factory("AuthService", ['$http', '$rootScope', '$location', 'loginUrl', 'signupUrl',
+        function($http, $rootScope, $location, loginUrl, signupUrl) {
             var service = {};
             $rootScope.showLoginButton = true;
             $rootScope.showUsernameFailed = false;
@@ -40,6 +40,26 @@ angular.module("Authentication")
                     }
                 );
             };
+
+            service.signup = function(username, password, email, callback) {
+                var signupData = {
+                    username: username,
+                    password: password,
+                    email: email
+                };
+
+                $http.post(signupUrl, signupData)
+                    .then(
+                    function onSuccess(response) {
+                        callback(response);
+                    },
+                    function onError(err) {
+                        console.log("Error: " + err);
+                        callback(err);
+                    }
+                )
+            };
+
             return service;
         }])
 
@@ -74,8 +94,8 @@ angular.module("Authentication")
 
         }])
 
-    .factory("ValService", ['$http', '$rootScope', '$location', 'valUrl',
-        function($http, $rootScope, $location, valUrl) {
+    .factory("ValService", ['$http', '$location', 'valUrl',
+        function($http, $location, valUrl) {
             var valService = {};
 
             valService.val = function(callback) {
@@ -90,10 +110,6 @@ angular.module("Authentication")
                     function error(response) {
                         var httpStatusCode = response.status;
                         if (httpStatusCode === 403) {
-                            $rootScope.showUsernameSuccess = false;
-                            $rootScope.showUsernameFailed = true;
-                            $rootScope.usernameFailed = username;
-                            $rootScope.showLoginButton = true;
                             console.log("error: " + response.data);
                             callback(response);
                         }
