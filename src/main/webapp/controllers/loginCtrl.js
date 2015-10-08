@@ -49,4 +49,22 @@ angular.module("Authentication")
                         }
                     })
                 }
+
+                $scope.getUser = function() {
+                    console.log("Getting User...");
+                    console.log("SessionStorage: " + $sessionStorage.sessionUser);
+                    console.log("sessionData: " + $rootScope.sessionData);
+
+                    $rootScope.sessionData = $sessionStorage.sessionUser;
+                };
+
+                if($sessionStorage.sessionUser === undefined) {
+                    console.log("SessionStorage: " + $sessionStorage.sessionUser);
+                    console.log("sessionData: " + $rootScope.sessionData);
+                    window.location = '#/login';
+                } else {
+                    console.log("SessionStorage: " + $sessionStorage.sessionUser);
+                    console.log("sessionData: " + $rootScope.sessionData);
+                    window.location = '#/home';
+                }
     }]);

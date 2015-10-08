@@ -76,15 +76,21 @@ public class IssueResource {
 
     @GET
     @Path("getall")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getAllIssues() {
         final List<Issue> issues = ISSUE_DAO.allIssuesList();
 
-        return Response
+        /*return Response
                 .status(Response.Status.OK)
                 .header("Access-Control-Allow-Origin", "http://localhost:8080")
                 .entity(issues)
-                .build();
+                .build();*/
+
+        if (request.getSession(false) != null) {
+            return Response.ok(issues).build();
+        } else {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
     }
 
 }
