@@ -35,6 +35,6 @@ angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngSto
             })
 
             .otherwise({
-                redirectTo: "/login"
+                redirectTo: "/home"
             });
     }]);

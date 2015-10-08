@@ -1,11 +1,38 @@
 <div class="container" ng-controller="SignupController as SignupCtrl">
-    <div class="signupBox">
-        <h1>Signup User</h1>
-        <input name="username" placeholder="Username" ng-model="username"/>
-        <input name="password" placeholder="Password" ng-model="password"/>
-        <input type="email" name="email" placeholder="Email Address" ng-model="email"/>
-        <button class="button" name="signupButton" ng-click="signupUser()">Sign Up</button>
-        <p><a href="#/login">Login</a></p>
-
+    <div class="large-5 large-centered columns">
+        <div class="login-box">
+            <div class="row">
+                <div class="large-12 columns">
+                    <h2 class="text-center">
+                        Create Account
+                    </h2>
+                    <p class="text-center">
+                        Please fill in account information
+                    </p>
+                    <form>
+                        <div class="row">
+                            <div class="large-9 large-centered columns">
+                                <input type="text" name="username" placeholder="Username" ng-model="username"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-9 large-centered columns">
+                                <input type="password" name="password" placeholder="Password" ng-model="password"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-9 large-centered columns">
+                                <input type="email" name="email" placeholder="Email Address" ng-model="email"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-4 large-centered columns">
+                                <button class="button expand" name="signupButton" ng-click="signupUser()">Sign Up</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

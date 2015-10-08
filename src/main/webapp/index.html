@@ -2,7 +2,54 @@
 <html ng-app="issueTracker" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Issue Tracker LAB Login</title>
+    <title>Issue Tracker LAB</title>
+    <!--STYLES-->
+    <link rel="stylesheet" href="vendor/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" href="vendor/styles/foundation.css"/>
+    <link rel="stylesheet" href="styles/login.css"/>
+    <!--STYLES END-->
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#/home">Issue Tracker</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">Link</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#/login">Login</a></li>
+                    <li><a href="#/signup">Signup</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div ng-view></div>
+
+    <!--SCRIPTS-->
     <script src="vendor/angular_1.4.6.js"></script>
     <script src="vendor/angular-route.min.js"></script>
     <script src="vendor/angular-cookies.js"></script>
@@ -13,8 +60,6 @@
     <script src="controllers/IssueCtrl.js"></script>
     <script src="controllers/SignupCtrl.js"></script>
     <script src="controllers/HomeCtrl.js"></script>
-</head>
-<body>
-<div ng-view></div>
+    <!--SCRIPTS END-->
 </body>
 </html>

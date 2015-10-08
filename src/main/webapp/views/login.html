@@ -1,18 +1,48 @@
 <div class="login" ng-controller="loginController as loginCtrl" ng-init="getUser()">
-    <div class="username">
-        <input name="username" placeholder="username" ng-model="username"/>
+    <div class="large-3 large-centered columns">
+        <div class="login-box">
+            <div class="row">
+                <div class="large-12 columns">
+                    <h2 class="text-center">
+                        UserAuth
+                    </h2>
+                    <p>Please log in or create an account</p>
+                    <form>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <input ng-model="username" type="text"
+                                       id="inputUsername" placeholder="Username...">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-12 columns">
+                                <input ng-model="password" type="password"
+                                       id="inputPassword" placeholder="Password...">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="large-5 columns">
+                                <button class="button expand" ng-click="login()">Login</button>
+                            </div>
+                            <div class="large-7 columns">
+                                <button class="button expand" ng-click="signup()">Create Account</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="password">
-        <input name="password" type="password" placeholder="password" ng-model="password"/>
-    </div>
 
-    <button ng-click="login()" ng-show="showLoginButton">Login</button>
+
+
+    <h3 ng-show="showUsernameFailed">
+        Bad Credentials entered for entered user {{ usernameFailed }}</h3>
+
     <button ng-click="value()">SetValue</button>
     <button ng-click="val()">GetAllIssues</button>
-    <button ng-click="signup()">Sign Up</button>
-    <h3 ng-show="showUsernameSuccess">Hello {{ sessionData }}</h3>
-    <h3 ng-show="showUsernameFailed">Bad Credentials entered for entered user {{ usernameFailed }}</h3>
+
 </div>
 
 <form name="loginForm" action="api/user/login" method="post">
