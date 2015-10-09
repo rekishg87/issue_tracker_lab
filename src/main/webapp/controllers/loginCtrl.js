@@ -3,11 +3,11 @@
  */
 
 angular.module("Authentication")
-    .controller("loginController", ['$scope', '$rootScope', '$sessionStorage', 'AuthService', 'ValueService', 'ValService',
-            function($scope, $rootScope, $sessionStorage, AuthService, ValueService, ValService) {
+    .controller("loginController", ['$scope', '$rootScope', '$sessionStorage', '$cookies', 'AuthService',
+            function($scope, $rootScope, $sessionStorage, $cookies, AuthService) {
 
                 $scope.isLoggedIn = false;
-                $rootScope.sessionData = null;
+                $rootScope.sessionData = undefined;
 
                 $scope.login = function() {
                     AuthService.login($scope.username, $scope.password, function(response){
@@ -15,40 +15,21 @@ angular.module("Authentication")
                             $sessionStorage.sessionUser = $scope.username;
                             $rootScope.sessionData = $sessionStorage.sessionUser;
                             $scope.isLoggedIn = true;
+                            $sessionStorage.sessionIdStorage = $cookies.get("JSESSIONID");
+                            $rootScope.sessionId = $sessionStorage.sessionIdStorage;
                             window.location = '#/home';
+                        } else if(response.status === 403) {
+                            $scope.usernameFailed = $scope.username;
+                            $scope.showFailedMsg = true;
                         }
 
                     });
-                    /*{
-                        if(response.status === 200) {
-                            $rootScope.usernameSuccess = $scope.username;
-                            $scope.successMsg = "Success";
-                        } else if(response.status === 403) {
-                            $scope.successMsg = "Failed";
-                        }
-                    });*/
+
                 };
 
                 $scope.signup = function() {
                     window.location = '#/signup';
                 };
-
-                $scope.value = function() {
-                    ValueService.value($scope.username, $scope.password, function(response) {
-                        if(response.status === 200) {
-                            console.log("Log: " + response.status);
-                        }
-                    })
-                }
-
-                $scope.val = function() {
-                    ValService.val(function(response) {
-                        if(response.status === 200) {
-                            var rData = response.data;
-                            console.log("Log: " + rData.toString());
-                        }
-                    })
-                }
 
                 $scope.getUser = function() {
                     console.log("Getting User...");
@@ -56,6 +37,7 @@ angular.module("Authentication")
                     console.log("sessionData: " + $rootScope.sessionData);
 
                     $rootScope.sessionData = $sessionStorage.sessionUser;
+                    $rootScope.sessionId = $sessionStorage.sessionIdStorage;
                 };
 
                 if($sessionStorage.sessionUser === undefined) {
@@ -67,4 +49,5 @@ angular.module("Authentication")
                     console.log("sessionData: " + $rootScope.sessionData);
                     window.location = '#/home';
                 }
+
     }]);

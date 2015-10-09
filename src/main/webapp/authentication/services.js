@@ -6,13 +6,12 @@ angular.module("Authentication")
     .config(['$httpProvider', function($httpProvider) {
         $httpProvider.defaults.withCredentials = true;
     }])
-    .factory("AuthService", ['$http', '$rootScope', '$location', 'loginUrl', 'signupUrl',
-        function($http, $rootScope, $location, loginUrl, signupUrl) {
-            var service = {};
-            $rootScope.showLoginButton = true;
-            $rootScope.showUsernameFailed = false;
-            $rootScope.showUsernameSuccess = false;
+    .factory("AuthService", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
+        'signupUrl', 'logoutUrl', '$sessionStorage', 'validateUrl',
+        function($http, $rootScope, $location, $cookies, loginUrl, signupUrl, logoutUrl,
+                 $sessionStorage, validateUrl) {
 
+            var service = {};
 
             service.login = function(username, password, callback) {
                 var credentials = {username: username, password: password};
@@ -20,23 +19,54 @@ angular.module("Authentication")
                 $http.post(loginUrl, credentials)
                     .then(
                     function success(response) {
-                        $rootScope.showUsernameSuccess = true;
-                        $rootScope.showUsernameFailed = false;
-                        $rootScope.usernameSuccess = username;
-                        $rootScope.showLoginButton = false;
-                        $location.path("/home");
                         callback(response);
 
                     },
-                    function error(response) {
-                        var httpStatusCode = response.status;
-                        if (httpStatusCode === 403) {
-                            $rootScope.showUsernameSuccess = false;
-                            $rootScope.showUsernameFailed = true;
-                            $rootScope.usernameFailed = username;
-                            $rootScope.showLoginButton = true;
-                            callback(response);
+                    function error(err) {
+                        var httpStatusCode = err.status;
+                        if (httpStatusCode === 403 || httpStatusCode === 500) {
+                            callback(err);
                         }
+                    }
+                );
+            };
+
+            service.logout = function() {
+
+                $http.get(logoutUrl)
+                    .then(
+                    function onSuccess() {
+                        $sessionStorage.sessionUser = undefined;
+                        $sessionStorage.sessionIdStorage = undefined;
+                        window.location = '#/login';
+
+                    },
+                    function onError(err) {
+                        console.log("dataRespErr: " + err.data);
+                    }
+                );
+            };
+
+            service.validate = function() {
+
+                $http.get(validateUrl)
+                    .then(
+                    function onSuccess(response) {
+                        if(response.status === 200 && $sessionStorage.sessionIdStorage == null) {
+                            $sessionStorage.sessionIdStorage = $cookies.get("JSESSIONID");
+                        } else if(response.status === 200 && $sessionStorage.sessionIdStorage != null) {
+                            $sessionStorage.sessionIdStorage = null;
+                        }
+
+                        console.log("ID : " + response.data);
+
+                    },
+                    function onError(err) {
+                        if(err.status === 403) {
+
+                            window.location = '#/login';
+                        }
+                        console.log("dataRespErr: " + err.data);
                     }
                 );
             };
@@ -51,7 +81,6 @@ angular.module("Authentication")
                 $http.post(signupUrl, signupData)
                     .then(
                     function onSuccess(response) {
-                        response.entity;
                         callback(response);
                     },
                     function onError(err) {
@@ -61,37 +90,6 @@ angular.module("Authentication")
             };
 
             return service;
-        }])
-
-    .factory("ValueService", ['$http', '$rootScope', '$location', 'valueUrl',
-        function($http, $rootScope, $location, dataUrl) {
-            var valueService = {};
-
-            valueService.value = function(username, password, callback) {
-                var input = {username: username, password: password};
-
-                $http.post(dataUrl, input)
-                    .then(
-                    function success(response) {
-                        console.log("valueService: " + response.data);
-                        callback(response);
-
-                    },
-                    function error(response) {
-                        var httpStatusCode = response.status;
-                        if (httpStatusCode === 403) {
-                            $rootScope.showUsernameSuccess = false;
-                            $rootScope.showUsernameFailed = true;
-                            $rootScope.usernameFailed = username;
-                            $rootScope.showLoginButton = true;
-                            console.log("error: " + response.data);
-                            callback(response);
-                        }
-                    }
-                );
-            };
-            return valueService;
-
         }])
 
     .factory("ValService", ['$http', '$location', 'valUrl',

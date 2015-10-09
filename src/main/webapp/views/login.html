@@ -6,7 +6,7 @@
                     <h2 class="text-center">
                         UserAuth
                     </h2>
-                    <p>Please log in or create an account</p>
+                    <p class="text-center">Please log in or create an account</p>
                     <form>
                         <div class="row">
                             <div class="large-12 columns">
@@ -34,29 +34,7 @@
         </div>
     </div>
 
-
-
-
-    <h3 ng-show="showUsernameFailed">
+    <h3 class="text-center" ng-show="showFailedMsg">
         Bad Credentials entered for entered user {{ usernameFailed }}</h3>
-
-    <button ng-click="value()">SetValue</button>
-    <button ng-click="val()">GetAllIssues</button>
-
 </div>
 
-<form name="loginForm" action="api/user/login" method="post">
-    <input type="text" name="username"/>
-    <input type="password" name="password"/>
-    <input type="submit" value="SSS"/>
-</form>
-<form name="getAllIssues" action="api/issues/all" method="get">
-    <input type="submit" value="GET">
-</form>
-
-<div class="issueById">
-    <form name="inputForm" action="api/issues/get/">
-        <input type="text" name="'{id}'"/>
-    </form>
-
-</div>

@@ -1,4 +1,4 @@
-<div class="container" ng-controller="HomeController as HomeCtrl">
+<div class="container" ng-controller="HomeController as HomeCtrl" ng-init="userState()">
     <div class="large-3 large-centered columns">
         <div class="login-box">
             <div class="row">
@@ -6,9 +6,30 @@
                     <h2 class="text-center">Home Page</h2>
                     <p class="text-center">You're logged in!!</p>
                     <p class="text-center">User {{ sessionData }}</p>
+                    <p class="text-center">JESSIONID {{ sessionId }}</p>
                     <button class="button expand" ng-click="logout()">Logout</button>
+                    <button ng-controller="LogoutController as LogoutCtrl"
+                            class="button expand" ng-click="logoutS()">LogoutS</button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <button ng-click="val()">GetAllIssues</button>
+
+    <form name="loginForm" action="api/user/login" method="post">
+        <input type="text" name="username"/>
+        <input type="password" name="password"/>
+        <input type="submit" value="SSS"/>
+    </form>
+    <form name="getAllIssues" action="api/issues/all" method="get">
+        <input type="submit" value="GET">
+    </form>
+
+    <div class="issueById">
+        <form name="inputForm" action="api/issues/get/">
+            <input type="text" name="'{id}'"/>
+        </form>
+
     </div>
 </div>

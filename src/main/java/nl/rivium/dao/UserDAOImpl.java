@@ -10,6 +10,8 @@ import javax.ejb.Stateless;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.persistence.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,9 @@ public class UserDAOImpl implements UserDAO {
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
     private EntityTransaction transaction = manager.getTransaction();
+
+    @Context
+    private static HttpServletRequest request;
 
     @Override
     public boolean auth(String username, String password) {
@@ -53,17 +58,6 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return found;
-    }
-
-    @Override
-    public JsonArray value(String username, String password) {
-        JsonArray value = Json.createArrayBuilder()
-                .add(Json.createObjectBuilder()
-                        .add("username", username)
-                        .add("password", password))
-                .build();
-        System.out.println(value);
-        return value;
     }
 
     @Override

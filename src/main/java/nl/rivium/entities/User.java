@@ -14,7 +14,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String session_id;
+    private String sessionId;
 
     @Id
     @Column(name = "ID")
@@ -52,6 +52,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 
 

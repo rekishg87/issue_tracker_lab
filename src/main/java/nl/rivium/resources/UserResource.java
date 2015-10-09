@@ -5,7 +5,6 @@ import nl.rivium.dao.UserDAOImpl;
 import nl.rivium.entities.User;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.json.JsonArray;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -31,22 +30,17 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response auth (User input) {
         final boolean userFound = USER_DAO.auth(input.getUsername(), input.getPassword());
-        String loggedInUser = "";
 
         if(userFound) {
-            boolean session = false;
             if(request.getSession(false) == null) {
                 request.getSession(true);
-                loggedInUser = input.getUsername();
-                session = true;
-            } else {
-                request.getSession(false);
-                session = false;
+            } else if(request.getSession(false) != null) {
+                request.getSession().invalidate();
+                request.getSession(true);
             }
 
             return Response
                     .status(Response.Status.OK)
-                    //.entity(loggedInUser)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         } else {
@@ -55,26 +49,11 @@ public class UserResource {
     }
 
     @POST
-    @Path("value")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response users (User input) {
-        final JsonArray userss = USER_DAO.value(input.getUsername(), input.getPassword());
-
-        return Response
-                .status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                .entity(userss)
-                .build();
-    }
-
-    @POST
     @Path("signup")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signupUser(User input) {
         final List<User> addUser = USER_DAO.signupUser(input.getUsername(), input.getPassword(), input.getEmail());
-
 
             return Response
                     .status(Response.Status.OK)
@@ -87,6 +66,61 @@ public class UserResource {
                     .entity(addUser)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();*/
+
+    }
+
+    @GET
+    @Path("signout")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response singoutUser() {
+
+        if(request.getRequestedSessionId() != null) {
+            request.getSession(false).invalidate();
+            return Response
+                    .status(Response.Status.OK)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        } else if(request.getRequestedSessionId() == null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+
+        }
+        else {
+            return Response
+                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        }
+
+    }
+
+    @GET
+    @Path("validate")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response validateSession() {
+
+        if(request.getRequestedSessionId() == null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(request.getRequestedSessionId())
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        } else if(request.getRequestedSessionId() != null) {
+            return Response
+                    .status(Response.Status.OK)
+                    .entity(request.getRequestedSessionId())
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        }
+        else {
+            return Response
+                    .status(Response.Status.FORBIDDEN)
+                    .entity(request.getRequestedSessionId())
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        }
 
     }
 }

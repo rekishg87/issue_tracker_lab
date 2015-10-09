@@ -7,9 +7,10 @@ angular.module("Authentication", []);
 
 angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngStorage"])
     .constant("loginUrl", "api/user/login")
-    .constant("valueUrl", "api/user/value")
+    .constant("logoutUrl", "api/user/signout")
     .constant("valUrl", "api/issues/getall")
     .constant("signupUrl", "api/user/signup")
+    .constant("validateUrl", "api/user/validate")
     .config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
         $httpProvider.defaults.withCredentials = true;
 
