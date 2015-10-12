@@ -7,9 +7,9 @@ angular.module("Authentication")
         $httpProvider.defaults.withCredentials = true;
     }])
     .factory("AuthService", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
-        'signupUrl', 'logoutUrl', '$sessionStorage', 'validateUrl',
+        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl',
         function($http, $rootScope, $location, $cookies, loginUrl, signupUrl, logoutUrl,
-                 $sessionStorage, validateUrl) {
+                 $localStorage, validateUrl) {
 
             var service = {};
 
@@ -36,8 +36,8 @@ angular.module("Authentication")
                 $http.get(logoutUrl)
                     .then(
                     function onSuccess() {
-                        $sessionStorage.sessionUser = undefined;
-                        $sessionStorage.sessionIdStorage = undefined;
+                        $localStorage.sessionUser = undefined;
+                        $localStorage.sessionIdStorage = undefined;
                         window.location = '#/login';
 
                     },
@@ -54,7 +54,7 @@ angular.module("Authentication")
                     function onSuccess() {
 
                             console.log("validate Success");
-                            $sessionStorage.sessionIdStorage = $cookies.get("JSESSIONID");
+                        $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
 
 
 
@@ -63,8 +63,8 @@ angular.module("Authentication")
                     function onError(err) {
                         if(err.status === 403) {
                             console.log("validate ERROR");
-                         $sessionStorage.sessionIdStorage = undefined;
-                            $sessionStorage.sessionUser = undefined;
+                            $localStorage.sessionIdStorage = undefined;
+                            $localStorage.sessionUser = undefined;
                             console.log("validate() ERROR: dataRespErr: " + err.data);
                             window.location = '#/login';
                         }

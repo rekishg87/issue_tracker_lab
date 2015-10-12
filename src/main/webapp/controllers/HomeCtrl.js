@@ -3,36 +3,36 @@
  */
 
 angular.module("issueTracker")
-    .controller("HomeController", ['$scope', '$rootScope', '$sessionStorage', 'AuthService', 'ValService',
-        function($scope, $rootScope, $sessionStorage, AuthService, ValService) {
+    .controller("HomeController", ['$scope', '$rootScope', '$localStorage', 'AuthService', 'ValService',
+        function($scope, $rootScope, $localStorage, AuthService, ValService) {
 
             $scope.userState = function() {
                 console.log("UserState() loaded...");
                 AuthService.validate();
 
-            if($sessionStorage.sessionIdStorage == undefined) {
+            if($localStorage.sessionIdStorage == undefined) {
                 window.location = '#/login';
             } else {
 
             }
         };
 
-        if($sessionStorage.sessionUser == undefined) {
-            console.log("HomeCtrl if SessionStorage: " + $sessionStorage.sessionUser);
+        if($localStorage.sessionUser == undefined) {
+            console.log("HomeCtrl if SessionStorage: " + $localStorage.sessionUser);
             console.log("HomeCtrl if sessionData: " + $rootScope.sessionData);
-            console.log("HomeCtrl if SessionStorageId: " + $sessionStorage.sessionIdStorage);
+            console.log("HomeCtrl if SessionStorageId: " + $localStorage.sessionIdStorage);
             window.location = '#/login';
         } else {
-            console.log("HomeCtrl else SessionStorageUser: " + $sessionStorage.sessionUser);
-            $rootScope.sessionData = $sessionStorage.sessionUser;
-            $rootScope.sessionId = $sessionStorage.sessionIdStorage;
+            console.log("HomeCtrl else SessionStorageUser: " + $localStorage.sessionUser);
+            $rootScope.sessionData = $localStorage.sessionUser;
+            $rootScope.sessionId = $localStorage.sessionIdStorage;
             console.log("HomeCtrl else sessionData: " + $rootScope.sessionData);
-            console.log("HomeCtrl else SessionStorageId: " + $sessionStorage.sessionIdStorage);
+            console.log("HomeCtrl else SessionStorageId: " + $localStorage.sessionIdStorage);
             window.location = '#/home';
         }
 
         $scope.logout = function() {
-            $sessionStorage.sessionUser = undefined;
+            $localStorage.sessionUser = undefined;
             window.location = '#/login';
         };
 
@@ -46,7 +46,7 @@ angular.module("issueTracker")
             };
 
         $scope.readStorage = function() {
-            console.log($sessionStorage.sessionIdStorage);
+            console.log($localStorage.sessionIdStorage);
 
         }
     }]);
