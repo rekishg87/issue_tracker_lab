@@ -6,8 +6,8 @@ angular.module("issueTracker")
     .controller("LogoutController", ['$scope', '$rootScope', 'AuthService',
         function($scope, $rootScope, AuthService) {
 
-        $scope.logoutS = function() {
-            AuthService.logout();
+        $scope.logout = function() {
+            AuthService.logoutService();
             window.location = '#/login';
         };
 

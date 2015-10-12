@@ -38,6 +38,13 @@ angular.module("Authentication")
 
                     $rootScope.sessionData = $sessionStorage.sessionUser;
                     $rootScope.sessionId = $sessionStorage.sessionIdStorage;
+
+
+                    if($sessionStorage.sessionIdStorage == $cookies.get("JSESSIONID")) {
+                        window.location = '#/home';
+                    } else {
+
+                    }
                 };
 
                 if($sessionStorage.sessionIdStorage == undefined) {
@@ -45,7 +52,7 @@ angular.module("Authentication")
                     console.log("LoginCtrl if sessionData: " + $rootScope.sessionData);
                     console.log("LoginCtrl if SessionStorageId: " + $sessionStorage.sessionIdStorage);
                     window.location = '#/login';
-                } else {
+                } else if($sessionStorage.sessionIdStorage == $cookies.get("JSESSIONID")) {
                     console.log("LoginCtrl else SessionStorageUser: " + $sessionStorage.sessionUser);
                     console.log("LoginCtrl else sessionData: " + $rootScope.sessionData);
                     console.log("LoginCtrl else SessionStorageId: " + $sessionStorage.sessionIdStorage);

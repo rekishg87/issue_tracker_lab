@@ -44,4 +44,9 @@ angular.module("issueTracker")
                     }
                 })
             };
+
+        $scope.readStorage = function() {
+            console.log($sessionStorage.sessionIdStorage);
+
+        }
     }]);

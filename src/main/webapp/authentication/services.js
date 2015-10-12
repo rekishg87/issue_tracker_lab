@@ -31,7 +31,7 @@ angular.module("Authentication")
                 );
             };
 
-            service.logout = function() {
+            service.logoutService = function() {
 
                 $http.get(logoutUrl)
                     .then(
@@ -64,6 +64,7 @@ angular.module("Authentication")
                         if(err.status === 403) {
                             console.log("validate ERROR");
                          $sessionStorage.sessionIdStorage = undefined;
+                            $sessionStorage.sessionUser = undefined;
                             console.log("validate() ERROR: dataRespErr: " + err.data);
                             window.location = '#/login';
                         }
