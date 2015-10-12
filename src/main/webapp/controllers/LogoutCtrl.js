@@ -9,8 +9,6 @@ angular.module("issueTracker")
         $scope.logoutS = function() {
             AuthService.logout();
             window.location = '#/login';
-
-
         };
 
 

@@ -7,7 +7,6 @@ angular.module("Authentication")
             function($scope, $rootScope, $sessionStorage, $cookies, AuthService) {
 
                 $scope.isLoggedIn = false;
-                $rootScope.sessionData = undefined;
 
                 $scope.login = function() {
                     AuthService.login($scope.username, $scope.password, function(response){
@@ -32,22 +31,26 @@ angular.module("Authentication")
                 };
 
                 $scope.getUser = function() {
-                    console.log("Getting User...");
-                    console.log("SessionStorage: " + $sessionStorage.sessionUser);
-                    console.log("sessionData: " + $rootScope.sessionData);
+                    console.log("getUser() Getting User...");
+                    console.log("getUser() SessionStorageUser: " + $sessionStorage.sessionUser);
+                    console.log("getUser() sessionData: " + $rootScope.sessionData);
+                    console.log("getUser() SessionStorageId: " + $sessionStorage.sessionIdStorage);
 
                     $rootScope.sessionData = $sessionStorage.sessionUser;
                     $rootScope.sessionId = $sessionStorage.sessionIdStorage;
                 };
 
-                if($sessionStorage.sessionUser === undefined) {
-                    console.log("SessionStorage: " + $sessionStorage.sessionUser);
-                    console.log("sessionData: " + $rootScope.sessionData);
+                if($sessionStorage.sessionIdStorage == undefined) {
+                    console.log("LoginCtrl if SessionStorageUser: " + $sessionStorage.sessionUser);
+                    console.log("LoginCtrl if sessionData: " + $rootScope.sessionData);
+                    console.log("LoginCtrl if SessionStorageId: " + $sessionStorage.sessionIdStorage);
                     window.location = '#/login';
                 } else {
-                    console.log("SessionStorage: " + $sessionStorage.sessionUser);
-                    console.log("sessionData: " + $rootScope.sessionData);
+                    console.log("LoginCtrl else SessionStorageUser: " + $sessionStorage.sessionUser);
+                    console.log("LoginCtrl else sessionData: " + $rootScope.sessionData);
+                    console.log("LoginCtrl else SessionStorageId: " + $sessionStorage.sessionIdStorage);
                     window.location = '#/home';
                 }
+
 
     }]);

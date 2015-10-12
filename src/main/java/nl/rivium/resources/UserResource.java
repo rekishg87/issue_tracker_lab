@@ -103,21 +103,12 @@ public class UserResource {
 
         if(request.getRequestedSessionId() == null) {
             return Response
-                    .status(Response.Status.OK)
-                    .entity(request.getRequestedSessionId())
-                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                    .build();
-        } else if(request.getRequestedSessionId() != null) {
-            return Response
-                    .status(Response.Status.OK)
-                    .entity(request.getRequestedSessionId())
-                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                    .build();
-        }
-        else {
-            return Response
                     .status(Response.Status.FORBIDDEN)
-                    .entity(request.getRequestedSessionId())
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         }

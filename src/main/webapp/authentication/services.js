@@ -42,31 +42,32 @@ angular.module("Authentication")
 
                     },
                     function onError(err) {
-                        console.log("dataRespErr: " + err.data);
+                        console.log("logout() ERROR dataRespErr: " + err.data);
                     }
                 );
             };
 
             service.validate = function() {
-
+                console.log("validateService loaded...");
                 $http.get(validateUrl)
                     .then(
-                    function onSuccess(response) {
-                        if(response.status === 200 && $sessionStorage.sessionIdStorage == null) {
-                            $sessionStorage.sessionIdStorage = $cookies.get("JSESSIONID");
-                        } else if(response.status === 200 && $sessionStorage.sessionIdStorage != null) {
-                            $sessionStorage.sessionIdStorage = null;
-                        }
+                    function onSuccess() {
 
-                        console.log("ID : " + response.data);
+                            console.log("validate Success");
+                            $sessionStorage.sessionIdStorage = $cookies.get("JSESSIONID");
+
+
+
 
                     },
                     function onError(err) {
                         if(err.status === 403) {
-
+                            console.log("validate ERROR");
+                         $sessionStorage.sessionIdStorage = undefined;
+                            console.log("validate() ERROR: dataRespErr: " + err.data);
                             window.location = '#/login';
                         }
-                        console.log("dataRespErr: " + err.data);
+
                     }
                 );
             };
