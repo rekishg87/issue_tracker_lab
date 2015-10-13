@@ -11,28 +11,32 @@ angular.module("issueTracker")
                 AuthService.validate();
 
             if($localStorage.sessionIdStorage == undefined) {
+                $localStorage.isLoggedIn = false;
                 window.location = '#/login';
             } else {
-
+                $localStorage.isLoggedIn = true;
             }
         };
 
-        if($localStorage.sessionUser == undefined) {
-            console.log("HomeCtrl if SessionStorage: " + $localStorage.sessionUser);
+        if($localStorage.usernameStr == undefined) {
+            console.log("HomeCtrl if SessionStorage: " + $localStorage.usernameStr);
             console.log("HomeCtrl if sessionData: " + $rootScope.sessionData);
             console.log("HomeCtrl if SessionStorageId: " + $localStorage.sessionIdStorage);
+            $localStorage.isLoggedIn = false;
             window.location = '#/login';
         } else {
-            console.log("HomeCtrl else SessionStorageUser: " + $localStorage.sessionUser);
-            $rootScope.sessionData = $localStorage.sessionUser;
+            console.log("HomeCtrl else SessionStorageUser: " + $localStorage.usernameStr);
+            $rootScope.sessionData = $localStorage.usernameStr;
             $rootScope.sessionId = $localStorage.sessionIdStorage;
+            $localStorage.isLoggedIn = true;
             console.log("HomeCtrl else sessionData: " + $rootScope.sessionData);
             console.log("HomeCtrl else SessionStorageId: " + $localStorage.sessionIdStorage);
             window.location = '#/home';
         }
 
         $scope.logout = function() {
-            $localStorage.sessionUser = undefined;
+            $localStorage.usernameStr = undefined;
+            $localStorage.isLoggedIn = false;
             window.location = '#/login';
         };
 
@@ -46,7 +50,7 @@ angular.module("issueTracker")
             };
 
         $scope.readStorage = function() {
-            console.log($localStorage.sessionIdStorage);
+            console.log($localStorage.isLoggedIn);
 
-        }
+        };
     }]);

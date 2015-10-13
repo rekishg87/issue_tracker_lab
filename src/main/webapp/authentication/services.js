@@ -31,18 +31,22 @@ angular.module("Authentication")
                 );
             };
 
-            service.logoutService = function() {
-
-                $http.get(logoutUrl)
+            service.logoutService = function(sessionId) {
+                var sID = {sessionId: sessionId};
+                $http.post(logoutUrl, sID)
                     .then(
                     function onSuccess() {
-                        $localStorage.sessionUser = undefined;
+                        $localStorage.usernameStr = undefined;
                         $localStorage.sessionIdStorage = undefined;
                         window.location = '#/login';
 
                     },
                     function onError(err) {
-                        console.log("logout() ERROR dataRespErr: " + err.data);
+                        if(err.status === 403) {
+                            console.log("Allready Logged Out");
+                            console.log("logout() ERROR dataRespErr: " + err.data);
+                        }
+
                     }
                 );
             };
@@ -64,7 +68,7 @@ angular.module("Authentication")
                         if(err.status === 403) {
                             console.log("validate ERROR");
                             $localStorage.sessionIdStorage = undefined;
-                            $localStorage.sessionUser = undefined;
+                            $localStorage.usernameStr = undefined;
                             console.log("validate() ERROR: dataRespErr: " + err.data);
                             window.location = '#/login';
                         }

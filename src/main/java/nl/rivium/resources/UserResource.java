@@ -69,10 +69,12 @@ public class UserResource {
 
     }
 
-    @GET
+    @POST
     @Path("signout")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response singoutUser() {
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response signoutUser(User input) {
+        System.out.println("SESSIONID: " + input.getSessionId());
 
         if(request.getRequestedSessionId() != null) {
             request.getSession(false).invalidate();
@@ -80,21 +82,20 @@ public class UserResource {
                     .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
-        } else if(request.getRequestedSessionId() == null) {
+        } else if(request.getRequestedSessionId() != null) {
             return Response
                     .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
-
         }
-        else {
+
             return Response
                     .status(Response.Status.INTERNAL_SERVER_ERROR)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         }
 
-    }
+
 
     @GET
     @Path("validate")

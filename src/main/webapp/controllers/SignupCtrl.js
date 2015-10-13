@@ -3,7 +3,14 @@
  */
 
 angular.module("issueTracker")
-    .controller("SignupController", ['$scope', 'AuthService', function($scope, AuthService) {
+    .controller("SignupController", ['$scope', '$rootScope', '$localStorage', 'AuthService',
+            function($scope, $rootScope, $localStorage, AuthService) {
+
+        if($rootScope.isUserLoggedIn == false) {
+            // User is logged in, so do nothing
+        } else if($rootScope.isUserLoggedIn == true) {
+            window.location = '#/home';
+        }
 
         $scope.signupUser = function() {
             console.log("Signup Controller Initialized...");
