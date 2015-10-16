@@ -3,6 +3,7 @@ package nl.rivium.dao;
 import nl.rivium.entities.Issue;
 import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
+import org.mindrot.jbcrypt.BCrypt;
 
 import javax.annotation.Resource;
 import javax.ejb.SessionContext;
@@ -30,25 +31,24 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean auth(String username, String password) {
         boolean found = false;
+        List<String> listUsers = null;
 
         try{
             manager.getTransaction().begin();
-            User user = new User();
-            user.setUsername(user.getUsername());
-            user.setPassword(user.getPassword());
 
             Query query = manager.createQuery
-                    ("SELECT u FROM User u WHERE " +
-                            "u.username = :username and u.password = :password");
+                    ("SELECT u.password FROM User u where u.username = :username");
 
             query.setParameter("username", username);
-            query.setParameter("password", password);
 
-            List<Issue> listIssues = query.getResultList();
-            if(listIssues.isEmpty()) {
-                found = false;
-            } else {
+            listUsers = query.getResultList();
+
+            String uncheckedPass = listUsers.get(0);
+
+            if(BCrypt.checkpw(password, uncheckedPass)) {
                 found = true;
+            } else {
+                found = false;
             }
 
         } catch (HibernateException ex) {
@@ -60,6 +60,7 @@ public class UserDAOImpl implements UserDAO {
         return found;
     }
 
+
     @Override
     public List<User> signupUser (String username, String password, String email) throws HibernateException {
 
@@ -69,7 +70,7 @@ public class UserDAOImpl implements UserDAO {
             transaction.begin();
             User user = new User();
             user.setUsername(username);
-            user.setPassword(password);
+            user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
             user.setEmail(email);
             manager.persist(user);
             userAdded.add(user);
