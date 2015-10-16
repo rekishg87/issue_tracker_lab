@@ -78,10 +78,6 @@ angular.module("Authentication")
 
                             console.log("validate Success");
                         $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
-
-
-
-
                     },
                     function onError(err) {
                         if(err.status === 403) {

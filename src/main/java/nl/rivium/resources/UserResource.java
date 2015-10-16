@@ -154,6 +154,11 @@ public class UserResource {
                     .status(Response.Status.FORBIDDEN)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
+        } else if(request.isRequestedSessionIdValid() == false) {
+            return Response
+                    .status(Response.Status.FORBIDDEN)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
         } else {
             return Response
                     .status(Response.Status.OK)
