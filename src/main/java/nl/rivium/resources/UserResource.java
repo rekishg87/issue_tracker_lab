@@ -92,7 +92,7 @@ public class UserResource {
                     .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
-        }
+        } else if(request.isRequestedSessionIdValid() == false && request.getRequestedSessionId() == null)
         System.out.println("ID valid3: " + request.isRequestedSessionIdValid());
         System.out.println("ID Session3: " + request.getRequestedSessionId());
         return Response

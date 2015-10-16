@@ -48,6 +48,7 @@ angular.module("Authentication")
 
                             console.log("Allready Logged Out");
                             console.log("logout() ERROR dataRespErr: " + err.data);
+                            window.location = '#/login';
 
                         }
 
@@ -133,6 +134,7 @@ angular.module("Authentication")
                         var httpStatusCode = response.status;
                         if (httpStatusCode === 403) {
                             console.log("error: " + response.data);
+                            window.location = '#/login';
                             callback(response);
                         }
                     }

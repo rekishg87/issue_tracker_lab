@@ -55,6 +55,9 @@ angular.module("issueTracker")
                     if (response.status === 200) {
                         var rData = response.data;
                         console.log("Log: " + rData.toString());
+                    } else if (response.status === 403) {
+                        AuthService.logoutService($scope.sessionId);
+                        window.location = '#/login';
                     }
                 })
             };
