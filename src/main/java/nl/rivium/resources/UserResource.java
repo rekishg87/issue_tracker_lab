@@ -38,7 +38,6 @@ public class UserResource {
                 request.getSession().invalidate();
                 request.getSession(true);
             }
-
             return Response
                     .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
@@ -74,28 +73,76 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signoutUser(User input) {
-        System.out.println("SESSIONID: " + input.getSessionId());
+        String id = input.getSessionId();
+        System.out.println("SESSION ID: " + id);
 
-        if(request.getRequestedSessionId() != null) {
+        if(request.getRequestedSessionId() != null && request.isRequestedSessionIdValid() == true) {
+            System.out.println("ID valid1: " + request.isRequestedSessionIdValid());
+            System.out.println("ID Session1: " + request.getRequestedSessionId());
             request.getSession(false).invalidate();
             return Response
                     .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
-        } else if(request.getRequestedSessionId() != null) {
+        } else if(request.isRequestedSessionIdValid() == false && request.getRequestedSessionId() != null) {
+            //request.getSession(false).invalidate();
+            System.out.println("ID valid2: " + request.isRequestedSessionIdValid());
+            System.out.println("ID Session2: " + request.getRequestedSessionId());
             return Response
                     .status(Response.Status.OK)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         }
+        System.out.println("ID valid3: " + request.isRequestedSessionIdValid());
+        System.out.println("ID Session3: " + request.getRequestedSessionId());
+        return Response
+                .status(Response.Status.FORBIDDEN)
+                .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                .build();
+    }
 
+//        if(request.getRequestedSessionId() != null) {
+//            request.getSession(false).invalidate();
+//            return Response
+//                    .status(Response.Status.OK)
+//                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+//                    .build();
+//        } else if(request.getRequestedSessionId() == null) {
+//            return Response
+//                    .status(Response.Status.OK)
+//                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+//                    .build();
+//        }
+//            return Response
+//                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+//                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+//                    .build();
+//        }
+
+    @POST
+    @Path("getid")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+
+    public Response getId (User input) {
+        String id = input.getSessionId();
+        System.out.println("ID: " + id);
+
+        if(id != null) {
             return Response
-                    .status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .status(Response.Status.OK)
+                    .entity(id)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        } else {
+            return Response
+                    .status(Response.Status.FORBIDDEN)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
         }
 
 
+    }
 
     @GET
     @Path("validate")

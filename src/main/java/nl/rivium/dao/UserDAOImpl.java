@@ -1,15 +1,8 @@
 package nl.rivium.dao;
 
-import nl.rivium.entities.Issue;
 import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
 import org.mindrot.jbcrypt.BCrypt;
-
-import javax.annotation.Resource;
-import javax.ejb.SessionContext;
-import javax.ejb.Stateless;
-import javax.json.Json;
-import javax.json.JsonArray;
 import javax.persistence.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
@@ -62,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public List<User> signupUser (String username, String password, String email) throws HibernateException {
+    public List<User> signupUser (String username, String password, String email) {
 
         List<User> userAdded = new ArrayList<>();
 
@@ -76,14 +69,6 @@ public class UserDAOImpl implements UserDAO {
             userAdded.add(user);
             transaction.commit();
 
-            /*Query query = manager.createQuery
-                    ("SELECT u FROM User u WHERE " +
-                            "u.username = :username and u.password = :password");
-
-            query.setParameter("username", username);
-            query.setParameter("password", password);
-
-            List<Issue> listIssues = query.getResultList();*/
 
         } catch (HibernateException ex) {
             ex.printStackTrace();
@@ -94,6 +79,12 @@ public class UserDAOImpl implements UserDAO {
         }
 
         return userAdded;
+    }
+    @Override
+    public String getId (String id) {
+        id = request.getRequestedSessionId();
+
+        return id;
     }
 
 

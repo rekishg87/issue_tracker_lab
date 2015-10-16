@@ -13,4 +13,5 @@ import java.util.List;
 public interface UserDAO {
     boolean auth (String username, String password);
     List<User> signupUser (String username, String password, String email) throws HibernateException;
+    String getId (String id);
 }

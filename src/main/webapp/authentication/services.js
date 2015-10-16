@@ -7,9 +7,9 @@ angular.module("Authentication")
         $httpProvider.defaults.withCredentials = true;
     }])
     .factory("AuthService", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
-        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl',
+        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl', 'getId',
         function($http, $rootScope, $location, $cookies, loginUrl, signupUrl, logoutUrl,
-                 $localStorage, validateUrl) {
+                 $localStorage, validateUrl, getId) {
 
             var service = {};
 
@@ -35,20 +35,38 @@ angular.module("Authentication")
                 var sID = {sessionId: sessionId};
                 $http.post(logoutUrl, sID)
                     .then(
-                    function onSuccess() {
+                    function onSuccess(response) {
+
                         $localStorage.usernameStr = undefined;
                         $localStorage.sessionIdStorage = undefined;
                         window.location = '#/login';
 
+
                     },
                     function onError(err) {
                         if(err.status === 403) {
+
                             console.log("Allready Logged Out");
                             console.log("logout() ERROR dataRespErr: " + err.data);
+
                         }
 
                     }
                 );
+            };
+
+            service.getSessionIDService = function(sessionId, callback) {
+                var test = {sessionId: sessionId};
+
+                $http.post(getId, test)
+                    .then(
+                    function onSuccess(response) {
+                        callback(response);
+                    },
+                    function onError(err) {
+                        callback(err);
+                    }
+                )
             };
 
             service.validate = function() {

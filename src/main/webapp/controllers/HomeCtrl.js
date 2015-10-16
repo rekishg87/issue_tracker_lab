@@ -35,9 +35,19 @@ angular.module("issueTracker")
         }
 
         $scope.logout = function() {
-            $localStorage.usernameStr = undefined;
-            $localStorage.isLoggedIn = false;
-            window.location = '#/login';
+            AuthService.getSessionIDService($scope.sessionId, function(response){
+                if(response.status === 200) {
+                    console.log("Function: " + response.data);
+                    $localStorage.usernameStr = undefined;
+                    $localStorage.isLoggedIn = false;
+                    window.location = '#/login';
+                } else if(response.status === 403) {
+                    console.log("Error F: " + response.data);
+                }
+
+            });
+
+
         };
 
             $scope.val = function () {
@@ -53,4 +63,17 @@ angular.module("issueTracker")
             console.log($localStorage.isLoggedIn);
 
         };
+
+            $scope.getIdF = function() {
+                AuthService.getSessionIDService($scope.sessionId, function(response){
+                    if(response.status === 200) {
+                        console.log("Function: " + response.data);
+                    } else if(response.status === 403) {
+                        console.log("Error F: " + response.data);
+                    }
+
+                });
+
+            };
+
     }]);

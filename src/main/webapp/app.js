@@ -11,6 +11,7 @@ angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngSto
     .constant("valUrl", "api/issues/getall")
     .constant("signupUrl", "api/user/signup")
     .constant("validateUrl", "api/user/validate")
+    .constant("getId", "api/user/getid")
     .config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
         $httpProvider.defaults.withCredentials = true;
 
