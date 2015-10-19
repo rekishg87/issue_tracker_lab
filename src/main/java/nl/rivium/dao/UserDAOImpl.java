@@ -24,7 +24,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean auth(String username, String password) {
         boolean found = false;
-        List<String> listUsers = null;
+        List<String> listUsers;
 
         try{
             manager.getTransaction().begin();
@@ -36,14 +36,17 @@ public class UserDAOImpl implements UserDAO {
 
             listUsers = query.getResultList();
 
-            String uncheckedPass = listUsers.get(0);
-
-            if(BCrypt.checkpw(password, uncheckedPass)) {
-                found = true;
-            } else {
+            if(listUsers.isEmpty()) {
                 found = false;
-            }
+            } else {
+                String uncheckedPass = listUsers.get(0);
 
+                if(BCrypt.checkpw(password, uncheckedPass)) {
+                    found = true;
+                } else {
+                    found = false;
+                }
+            }
         } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
