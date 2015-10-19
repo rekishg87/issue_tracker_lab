@@ -71,14 +71,4 @@ public class Issue {
     public void setAssigneeId(int assigneeId) {
         this.assigneeId = assigneeId;
     }
-
-    @Override
-    public String toString() {
-        return "Issue id: " + id
-                + " category id: " + categoryId
-                + " description: " + description
-                + " status id: " + statusId
-                + " priority id: " + priorityId
-                + " assignee id: " + assigneeId;
-    }
 }
