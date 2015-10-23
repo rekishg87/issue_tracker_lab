@@ -3,13 +3,14 @@
  */
 
 angular.module("Authentication")
-    .config(['$httpProvider', function($httpProvider) {
-        $httpProvider.defaults.withCredentials = true;
-    }])
+    .constant("loginUrl", "api/user/login")
+    .constant("logoutUrl", "api/user/signout")
+    .constant("signupUrl", "api/user/signup")
+    .constant("validateUrl", "api/user/validate")
     .factory("AuthService", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
-        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl', 'getId',
+        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl',
         function($http, $rootScope, $location, $cookies, loginUrl, signupUrl, logoutUrl,
-                 $localStorage, validateUrl, getId) {
+                 $localStorage, validateUrl) {
 
             var service = {};
 
@@ -56,20 +57,6 @@ angular.module("Authentication")
                 );
             };
 
-            service.getSessionIDService = function(sessionId, callback) {
-                var test = {sessionId: sessionId};
-
-                $http.post(getId, test)
-                    .then(
-                    function onSuccess(response) {
-                        callback(response);
-                    },
-                    function onError(err) {
-                        callback(err);
-                    }
-                )
-            };
-
             service.validate = function() {
                 console.log("validateService loaded...");
                 $http.get(validateUrl)
@@ -111,31 +98,4 @@ angular.module("Authentication")
             };
 
             return service;
-        }])
-
-    .factory("ValService", ['$http', '$location', 'valUrl',
-        function($http, $location, valUrl) {
-            var valService = {};
-
-            valService.val = function(callback) {
-
-                $http.get(valUrl)
-                    .then(
-                    function success(response) {
-                        console.log("valService: " + response.data);
-                        callback(response);
-
-                    },
-                    function error(response) {
-                        var httpStatusCode = response.status;
-                        if (httpStatusCode === 403) {
-                            console.log("error: " + response.data);
-                            window.location = '#/login';
-                            callback(response);
-                        }
-                    }
-                );
-            };
-            return valService;
-
         }]);

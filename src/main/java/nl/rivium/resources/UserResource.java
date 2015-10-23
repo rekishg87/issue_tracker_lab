@@ -49,14 +49,31 @@ public class UserResource {
 
     @POST
     @Path("signup")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signupUser(User input) {
         final List<User> addUser = USER_DAO.signupUser(input.getUsername(), input.getPassword(), input.getEmail());
 
+        if(addUser == null) {
+            String empty = "EMPTY";
+            System.out.println("User if: " + addUser);
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(empty)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        } else if (addUser.isEmpty()) {
+            String dubUser = "dubUser";
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(dubUser)
+                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
+                    .build();
+        }
+        else {
+            System.out.println("User: " + addUser);
             return Response
                     .status(Response.Status.OK)
-                    .entity(addUser)
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();
 
@@ -66,6 +83,7 @@ public class UserResource {
                     .header("Access-Control-Allow-Origin", "http://localhost:8080")
                     .build();*/
 
+        }
     }
 
     @POST
@@ -99,49 +117,6 @@ public class UserResource {
                 .status(Response.Status.FORBIDDEN)
                 .header("Access-Control-Allow-Origin", "http://localhost:8080")
                 .build();
-    }
-
-//        if(request.getRequestedSessionId() != null) {
-//            request.getSession(false).invalidate();
-//            return Response
-//                    .status(Response.Status.OK)
-//                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-//                    .build();
-//        } else if(request.getRequestedSessionId() == null) {
-//            return Response
-//                    .status(Response.Status.OK)
-//                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-//                    .build();
-//        }
-//            return Response
-//                    .status(Response.Status.INTERNAL_SERVER_ERROR)
-//                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-//                    .build();
-//        }
-
-    @POST
-    @Path("getid")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Consumes(MediaType.APPLICATION_JSON)
-
-    public Response getId (User input) {
-        String id = input.getSessionId();
-        System.out.println("ID: " + id);
-
-        if(id != null) {
-            return Response
-                    .status(Response.Status.OK)
-                    .entity(id)
-                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                    .build();
-        } else {
-            return Response
-                    .status(Response.Status.FORBIDDEN)
-                    .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                    .build();
-        }
-
-
     }
 
     @GET

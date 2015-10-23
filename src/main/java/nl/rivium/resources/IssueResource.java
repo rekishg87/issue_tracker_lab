@@ -75,7 +75,7 @@ public class IssueResource {
     }
 
     @GET
-    @Path("getall")
+    @Path("getAllIssues")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllIssues() {
         final List<Issue> issues = ISSUE_DAO.allIssuesList();

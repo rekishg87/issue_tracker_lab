@@ -3,6 +3,7 @@
  */
 
 angular.module("issueTracker")
+
     .controller("LogoutController", ['$scope', '$rootScope', 'AuthService',
         function($scope, $rootScope, AuthService) {
 

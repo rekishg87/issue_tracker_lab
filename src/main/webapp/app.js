@@ -6,34 +6,27 @@
 angular.module("Authentication", []);
 
 angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngStorage"])
-    .constant("loginUrl", "api/user/login")
-    .constant("logoutUrl", "api/user/signout")
-    .constant("valUrl", "api/issues/getall")
-    .constant("signupUrl", "api/user/signup")
-    .constant("validateUrl", "api/user/validate")
-    .constant("getId", "api/user/getid")
-    .config(['$httpProvider', '$routeProvider', function($httpProvider, $routeProvider) {
-        $httpProvider.defaults.withCredentials = true;
+    .config(['$routeProvider', function($routeProvider) {
 
         $routeProvider
             .when("/home", {
                 controller: "HomeController",
-                templateUrl: "views/home.html"
+                templateUrl: "views/private/home.html"
             })
 
             .when("/login", {
                 controller: "loginController",
-                templateUrl: "views/login.html"
+                templateUrl: "views/public/login.html"
             })
 
             .when("/issue", {
                 controller: "IssueController",
-                templateUrl: "views/issue.html"
+                templateUrl: "views/private/issue.html"
             })
 
             .when("/signup", {
                 controller: "SignupController",
-                templateUrl: "views/signup.html"
+                templateUrl: "views/public/signup.html"
             })
 
             .otherwise({

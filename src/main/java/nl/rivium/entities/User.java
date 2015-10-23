@@ -15,6 +15,7 @@ public class User {
     private String password;
     private String email;
     private String sessionId;
+    private int roles_id;
 
     @Id
     @Column(name = "ID")
@@ -60,5 +61,14 @@ public class User {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
+    }
+
+    @Column(name = "ROLES_ID")
+    public int getRoles_id() {
+        return roles_id;
+    }
+
+    public void setRoles_id(int roles_id) {
+        this.roles_id = roles_id;
     }
 }

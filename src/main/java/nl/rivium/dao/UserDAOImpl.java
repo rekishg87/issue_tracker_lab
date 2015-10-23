@@ -56,40 +56,63 @@ public class UserDAOImpl implements UserDAO {
         return found;
     }
 
-
     @Override
     public List<User> signupUser (String username, String password, String email) {
 
         List<User> userAdded = new ArrayList<>();
+        System.out.println("Username: " + username);
+        System.out.println("Password: " + password);
+        if(username == null || username == "" || password == null || password == "") {
+            userAdded = null;
+        } else {
 
-        try{
-            transaction.begin();
-            User user = new User();
-            user.setUsername(username);
-            user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
-            user.setEmail(email);
-            manager.persist(user);
-            userAdded.add(user);
-            transaction.commit();
+            try {
+                List<String> listUsers;
+                manager.getTransaction().begin();
+
+                Query query = manager.createQuery
+                        ("SELECT u.username FROM User u where u.username = :username");
+
+                query.setParameter("username", username);
+
+                listUsers = query.getResultList();
+                if(listUsers.isEmpty()) {
+                    //userAdded = null;
+                } else {
+                    String checkUsername = listUsers.get(0);
+                    System.out.println("UsernameCheck: " + checkUsername);
+                }
 
 
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
-        } finally {
-            if(transaction.isActive()) {
-                transaction.rollback();
+                if(!listUsers.isEmpty()) {
+                    System.out.println("If statement");
+                    //userAdded.isEmpty();
+
+                } else {
+
+                    System.out.println("Else statement");
+                    //transaction.begin();
+                    User user = new User();
+                    user.setUsername(username);
+                    user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
+                    user.setEmail(email);
+                    manager.persist(user);
+                    userAdded.add(user);
+                    transaction.commit();
+                    System.out.println("userAdded: " +  userAdded);
+                }
+
+            } catch (IndexOutOfBoundsException ex) {
+                ex.printStackTrace();
+            } finally {
+                //manager.getTransaction().commit();
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
             }
         }
-
         return userAdded;
     }
-    @Override
-    public String getId (String id) {
-        id = request.getRequestedSessionId();
-
-        return id;
-    }
-
 
     /*public static void main(String[] args) {
         //UserDAO USER_DAO = new UserDAOImpl();

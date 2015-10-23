@@ -6,6 +6,8 @@ angular.module("Authentication")
     .controller("loginController", ['$scope', '$rootScope', '$localStorage', '$cookies', 'AuthService',
             function($scope, $rootScope, $localStorage, $cookies, AuthService) {
 
+                $rootScope.test = 100;
+
                 $rootScope.isUserLoggedIn = false;
                 $localStorage.isUserLoggedInStr = $rootScope.isUserLoggedIn;
 
@@ -46,8 +48,4 @@ angular.module("Authentication")
                 $scope.signup = function() {
                     window.location = '#/signup';
                 };
-
-
-
-
     }]);
