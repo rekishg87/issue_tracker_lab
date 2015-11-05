@@ -3,17 +3,18 @@
  */
 
 angular.module("IssueMod")
-    .controller("IssueController", ['$scope', '$http', 'IssueServices', function($scope, $http, IssueServices) {
+    .controller("IssueController", ['$scope', '$http', 'IssueFactory', 'LogoutFactory',
+        function($scope, $http, IssueFactory, LogoutFactory) {
 
         $scope.getAllIssues = function() {
             console.log("Issue Controller Initialized...");
 
-            IssueServices.val(function(response) {
+            IssueFactory.val(function(response) {
                 if (response.status === 200) {
                     var rData = response.data;
                     console.log("Log: " + rData.toString());
                 } else if (response.status === 403) {
-                    AuthService.logoutService($scope.sessionId);
+                    LogoutFactory.logoutService($scope.sessionId);
                     window.location = '#/login';
                 }
             })

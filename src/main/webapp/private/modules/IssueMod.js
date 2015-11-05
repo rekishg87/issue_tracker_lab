@@ -2,4 +2,33 @@
  * Created by Rekish on 10/29/2015.
  */
 
-angular.module("IssueMod", [])
+angular.module("IssueMod", ['LogoutMod'])
+    .constant("allIssuesUrl", "api/issues/getAllIssues")
+    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl',
+        function($http, $location, allIssuesUrl) {
+            var valService = {};
+
+            valService.val = function(callback) {
+
+                $http.get(allIssuesUrl)
+                    .then(
+                    function success(response) {
+                        console.log("valService: " + response.data);
+                        callback(response);
+
+                    },
+                    function error(response) {
+                        var httpStatusCode = response.status;
+                        if (httpStatusCode === 403) {
+                            console.log("error: " + response.data);
+                            window.location = '#/login';
+                            callback(response);
+                        }
+                    }
+                );
+            };
+
+            return valService;
+        }]);
+
+

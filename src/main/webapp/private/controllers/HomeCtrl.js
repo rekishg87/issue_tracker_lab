@@ -3,12 +3,12 @@
  */
 
 angular.module("HomeMod")
-    .controller("HomeController", ['$scope', '$rootScope', '$localStorage', 'AuthService',
-        function($scope, $rootScope, $localStorage, AuthService) {
+    .controller("HomeController", ['$scope', '$rootScope', '$localStorage', 'ValidationFactory',
+        function($scope, $rootScope, $localStorage, ValidationFactory) {
 
             $scope.userState = function() {
                 console.log("UserState() loaded...");
-                AuthService.validate();
+                ValidationFactory.validate();
 
             if($localStorage.sessionIdStorage == undefined) {
                 $localStorage.isLoggedIn = false;

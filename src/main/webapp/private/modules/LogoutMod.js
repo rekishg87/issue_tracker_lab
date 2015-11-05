@@ -20,12 +20,10 @@ angular.module("LogoutMod", [])
                         $localStorage.usernameStr = undefined;
                         $localStorage.sessionIdStorage = undefined;
                         window.location = '#/login';
-
-
                     },
                     function onError(err) {
                         if(err.status === 403) {
-                            console.log("Allready Logged Out");
+                            console.log("Not Logged In!");
                             console.log("logout() ERROR dataRespErr: " + err.data);
                             window.location = '#/login';
                         }

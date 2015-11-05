@@ -2,7 +2,8 @@
  * Created by Rekish on 9/24/2015.
  */
 
-angular.module("issueTracker", ["Authentication", "LoginMod", "HomeMod", "LogoutMod", "IssueMod", "SignupMod",  "ngRoute", "ngCookies", "ngStorage"])
+angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutMod", "IssueMod",
+    "SignupMod",  "ngRoute", "ngCookies", "ngStorage"])
     .config(['$routeProvider', function($routeProvider) {
 
         $routeProvider
