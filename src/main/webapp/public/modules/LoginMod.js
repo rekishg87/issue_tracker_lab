@@ -4,8 +4,8 @@
 
 angular.module("LoginMod", [])
     .constant("loginUrl", "api/user/login")
-    .factory("LoginFactory", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
-        function($http, $rootScope, $location, $cookies, loginUrl) {
+    .factory("LoginFactory", ['$http', 'loginUrl',
+        function($http, loginUrl) {
 
             var service = {};
 

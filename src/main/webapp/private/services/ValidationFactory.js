@@ -4,10 +4,8 @@
 
 angular.module("ValidationMod", [])
     .constant("validateUrl", "api/user/validate")
-    .factory("ValidationFactory", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
-        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl',
-        function($http, $rootScope, $location, $cookies, loginUrl, signupUrl, logoutUrl,
-                 $localStorage, validateUrl) {
+    .factory("ValidationFactory", ['$http', '$cookies', '$localStorage', 'validateUrl',
+        function($http, $cookies, $localStorage, validateUrl) {
 
             var service = {};
 

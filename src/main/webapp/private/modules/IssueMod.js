@@ -6,9 +6,9 @@ angular.module("IssueMod", ['LogoutMod'])
     .constant("allIssuesUrl", "api/issues/getAllIssues")
     .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl',
         function($http, $location, allIssuesUrl) {
-            var valService = {};
+            var service = {};
 
-            valService.val = function(callback) {
+            service.validate = function(callback) {
 
                 $http.get(allIssuesUrl)
                     .then(
@@ -28,7 +28,7 @@ angular.module("IssueMod", ['LogoutMod'])
                 );
             };
 
-            return valService;
+            return service;
         }]);
 
 

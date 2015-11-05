@@ -4,8 +4,8 @@
 
 angular.module("SignupMod", [])
     .constant("signupUrl", "api/user/signup")
-    .factory("SignupFactory", ['$http', '$rootScope', '$location', '$cookies', 'signupUrl',
-        function($http, $rootScope, $location, $cookies, signupUrl) {
+    .factory("SignupFactory", ['$http', 'signupUrl',
+        function($http, signupUrl) {
 
             var service = {};
 

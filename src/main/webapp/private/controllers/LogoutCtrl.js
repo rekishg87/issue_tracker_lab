@@ -3,8 +3,8 @@
  */
 
 angular.module("LogoutMod")
-    .controller("LogoutController", ['$scope', '$rootScope', 'LogoutFactory',
-        function($scope, $rootScope, LogoutFactory) {
+    .controller("LogoutController", ['$scope', 'LogoutFactory',
+        function($scope, LogoutFactory) {
 
         $scope.logout = function() {
             //AuthService.getSessionIDService($scope.sessionId, function(response){

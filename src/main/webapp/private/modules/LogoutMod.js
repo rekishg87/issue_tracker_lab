@@ -4,10 +4,8 @@
 
 angular.module("LogoutMod", [])
     .constant("logoutUrl", "api/user/signout")
-    .factory("LogoutFactory", ['$http', '$rootScope', '$location', '$cookies', 'loginUrl',
-        'signupUrl', 'logoutUrl', '$localStorage', 'validateUrl',
-        function($http, $rootScope, $location, $cookies, loginUrl, signupUrl, logoutUrl,
-                 $localStorage, validateUrl) {
+    .factory("LogoutFactory", ['$http', 'logoutUrl', '$localStorage',
+        function($http, logoutUrl, $localStorage) {
 
             var service = {};
 

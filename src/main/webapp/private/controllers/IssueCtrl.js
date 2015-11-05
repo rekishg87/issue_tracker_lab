@@ -3,13 +3,13 @@
  */
 
 angular.module("IssueMod")
-    .controller("IssueController", ['$scope', '$http', 'IssueFactory', 'LogoutFactory',
-        function($scope, $http, IssueFactory, LogoutFactory) {
+    .controller("IssueController", ['$scope', 'IssueFactory', 'LogoutFactory',
+        function($scope, IssueFactory, LogoutFactory) {
 
         $scope.getAllIssues = function() {
             console.log("Issue Controller Initialized...");
 
-            IssueFactory.val(function(response) {
+            IssueFactory.validate(function(response) {
                 if (response.status === 200) {
                     var rData = response.data;
                     console.log("Log: " + rData.toString());
