@@ -2,10 +2,10 @@
  * Created by Rekish on 10/6/2015.
  */
 
-angular.module("issueTracker")
-    .controller("SignupController", ['$scope', '$rootScope', '$localStorage', 'AuthService',
-            function($scope, $rootScope, $localStorage, AuthService) {
-                console.log("test: " + $rootScope.test);
+angular.module("SignupMod")
+    .controller("SignupController", ['$scope', '$rootScope', '$localStorage', 'SignupFactory',
+            function($scope, $rootScope, $localStorage, SignupFactory) {
+
 
         if($rootScope.isUserLoggedIn == false) {
             // User is logged in, so do nothing
@@ -16,7 +16,7 @@ angular.module("issueTracker")
         $scope.signupUser = function() {
             console.log("Signup Controller Initialized...");
 
-            AuthService.signup($scope.username, $scope.password, $scope.email, function (response) {
+            SignupFactory.signup($scope.username, $scope.password, $scope.email, function (response) {
                 if (response.status === 200) {
                     $scope.showSuccessMsg = true;
                     console.log("User " + $scope.username + " added.");

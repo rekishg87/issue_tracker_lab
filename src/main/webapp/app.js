@@ -2,10 +2,7 @@
  * Created by Rekish on 9/24/2015.
  */
 
-// Declare modules
-angular.module("Authentication", []);
-
-angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngStorage"])
+angular.module("issueTracker", ["Authentication", "LoginMod", "HomeMod", "LogoutMod", "IssueMod", "SignupMod",  "ngRoute", "ngCookies", "ngStorage"])
     .config(['$routeProvider', function($routeProvider) {
 
         $routeProvider
@@ -15,7 +12,7 @@ angular.module("issueTracker", ["Authentication", "ngRoute", "ngCookies", "ngSto
             })
 
             .when("/login", {
-                controller: "loginController",
+                controller: "LoginController",
                 templateUrl: "views/public/login.html"
             })
 

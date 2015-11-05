@@ -96,6 +96,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setUsername(username);
                     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
                     user.setEmail(email);
+                    user.setRoles_id(2);
                     manager.persist(user);
                     userAdded.add(user);
                     transaction.commit();

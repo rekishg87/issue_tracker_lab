@@ -2,7 +2,7 @@
  * Created by Rekish on 10/6/2015.
  */
 
-angular.module("Authentication")
+angular.module("HomeMod")
     .controller("HomeController", ['$scope', '$rootScope', '$localStorage', 'AuthService',
         function($scope, $rootScope, $localStorage, AuthService) {
 

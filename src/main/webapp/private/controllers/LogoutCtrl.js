@@ -2,10 +2,9 @@
  * Created by Rekish on 10/9/2015.
  */
 
-angular.module("issueTracker")
-
-    .controller("LogoutController", ['$scope', '$rootScope', 'AuthService',
-        function($scope, $rootScope, AuthService) {
+angular.module("LogoutMod")
+    .controller("LogoutController", ['$scope', '$rootScope', 'LogoutFactory',
+        function($scope, $rootScope, LogoutFactory) {
 
         $scope.logout = function() {
             //AuthService.getSessionIDService($scope.sessionId, function(response){
@@ -18,7 +17,7 @@ angular.module("issueTracker")
             //
             //});
 
-            AuthService.logoutService($scope.sessionId, $scope.password, function(response){
+            LogoutFactory.logoutService($scope.sessionId, $scope.password, function(response){
                 if(response.status === 200) {
                    console.log("LogoutService: " + response.data);
                     window.location = '#/login';

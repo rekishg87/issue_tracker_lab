@@ -2,7 +2,7 @@
  * Created by Rekish on 10/6/2015.
  */
 
-angular.module("issueTracker")
+angular.module("IssueMod")
     .controller("IssueController", ['$scope', '$http', 'IssueServices', function($scope, $http, IssueServices) {
 
         $scope.getAllIssues = function() {
