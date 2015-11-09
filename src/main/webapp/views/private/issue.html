@@ -4,6 +4,23 @@
         <button ng-click="getAllIssues()">Get All Issues</button>
     </div>
     <div>
-        {{ issues }}
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Assignee ID</th>
+                <th>Category ID</th>
+                <th>Description</th>
+                <th>Priority ID</th>
+                <th>Status ID</th>
+            </tr>
+            <tr ng-repeat="issue in data.issues">
+                <td> {{ issue.id }}</td>
+                <td> {{ issue.assigneeId }}</td>
+                <td> {{ issue.categoryId }}</td>
+                <td> {{ issue.description }}</td>
+                <td> {{ issue.priorityId }}</td>
+                <td> {{ issue.statusId }}</td>
+            </tr>
+        </table>
     </div>
 </div>
