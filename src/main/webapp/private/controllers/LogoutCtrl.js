@@ -7,17 +7,7 @@ angular.module("LogoutMod")
         function($scope, LogoutFactory) {
 
         $scope.logout = function() {
-            //AuthService.getSessionIDService($scope.sessionId, function(response){
-            //    if(response.status === 200) {
-            //        console.log("Function: " + response.data);
-            //
-            //    } else if(response.status === 403) {
-            //        console.log("Error F: " + response.data);
-            //    }
-            //
-            //});
-
-            LogoutFactory.logoutService($scope.sessionId, $scope.password, function(response){
+            LogoutFactory.logoutService($scope.sessionId, function(response){
                 if(response.status === 200) {
                    console.log("LogoutService: " + response.data);
                     window.location = '#/login';
@@ -26,8 +16,5 @@ angular.module("LogoutMod")
                 }
 
             });
-
         };
-
-
     }]);

@@ -2,13 +2,13 @@
  * Created by Rekish on 10/29/2015.
  */
 
-angular.module("IssueMod", ['LogoutMod'])
+angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
     .constant("allIssuesUrl", "api/issues/getAllIssues")
     .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl',
         function($http, $location, allIssuesUrl) {
             var service = {};
 
-            service.validate = function(callback) {
+            service.getAllIssues = function(callback) {
 
                 $http.get(allIssuesUrl)
                     .then(

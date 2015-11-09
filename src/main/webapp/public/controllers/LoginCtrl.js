@@ -23,7 +23,6 @@ angular.module("LoginMod")
                 window.location = '#/home';
             }
 
-
             $scope.login = function() {
                 LoginFactory.login($scope.username, $scope.password, function(response){
                     if(response.status === 200) {

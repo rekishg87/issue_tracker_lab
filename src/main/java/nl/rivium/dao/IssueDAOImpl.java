@@ -22,18 +22,8 @@ public class IssueDAOImpl implements IssueDAO{
 
         try{
             manager.getTransaction().begin();
-            Issue issue = new Issue();
-            issue.getDescription();
-            issue.getAssigneeId();
-            issue.getCategoryId();
-            issue.getId();
-            issue.getPriorityId();
-            issue.getStatusId();
-            manager.persist(issue);
-
             Query query = manager.createQuery
                     ("SELECT i FROM Issue i");
-
 
             listIssues = query.getResultList();
 

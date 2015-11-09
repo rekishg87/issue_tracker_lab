@@ -13,7 +13,7 @@ angular.module("LogoutMod", [])
                 var sID = {sessionId: sessionId};
                 $http.post(logoutUrl, sID)
                     .then(
-                    function onSuccess(response) {
+                    function onSuccess() {
 
                         $localStorage.usernameStr = undefined;
                         $localStorage.sessionIdStorage = undefined;

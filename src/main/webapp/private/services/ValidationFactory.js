@@ -14,8 +14,7 @@ angular.module("ValidationMod", [])
                 $http.get(validateUrl)
                     .then(
                     function onSuccess() {
-
-                            console.log("validate Success");
+                        console.log("validate Success");
                         $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
                     },
                     function onError(err) {

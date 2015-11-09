@@ -6,18 +6,6 @@ angular.module("HomeMod")
     .controller("HomeController", ['$scope', '$rootScope', '$localStorage', 'ValidationFactory',
         function($scope, $rootScope, $localStorage, ValidationFactory) {
 
-            $scope.userState = function() {
-                console.log("UserState() loaded...");
-                ValidationFactory.validate();
-
-            if($localStorage.sessionIdStorage == undefined) {
-                $localStorage.isLoggedIn = false;
-                window.location = '#/login';
-            } else {
-                $localStorage.isLoggedIn = true;
-            }
-        };
-
             if($localStorage.usernameStr == undefined) {
                 console.log("HomeCtrl if SessionStorage: " + $localStorage.usernameStr);
                 console.log("HomeCtrl if sessionData: " + $rootScope.sessionData);
@@ -33,6 +21,19 @@ angular.module("HomeMod")
                 console.log("HomeCtrl else SessionStorageId: " + $localStorage.sessionIdStorage);
                 window.location = '#/home';
             }
+
+            $scope.userState = function() {
+                console.log("UserState() loaded...");
+                ValidationFactory.validate();
+
+            if($localStorage.sessionIdStorage == undefined) {
+                $localStorage.isLoggedIn = false;
+                window.location = '#/login';
+            } else {
+                $localStorage.isLoggedIn = true;
+            }
+        };
+
 
 
     }]);
