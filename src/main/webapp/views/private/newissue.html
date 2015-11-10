@@ -1,0 +1,24 @@
+<div class="container" ng-controller="IssueController">
+    <div class="large-5 large-centered columns">
+        <div class="issue-box">
+            <div class="row">
+                <div class="large-12 columns">
+                    <h2 class="text-center">
+                        Create new issue
+                    </h2>
+                    <p class="text-center">
+                        Please fill in issue information
+                    </p>
+                    <form>
+                        <div class="row">
+                            <div class="large-9 large-centered columns">
+                                <input type="text" name="description" placeholder="Description" ng-model="description"/>
+                                <button ng-click="createIssue()">Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

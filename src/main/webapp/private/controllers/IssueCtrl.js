@@ -8,8 +8,6 @@ angular.module("IssueMod")
 
             console.log("Issue Controller Initialized...");
 
-            $scope.data = {};
-
             $scope.checkValidity = function() {
                 console.log("checkValidity() loaded...");
                 ValidationFactory.validate();
@@ -22,6 +20,17 @@ angular.module("IssueMod")
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';
+                    }
+                })
+            };
+
+            $scope.createIssue = function() {
+                IssueFactory.createIssue($scope.description, function(response) {
+                    if(response.status === 200) {
+                        $scope.description = "";
+                       console.log("Issue Created!");
+                    } else if(response.status === 403) {
+                       console.log("Failed!");
                     }
                 })
             }

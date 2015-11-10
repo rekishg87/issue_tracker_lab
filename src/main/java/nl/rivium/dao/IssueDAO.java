@@ -10,4 +10,5 @@ import java.util.List;
 public interface IssueDAO {
 
     List<Issue> allIssuesList();
+    List<Issue> createIssue(String description);
 }

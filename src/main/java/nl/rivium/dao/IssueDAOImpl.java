@@ -35,4 +35,28 @@ public class IssueDAOImpl implements IssueDAO{
 
         return listIssues;
     }
+
+    @Override
+    public List<Issue> createIssue(String description) {
+        List<Issue> newIssue = null;
+
+        try{
+            manager.getTransaction().begin();
+            Issue issue = new Issue();
+            issue.setDescription(description);
+            manager.persist(issue);
+
+//            Query query = manager.createQuery
+//                    ("SELECT i FROM Issue i");
+//
+//            newIssue = query.getResultList();
+
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            manager.getTransaction().commit();
+        }
+
+        return newIssue;
+    }
 }

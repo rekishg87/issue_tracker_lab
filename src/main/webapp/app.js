@@ -27,7 +27,12 @@ angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutM
                 templateUrl: "views/public/signup.html"
             })
 
+            .when("/issue/new", {
+                controller: "IssueController",
+                templateUrl: "views/private/newissue.html"
+            })
+
             .otherwise({
                 redirectTo: "/home"
-            });
+            })
     }]);

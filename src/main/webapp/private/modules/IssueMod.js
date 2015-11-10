@@ -4,8 +4,9 @@
 
 angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
     .constant("allIssuesUrl", "api/issues/getAllIssues")
-    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl',
-        function($http, $location, allIssuesUrl) {
+    .constant("createIssueUrl", "api/issues/create")
+    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl', 'createIssueUrl',
+        function($http, $location, allIssuesUrl, createIssueUrl) {
             var service = {};
 
             service.getAllIssues = function(callback) {
@@ -13,19 +14,32 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
                 $http.get(allIssuesUrl)
                     .then(
                     function success(response) {
-                        console.log("valService: " + response.data);
                         callback(response);
-
                     },
-                    function error(response) {
-                        var httpStatusCode = response.status;
+                    function error(err) {
+                        var httpStatusCode = err.status;
                         if (httpStatusCode === 403) {
-                            console.log("error: " + response.data);
                             window.location = '#/login';
-                            callback(response);
+                            callback(err);
                         }
                     }
                 );
+            };
+
+            service.createIssue = function(description, callback) {
+                var data = {description: description};
+                $http.post(createIssueUrl, data)
+                    .then(
+                        function success(response) {
+                            callback(response);
+                        },
+                        function error(err) {
+                            if(err.status === 403) {
+                                window.location = '#/login';
+                                callback(err);
+                            }
+                        }
+                    )
             };
 
             return service;
