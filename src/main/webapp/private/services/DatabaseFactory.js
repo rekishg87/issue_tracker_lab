@@ -12,14 +12,14 @@ angular.module("DatabaseFactory", [])
 
             var service = {};
 
-            service.getAssignee = function() {
+            service.getAssignee = function(callback) {
                 $http.get(assigneeUrl)
                     .then(
-                        function onSuccess() {
-
+                        function onSuccess(response) {
+                            callback(response);
                         },
-                        function onError() {
-
+                        function onError(err) {
+                            callback(err);
                         }
                     )
             };

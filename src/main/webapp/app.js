@@ -3,7 +3,7 @@
  */
 
 angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutMod", "IssueMod",
-    "SignupMod",  "ngRoute", "ngCookies", "ngStorage"])
+    "SignupMod", "ngRoute", "ngCookies", "ngStorage", "DatabaseFactory"])
     .config(['$routeProvider', function($routeProvider) {
 
         $routeProvider
@@ -30,6 +30,11 @@ angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutM
             .when("/issue/new", {
                 controller: "IssueController",
                 templateUrl: "views/private/newissue.html"
+            })
+
+            .when("/assignee", {
+                controller: "DatabaseController",
+                templateUrl: "views/private/assignee.html"
             })
 
             .otherwise({
