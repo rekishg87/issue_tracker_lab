@@ -8,6 +8,13 @@ angular.module("IssueMod")
 
             console.log("Issue Controller Initialized...");
 
+            $scope.testData = [
+                {test1: "test"},
+                {test1: "test2"}
+            ];
+            console.log($scope.testData);
+            $scope.data = {};
+
             $scope.checkValidity = function() {
                 console.log("checkValidity() loaded...");
                 ValidationFactory.validate();
@@ -17,6 +24,7 @@ angular.module("IssueMod")
                 IssueFactory.getAllIssues(function(response) {
                     if (response.status === 200) {
                         $scope.data.issues = response.data;
+                        console.log($scope.data.issues);
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';

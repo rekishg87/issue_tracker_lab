@@ -10,10 +10,34 @@
                         Please fill in issue information
                     </p>
                     <form>
+                        <table>
+                            <tr>
+                                <th>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Category
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="test in testData">{{ test.test1 }}</li>
+                                        </ul>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="dropdown">
+                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prio
+                                            <span class="caret"></span></button>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="#">Prio</a></li>
+                                            <li><a href="#">CSS</a></li>
+                                            <li><a href="#">JavaScript</a></li>
+                                        </ul>
+                                    </div>
+                                </th>
+                            </tr>
+                        </table>
                         <div class="row">
                             <div class="large-9 large-centered columns">
                                 <input type="text" name="description" placeholder="Description" ng-model="description"/>
-                                <button ng-click="createIssue()">Create</button>
+                                <button class="center-block" ng-click="createIssue()">Create</button>
                             </div>
                         </div>
                     </form>

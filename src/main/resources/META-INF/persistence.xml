@@ -14,6 +14,10 @@
         <!-- lijst van classes die @Entity zijn -->
         <class>nl.rivium.entities.Issue</class>
         <class>nl.rivium.entities.User</class>
+        <class>nl.rivium.entities.Assignee</class>
+        <class>nl.rivium.entities.Category</class>
+        <class>nl.rivium.entities.Priority</class>
+        <class>nl.rivium.entities.Status</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />

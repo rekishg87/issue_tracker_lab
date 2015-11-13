@@ -38,7 +38,6 @@ public class IssueDAOImpl implements IssueDAO{
 
     @Override
     public List<Issue> createIssue(String description) {
-        List<Issue> newIssue = null;
 
         try{
             manager.getTransaction().begin();
@@ -46,17 +45,12 @@ public class IssueDAOImpl implements IssueDAO{
             issue.setDescription(description);
             manager.persist(issue);
 
-//            Query query = manager.createQuery
-//                    ("SELECT i FROM Issue i");
-//
-//            newIssue = query.getResultList();
-
         } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
             manager.getTransaction().commit();
         }
 
-        return newIssue;
+        return null;
     }
 }

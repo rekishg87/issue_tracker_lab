@@ -26,9 +26,9 @@
                     <li><a href="#">Link <span class="sr-only">(current)</span></a></li>
                     <li><a href="#">Link</a></li>
                     <li class="dropdown">
-                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Issues <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="">Action</a></li>
+                            <li><a href="#/issue">Issues</a></li>
                             <li><a href="">Another action</a></li>
                             <li><a href="">Something else here</a></li>
                             <li class="divider"></li>
@@ -49,12 +49,16 @@
     <div ng-view></div>
 
     <!--SCRIPTS-->
+    <script src="vendor/jquery.js"></script>
+    <script src="vendor/bootstrap.min.js"></script>
+    <script src="vendor/foundation.js"></script>
     <script src="vendor/angular_1.4.6.js"></script>
     <script src="vendor/angular-route.min.js"></script>
     <script src="vendor/angular-cookies.js"></script>
     <script src="vendor/ngStorage.js"></script>
     <script src="app.js"></script>
     <script src="private/services/ValidationFactory.js"></script>
+    <script src="private/services/DatabaseFactory.js"></script>
     <script src="public/modules/LoginMod.js"></script>
     <script src="public/modules/SignupMod.js"></script>
     <script src="private/modules/HomeMod.js"></script>
