@@ -31,10 +31,10 @@
 
             <!-- c3p0 hibernate connection pooling settings -->
             <property name="hibernate.c3p0.min_size" value="1"/>
-            <property name="hibernate.c3p0.max_size" value="2"/>
+            <property name="hibernate.c3p0.max_size" value="20"/>
 
             <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
-            <property name="hibernate.current_session_context_class" value="thread"/>
+            <property name="hibernate.current_session_context_class" value="jta"/>
 
         </properties>
     </persistence-unit>

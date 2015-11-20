@@ -2,25 +2,20 @@
     <div class="issueBox">
         <h1>Issue</h1>
         <button ng-click="getAllIssues()">Get All Issues</button>
-        <a href="#/issue/new">Issues</a>
+        <button ng-click="createNewIssue()">New Issue</button>
     </div>
     <div>
         <table>
             <tr>
                 <th>ID</th>
-                <th>Assignee ID</th>
-                <th>Category ID</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Assignee</th>
                 <th>Description</th>
-                <th>Priority ID</th>
-                <th>Status ID</th>
+                <th>Category</th>
             </tr>
-            <tr ng-repeat="issue in data.issues">
-                <td> {{ issue.id }}</td>
-                <td> {{ issue.assigneeId }}</td>
-                <td> {{ issue.categoryId }}</td>
-                <td> {{ issue.description }}</td>
-                <td> {{ issue.priorityId }}</td>
-                <td> {{ issue.statusId }}</td>
+            <tr ng-repeat="issue in data">
+                <td ng-repeat="i in issue">{{i}}</td>
             </tr>
         </table>
     </div>

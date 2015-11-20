@@ -1,11 +1,67 @@
-<div class="container" ng-controller="DatabaseController as DatabaseCtrl" ng-init="userState()">
-    <div class="large-3 large-centered columns">
-        <div class="database-box">
-            <div class="row">
-                <div class="large-12 columns">
-                    <button class="button expand" ng-click="databaseCheck()">DatabaseCheck</button>
+<!--<div ng-controller="DatabaseController as DatabaseCtrl">
+    <div align="left">
+        <form ng-init="databaseCheck()">
+            <div class="row" ng-controller="IssueController">
+                <div>
+                    <input type="text" name="description" placeholder="Description" ng-model="description"/>
+                    <button class="center-block" ng-click="createIssue()">Create</button>
                 </div>
             </div>
+        </form>
+        <div>
+            <p>Selected item is: {{ selectedItem }}</p>
+            <label class="small-text-center label-primary" for="assignee">Assignee</label>
+            <select id="assignee" ng-model="selectedItem">
+                <option ng-repeat="assignee in assigneeDataScope" value="{{ assignee.name }}">{{ assignee.name }}</option>
+            </select>
         </div>
     </div>
+</div>-->
+<style>
+    .containerBox {
+        height: 50%;
+        margin-left: 33%;
+        align-items: center;
+    }
+
+    .containerLeft {
+        height: 200px;
+        width: 200px;
+        float: left;
+    }
+
+    .containerRight {
+        margin-left: 15px;
+        height: 200px;
+        width: 400px;
+        float: left;
+    }
+
+    .descriptionBox {
+        height: 200px;
+        width: 400px;
+    }
+
+    .box {
+        padding-bottom: 0%;
+    }
+</style>
+<div ng-controller="DatabaseController as DatabaseCtrl">
+    <form>
+        <div class="containerBox">
+            <div class="containerLeft">
+                <div>
+                    <input type="text" name="category" placeholder="Category" ng-model="category"/>
+                    <input type="text" name="Priority" placeholder="priority" ng-model="priority"/>
+                    <div class="box">
+                        <button class="button-primary" ng-controller="IssueController" ng-click="createIssue()">Create</button>
+                    </div>
+                </div>
+            </div>
+            <div class="containerRight">
+                    <textarea class="descriptionBox" name="Description"
+                              placeholder="description" ng-model="description"></textarea>
+            </div>
+        </div>
+    </form>
 </div>

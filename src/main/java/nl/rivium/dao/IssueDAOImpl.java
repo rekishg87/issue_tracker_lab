@@ -23,9 +23,15 @@ public class IssueDAOImpl implements IssueDAO{
         try{
             manager.getTransaction().begin();
             Query query = manager.createQuery
-                    ("SELECT i FROM Issue i");
+                    ("SELECT i.id, p.name, s.name, a.name, i.description, c.name " +
+                            "FROM Issue i, Priority p, Status s, Assignee a, Category c " +
+                            "WHERE a.id = i.assigneeId " +
+                            "AND c.id = i.categoryId " +
+                            "AND s.id = i.statusId " +
+                            "AND p.id = i.priorityId");
 
             listIssues = query.getResultList();
+            System.out.println("listIssues: " + listIssues);
 
         } catch (HibernateException ex) {
             ex.printStackTrace();
@@ -37,12 +43,16 @@ public class IssueDAOImpl implements IssueDAO{
     }
 
     @Override
-    public List<Issue> createIssue(String description) {
+    public List<Issue> createIssue(String description, int categoryId) {
 
         try{
             manager.getTransaction().begin();
             Issue issue = new Issue();
             issue.setDescription(description);
+            issue.setCategoryId(categoryId);
+            issue.setAssigneeId(1);
+            issue.setPriorityId(1);
+            issue.setStatusId(1);
             manager.persist(issue);
 
         } catch (HibernateException ex) {

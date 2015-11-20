@@ -24,38 +24,38 @@ angular.module("DatabaseFactory", [])
                     )
             };
 
-            service.getCategory = function() {
+            service.getCategory = function(callback) {
                 $http.get(categoryUrl)
                     .then(
-                        function onSuccess() {
-
+                        function onSuccess(response) {
+                            callback(response);
                         },
-                        function onError() {
-
+                        function onError(err) {
+                            callback(err);
                         }
                     )
             };
 
-            service.getPriority = function() {
+            service.getPriority = function(callback) {
                 $http.get(priorityUrl)
                     .then(
-                        function onSuccess() {
-
+                        function onSuccess(response) {
+                            callback(response);
                         },
-                        function onError() {
-
+                        function onError(err) {
+                            callback(err);
                         }
                     )
             };
 
-            service.getStatus = function() {
+            service.getStatus = function(callback) {
                 $http.get(statusUrl)
                     .then(
-                        function onSuccess() {
-
+                        function onSuccess(response) {
+                            callback(response);
                         },
-                        function onError() {
-
+                        function onError(err) {
+                            callback(err);
                         }
                     )
             };

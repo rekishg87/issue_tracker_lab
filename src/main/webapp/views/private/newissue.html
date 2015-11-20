@@ -1,3 +1,33 @@
+<style>
+    .containerBox {
+        height: 50%;
+        margin-left: 33%;
+        align-items: center;
+    }
+
+    .containerLeft {
+        height: 200px;
+        width: 200px;
+        float: left;
+    }
+
+    .containerRight {
+        margin-left: 15px;
+        height: 200px;
+        width: 400px;
+        float: left;
+    }
+
+    .descriptionBox {
+        height: 200px;
+        width: 400px;
+    }
+
+    .box {
+        padding-bottom: 0%;
+    }
+</style>
+
 <div class="container" ng-controller="IssueController">
     <div class="large-5 large-centered columns">
         <div class="issue-box">
@@ -9,40 +39,37 @@
                     <p class="text-center">
                         Please fill in issue information
                     </p>
-                    <form>
-                        <table>
-                            <tr>
-                                <th>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Category
-                                            <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li ng-repeat="test in testData">{{ test.test1 }}</li>
-                                        </ul>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="dropdown">
-                                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Prio
-                                            <span class="caret"></span></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a href="#">Prio</a></li>
-                                            <li><a href="#">CSS</a></li>
-                                            <li><a href="#">JavaScript</a></li>
-                                        </ul>
-                                    </div>
-                                </th>
-                            </tr>
-                        </table>
-                        <div class="row">
-                            <div class="large-9 large-centered columns">
-                                <input type="text" name="description" placeholder="Description" ng-model="description"/>
-                                <button class="center-block" ng-click="createIssue()">Create</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div ng-controller="DatabaseController as DatabaseCtrl">
+    <form>
+        <div class="containerBox">
+            <div class="containerLeft">
+                <div>
+                    <!--<input type="text" name="category" placeholder="Category" ng-model="category"/>-->
+                    <label class="small-text-center label-primary" for="categoryId">Category</label>
+                    <select id="categoryId" ng-model="category" ng-init="categoryData()">
+                        <option ng-repeat="category in categoryDataScope" value="{{ category.id }}">{{ category.name }}</option>
+                    </select>
+                    <!--<input type="text" name="Priority" placeholder="priority" ng-model="priority"/>-->
+                    <label class="small-text-center label-primary" for="priorityId">Priority</label>
+                    <select id="priorityId" ng-model="priority" ng-init="priorityData()">
+                        <option ng-repeat="priority in priorityDataScope" value="{{ priority.name }}">{{ priority.name }}</option>
+                    </select>
+                    <div class="box">
+                        <button class="button-primary" ng-controller="IssueController"
+                                ng-click="createIssue()">Create</button>
+                    </div>
+                </div>
+            </div>
+            <div class="containerRight">
+                                    <textarea class="descriptionBox" name="Description"
+                                              placeholder="description" ng-model="description"></textarea>
+            </div>
+        </div>
+    </form>
 </div>

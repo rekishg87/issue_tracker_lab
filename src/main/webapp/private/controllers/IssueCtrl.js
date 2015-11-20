@@ -8,11 +8,6 @@ angular.module("IssueMod")
 
             console.log("Issue Controller Initialized...");
 
-            $scope.testData = [
-                {test1: "test"},
-                {test1: "test2"}
-            ];
-            console.log($scope.testData);
             $scope.data = {};
 
             $scope.checkValidity = function() {
@@ -23,8 +18,8 @@ angular.module("IssueMod")
             $scope.getAllIssues = function() {
                 IssueFactory.getAllIssues(function(response) {
                     if (response.status === 200) {
-                        $scope.data.issues = response.data;
-                        console.log($scope.data.issues);
+                        $scope.data = response.data;
+                        console.log($scope.data);
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';
@@ -33,13 +28,19 @@ angular.module("IssueMod")
             };
 
             $scope.createIssue = function() {
-                IssueFactory.createIssue($scope.description, function(response) {
+                IssueFactory.createIssue($scope.description, $scope.category, function(response) {
                     if(response.status === 200) {
                         $scope.description = "";
+                        $scope.category = "";
+                        $scope.priority = "";
                        console.log("Issue Created!");
                     } else if(response.status === 403) {
                        console.log("Failed!");
                     }
                 })
+            };
+
+            $scope.createNewIssue = function() {
+                window.location = '#/issue/new';
             }
     }]);
