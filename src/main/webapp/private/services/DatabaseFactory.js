@@ -2,7 +2,7 @@
  * Created by Rekish on 11/13/2015.
  */
 
-angular.module("DatabaseFactory", [])
+angular.module("DatabaseFactory", ["ValidationMod"])
     .constant("assigneeUrl", "api/assignee/all")
     .constant("categoryUrl", "api/category/all")
     .constant("priorityUrl", "api/priority/all")

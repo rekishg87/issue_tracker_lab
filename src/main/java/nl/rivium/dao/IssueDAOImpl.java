@@ -43,7 +43,7 @@ public class IssueDAOImpl implements IssueDAO{
     }
 
     @Override
-    public List<Issue> createIssue(String description, int categoryId) {
+    public List<Issue> createIssue(String description, int categoryId, int priorityId) {
 
         try{
             manager.getTransaction().begin();
@@ -51,7 +51,7 @@ public class IssueDAOImpl implements IssueDAO{
             issue.setDescription(description);
             issue.setCategoryId(categoryId);
             issue.setAssigneeId(1);
-            issue.setPriorityId(1);
+            issue.setPriorityId(priorityId);
             issue.setStatusId(1);
             manager.persist(issue);
 

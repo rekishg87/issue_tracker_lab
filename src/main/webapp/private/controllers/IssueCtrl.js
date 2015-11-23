@@ -28,7 +28,7 @@ angular.module("IssueMod")
             };
 
             $scope.createIssue = function() {
-                IssueFactory.createIssue($scope.description, $scope.category, function(response) {
+                IssueFactory.createIssue($scope.description, $scope.category, $scope.priority, function(response) {
                     if(response.status === 200) {
                         $scope.description = "";
                         $scope.category = "";

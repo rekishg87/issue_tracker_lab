@@ -3,10 +3,15 @@
  */
 
 angular.module("DatabaseFactory")
-    .controller("DatabaseController", ['$scope', '$localStorage', 'IssueDatabase',
-        function($scope, $localStorage, IssueDatabase) {
+    .controller("DatabaseController", ['$scope', '$localStorage', 'IssueDatabase', 'ValidationFactory',
+        function($scope, $localStorage, IssueDatabase, ValidationFactory) {
 
             console.log("Database Controller Initialized...");
+
+            $scope.checkValidity = function() {
+                console.log("checkValidity() loaded...");
+                ValidationFactory.validate();
+            };
 
             $scope.retrieveData = function() {
                 categoryData();

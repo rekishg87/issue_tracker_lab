@@ -28,7 +28,7 @@
     }
 </style>
 
-<div class="container" ng-controller="IssueController">
+<div class="container" ng-controller="IssueController as IssueCtrl">
     <div class="large-5 large-centered columns">
         <div class="issue-box">
             <div class="row">
@@ -45,7 +45,7 @@
     </div>
 </div>
 
-<div ng-controller="DatabaseController as DatabaseCtrl">
+<div ng-controller="DatabaseController as DatabaseCtrl" ng-init="checkValidity()">
     <form>
         <div class="containerBox">
             <div class="containerLeft">
@@ -58,7 +58,7 @@
                     <!--<input type="text" name="Priority" placeholder="priority" ng-model="priority"/>-->
                     <label class="small-text-center label-primary" for="priorityId">Priority</label>
                     <select id="priorityId" ng-model="priority" ng-init="priorityData()">
-                        <option ng-repeat="priority in priorityDataScope" value="{{ priority.name }}">{{ priority.name }}</option>
+                        <option ng-repeat="priority in priorityDataScope" value="{{ priority.id }}">{{ priority.name }}</option>
                     </select>
                     <div class="box">
                         <button class="button-primary" ng-controller="IssueController"
