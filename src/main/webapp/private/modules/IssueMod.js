@@ -26,8 +26,8 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
                 );
             };
 
-            service.createIssue = function(description, category, priority, callback) {
-                var data = {description: description, categoryId: category, priorityId: priority};
+            service.createIssue = function(description, subject, category, priority, callback) {
+                var data = {description: description, subject: subject, categoryId: category, priorityId: priority};
                 $http.post(createIssueUrl, data)
                     .then(
                         function success(response) {

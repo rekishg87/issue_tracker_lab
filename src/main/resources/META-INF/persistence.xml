@@ -22,7 +22,7 @@
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
             <property name="hibernate.hbm2ddl.auto" value="update" />
-            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.show_sql" value="false" />
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 
             <property name="javax.persistence.jdbc.user" value="root" />
@@ -30,12 +30,22 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/issue_tracker_new" />
 
             <!-- c3p0 hibernate connection pooling settings -->
-            <property name="hibernate.c3p0.min_size" value="1"/>
-            <property name="hibernate.c3p0.max_size" value="20"/>
+            <property name="connection.pool_size" value="5" />
+            <property name="connection.shutdown" value="true" />
+            <property name="connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+            <property name="c3p0.min_size" value="1"/>
+            <property name="c3p0.max_size" value="100"/>
+            <property name="c3p0.idle_test_period" value="300"/>
+            <property name="c3p0.timeout" value="300"/>
+            <property name="c3p0.max_statements" value="200"/>
+            <property name="c3p0.acquire_increment" value="5" />
 
             <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
             <property name="hibernate.current_session_context_class" value="thread"/>
             <property name="hibernate.transaction.auto_close_session" value="true"/>
+            
+            <!-- -->
+            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
 
         </properties>
     </persistence-unit>

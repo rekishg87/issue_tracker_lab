@@ -1,5 +1,6 @@
 package nl.rivium.dao;
 
+import nl.rivium.connection.JPAConnection;
 import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -14,9 +15,8 @@ import java.util.List;
  */
 
 public class UserDAOImpl implements UserDAO {
-    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
-    private EntityManager manager = factory.createEntityManager();
-    private EntityTransaction transaction = manager.getTransaction();
+    //EntityManager manager = JPAConnection.createEntityManager();
+    EntityManager manager;
 
     @Context
     private static HttpServletRequest request;
@@ -27,6 +27,7 @@ public class UserDAOImpl implements UserDAO {
         List<String> listUsers;
 
         try{
+            manager = JPAConnection.createEntityManager();
             manager.getTransaction().begin();
 
             Query query = manager.createQuery
@@ -48,9 +49,17 @@ public class UserDAOImpl implements UserDAO {
                 }
             }
         } catch (HibernateException ex) {
-            ex.printStackTrace();
-        } finally {
-            manager.getTransaction().commit();
+            try {
+                if (manager.getTransaction().isActive()){
+                    manager.getTransaction().rollback();
+                }
+            } catch (Throwable rollBackException) {
+                System.out.println("Could not rollback after exception! " + rollBackException);
+                rollBackException.printStackTrace();
+            }
+        }
+        finally {
+            manager.close();
         }
 
         return found;
@@ -62,11 +71,12 @@ public class UserDAOImpl implements UserDAO {
         List<User> userAdded = new ArrayList<>();
         System.out.println("Username: " + username);
         System.out.println("Password: " + password);
-        if(username == null || username == "" || password == null || password == "") {
+        if(username == null || username.equals("") || password == null || password.equals("")) {
             userAdded = null;
         } else {
 
             try {
+                manager = JPAConnection.createEntityManager();
                 List<String> listUsers;
                 manager.getTransaction().begin();
 
@@ -77,7 +87,7 @@ public class UserDAOImpl implements UserDAO {
 
                 listUsers = query.getResultList();
                 if(listUsers.isEmpty()) {
-                    //userAdded = null;
+                    System.out.println("No Users Found!");
                 } else {
                     String checkUsername = listUsers.get(0);
                     System.out.println("UsernameCheck: " + checkUsername);
@@ -99,17 +109,23 @@ public class UserDAOImpl implements UserDAO {
                     user.setRoles_id(2);
                     manager.persist(user);
                     userAdded.add(user);
-                    transaction.commit();
+                    //transaction.commit();
+                    manager.getTransaction().commit();
                     System.out.println("userAdded: " +  userAdded);
                 }
 
             } catch (IndexOutOfBoundsException ex) {
-                ex.printStackTrace();
-            } finally {
-                //manager.getTransaction().commit();
-                if (transaction.isActive()) {
-                    transaction.rollback();
+                try {
+                    if (manager.getTransaction().isActive()){
+                        manager.getTransaction().rollback();
+                    }
+                } catch (Throwable rollBackException) {
+                    System.out.println("Could not rollback after exception! " + rollBackException);
+                    rollBackException.printStackTrace();
                 }
+            }
+            finally {
+                manager.close();
             }
         }
         return userAdded;

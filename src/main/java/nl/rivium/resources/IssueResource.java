@@ -65,7 +65,8 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createIssue(Issue input) {
-        final List<Issue> issues = ISSUE_DAO.createIssue(input.getDescription(), input.getCategoryId(), input.getPriorityId());
+        final List<Issue> issues = ISSUE_DAO.createIssue
+                (input.getDescription(), input.getSubject(), input.getCategoryId(), input.getPriorityId());
 
         return Response
                 .status(Response.Status.OK)

@@ -11,6 +11,7 @@ import javax.persistence.*;
 public class Issue {
     private int id;
     private int categoryId;
+    private String subject;
     private String description;
     private int statusId;
     private int priorityId;
@@ -34,6 +35,15 @@ public class Issue {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
+    }
+
+    @Column(name = "SUBJECT")
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     @Column(name = "DESCRIPTION")

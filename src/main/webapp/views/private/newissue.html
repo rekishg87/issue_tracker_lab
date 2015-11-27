@@ -18,8 +18,13 @@
         float: left;
     }
 
+    .subjectBox {
+        height: 30px;
+        width: 400px;
+    }
+
     .descriptionBox {
-        height: 200px;
+        height: 170px;
         width: 400px;
     }
 
@@ -67,8 +72,10 @@
                 </div>
             </div>
             <div class="containerRight">
-                                    <textarea class="descriptionBox" name="Description"
-                                              placeholder="description" ng-model="description"></textarea>
+                <textarea class="subjectBox" name="Subject"
+                          placeholder="Subject" ng-model="subject"></textarea>
+                <textarea class="descriptionBox" name="Description"
+                          placeholder="description" ng-model="description"></textarea>
             </div>
         </div>
     </form>
