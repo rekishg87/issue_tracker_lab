@@ -11,7 +11,7 @@ import javax.servlet.annotation.WebListener;
  * Created by Rekish on 11/26/2015.
  */
 @WebListener
-public class JPAConnection implements ServletContextListener {
+public class DBConnection implements ServletContextListener {
 
     private static EntityManagerFactory entityManagerFactory;
 

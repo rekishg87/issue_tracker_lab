@@ -1,12 +1,10 @@
 package nl.rivium.dao;
 
-import nl.rivium.connection.JPAConnection;
+import nl.rivium.connection.DBConnection;
 import nl.rivium.entities.Issue;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -14,7 +12,7 @@ import java.util.List;
  * Created by Rekish on 10/5/2015.
  */
 public class IssueDAOImpl implements IssueDAO{
-    //private static EntityManager manager = JPAConnection.createEntityManager();
+    //private static EntityManager manager = DBConnection.createEntityManager();
     EntityManager manager;
 
     @Override
@@ -22,7 +20,7 @@ public class IssueDAOImpl implements IssueDAO{
         List<Issue> listIssues = null;
 
         try{
-            manager = JPAConnection.createEntityManager();
+            manager = DBConnection.createEntityManager();
             manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT i.id, p.name, s.name, a.name, i.description, c.name, i.subject " +
@@ -57,7 +55,7 @@ public class IssueDAOImpl implements IssueDAO{
     public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId) {
 
         try{
-            manager = JPAConnection.createEntityManager();
+            manager = DBConnection.createEntityManager();
             manager.getTransaction().begin();
             Issue issue = new Issue();
             issue.setSubject(subject);

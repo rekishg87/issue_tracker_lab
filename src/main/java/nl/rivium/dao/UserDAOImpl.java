@@ -1,6 +1,6 @@
 package nl.rivium.dao;
 
-import nl.rivium.connection.JPAConnection;
+import nl.rivium.connection.DBConnection;
 import nl.rivium.entities.User;
 import org.hibernate.HibernateException;
 import org.mindrot.jbcrypt.BCrypt;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 public class UserDAOImpl implements UserDAO {
-    //EntityManager manager = JPAConnection.createEntityManager();
+    //EntityManager manager = DBConnection.createEntityManager();
     EntityManager manager;
 
     @Context
@@ -27,7 +27,7 @@ public class UserDAOImpl implements UserDAO {
         List<String> listUsers;
 
         try{
-            manager = JPAConnection.createEntityManager();
+            manager = DBConnection.createEntityManager();
             manager.getTransaction().begin();
 
             Query query = manager.createQuery
@@ -76,7 +76,7 @@ public class UserDAOImpl implements UserDAO {
         } else {
 
             try {
-                manager = JPAConnection.createEntityManager();
+                manager = DBConnection.createEntityManager();
                 List<String> listUsers;
                 manager.getTransaction().begin();
 

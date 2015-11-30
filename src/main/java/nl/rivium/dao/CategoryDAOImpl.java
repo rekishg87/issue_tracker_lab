@@ -1,12 +1,10 @@
 package nl.rivium.dao;
 
-import nl.rivium.connection.JPAConnection;
+import nl.rivium.connection.DBConnection;
 import nl.rivium.entities.Category;
 import org.hibernate.HibernateException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.List;
 
@@ -14,7 +12,7 @@ import java.util.List;
  * Created by Rekish on 11/13/2015.
  */
 public class CategoryDAOImpl implements CategoryDAO{
-    //private static EntityManager manager = JPAConnection.createEntityManager();
+    //private static EntityManager manager = DBConnection.createEntityManager();
     EntityManager manager;
 
     @Override
@@ -22,7 +20,7 @@ public class CategoryDAOImpl implements CategoryDAO{
         List<Category> categoryList = null;
 
         try{
-            manager = JPAConnection.createEntityManager();
+            manager = DBConnection.createEntityManager();
             manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT c FROM Category c");
