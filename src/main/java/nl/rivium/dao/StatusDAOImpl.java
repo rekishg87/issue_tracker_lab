@@ -1,45 +1,34 @@
 package nl.rivium.dao;
 
-import nl.rivium.connection.DBConnection;
 import nl.rivium.entities.Status;
 import org.hibernate.HibernateException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Rekish on 11/13/2015.
  */
 public class StatusDAOImpl implements StatusDAO {
-    //private static EntityManager manager = DBConnection.createEntityManager();
-    EntityManager manager;
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
+    private EntityManager manager = factory.createEntityManager();
 
     @Override
-    public List<Status> getStatusList() {
+    public List<Status> getStatusList() throws IllegalStateException {
         List<Status> statusList = null;
 
-        try{
-            manager = DBConnection.createEntityManager();
+        try {
             manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT s FROM Status s");
 
             statusList = query.getResultList();
-            manager.getTransaction().commit();
 
-        } catch (HibernateException ex) {
-            try {
-                if (manager.getTransaction().isActive()){
-                    manager.getTransaction().rollback();
-                }
-            } catch (Throwable rollBackException) {
-                System.out.println("Could not rollback after exception! " + rollBackException);
-                rollBackException.printStackTrace();
-            }
-        }
-        finally {
-            manager.close();
+
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        } finally {
+            manager.getTransaction().commit();
         }
 
         return statusList;

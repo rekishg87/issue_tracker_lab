@@ -1,46 +1,36 @@
 package nl.rivium.dao;
 
-import nl.rivium.connection.DBConnection;
 import nl.rivium.entities.Priority;
 import org.hibernate.HibernateException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Rekish on 11/13/2015.
  */
-public class PriorityDAOImpl implements PriorityDAO{
-    //private static EntityManager manager = DBConnection.createEntityManager();
-    EntityManager manager;
+public class PriorityDAOImpl implements PriorityDAO {
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
+    private EntityManager manager = factory.createEntityManager();
 
     @Override
-    public List<Priority> getPriorityList() {
+    public List<Priority> getPriorityList() throws IllegalStateException {
         List<Priority> priorityList = null;
 
-        try{
-            manager = DBConnection.createEntityManager();
+        try {
             manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT p FROM Priority p");
 
             priorityList = query.getResultList();
-            manager.getTransaction().commit();
 
-        } catch (HibernateException ex) {
-            try {
-                if (manager.getTransaction().isActive()){
-                    manager.getTransaction().rollback();
-                }
-            } catch (Throwable rollBackException) {
-                System.out.println("Could not rollback after exception! " + rollBackException);
-                rollBackException.printStackTrace();
-            }
+
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        } finally {
+            manager.getTransaction().commit();
         }
-        finally {
-            manager.close();
-        }
+
         return priorityList;
     }
 

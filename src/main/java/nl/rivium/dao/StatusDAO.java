@@ -8,5 +8,5 @@ import java.util.List;
  * Created by Rekish on 11/13/2015.
  */
 public interface StatusDAO {
-    List<Status> getStatusList();
+    List<Status> getStatusList() throws IllegalStateException;
 }

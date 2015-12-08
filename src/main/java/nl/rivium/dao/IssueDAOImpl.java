@@ -1,26 +1,23 @@
 package nl.rivium.dao;
 
-import nl.rivium.connection.DBConnection;
 import nl.rivium.entities.Issue;
 import org.hibernate.HibernateException;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Rekish on 10/5/2015.
  */
-public class IssueDAOImpl implements IssueDAO{
-    //private static EntityManager manager = DBConnection.createEntityManager();
-    EntityManager manager;
+public class IssueDAOImpl implements IssueDAO {
+    private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
+    private EntityManager manager = factory.createEntityManager();
 
     @Override
-    public List<Issue> allIssuesList() {
+    public List<Issue> allIssuesList() throws IllegalStateException {
         List<Issue> listIssues = null;
 
-        try{
-            manager = DBConnection.createEntityManager();
+        try {
             manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT i.id, p.name, s.name, a.name, i.description, c.name, i.subject " +
@@ -32,30 +29,22 @@ public class IssueDAOImpl implements IssueDAO{
 
             listIssues = query.getResultList();
             System.out.println("listIssues: " + listIssues);
-            manager.getTransaction().commit();
 
-        } catch (HibernateException ex) {
-            try {
-                if (manager.getTransaction().isActive()){
-                    manager.getTransaction().rollback();
-                }
-            } catch (Throwable rollBackException) {
-                System.out.println("Could not rollback after exception! " + rollBackException);
-                rollBackException.printStackTrace();
-            }
-        }
-        finally {
-            manager.close();
+
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        } finally {
+            manager.getTransaction().commit();
         }
 
         return listIssues;
     }
 
     @Override
-    public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId) {
+    public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId)
+        throws IllegalStateException {
 
-        try{
-            manager = DBConnection.createEntityManager();
+        try {
             manager.getTransaction().begin();
             Issue issue = new Issue();
             issue.setSubject(subject);
@@ -66,20 +55,10 @@ public class IssueDAOImpl implements IssueDAO{
             issue.setStatusId(1);
             manager.persist(issue);
 
+        } catch (IllegalStateException ex) {
+            ex.printStackTrace();
+        } finally {
             manager.getTransaction().commit();
-
-        } catch (HibernateException ex) {
-            try {
-                if (manager.getTransaction().isActive()){
-                    manager.getTransaction().rollback();
-                }
-            } catch (Throwable rollBackException) {
-                System.out.println("Could not rollback after exception! " + rollBackException);
-                rollBackException.printStackTrace();
-            }
-        }
-        finally {
-            manager.close();
         }
 
         return null;

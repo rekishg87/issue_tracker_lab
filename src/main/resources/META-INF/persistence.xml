@@ -44,7 +44,7 @@
             <property name="hibernate.c3p0.max_statements" value="200"/>
             <property name="hibernate.c3p0.acquire_increment" value="5" /> -->
 
-            <property name="hibernate.ejb.entitymanager_factory_name" value="issueUnit" />
+            <!--<property name="hibernate.ejb.entitymanager_factory_name" value="issueUnit" />-->
             <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
             <property name="hibernate.c3p0.min_size" value="0" />
             <property name="hibernate.c3p0.max_size" value="10" />
@@ -56,11 +56,11 @@
 
 
             <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
-            <property name="hibernate.current_session_context_class" value="thread"/>
-            <property name="hibernate.transaction.auto_close_session" value="true"/>
+            <!--<property name="hibernate.current_session_context_class" value="thread"/>-->
+            <!--<property name="hibernate.transaction.auto_close_session" value="true"/>-->
             
             <!-- -->
-            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />
+            <!--<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />-->
 
         </properties>
 
