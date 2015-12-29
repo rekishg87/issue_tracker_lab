@@ -5,9 +5,6 @@ import nl.rivium.dao.CategoryDAOImpl;
 import nl.rivium.entities.Category;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,35 +16,31 @@ import java.util.List;
 
 /**
  * Created by Rekish on 11/13/2015.
+ * API Calls that are associated with Category.
  */
 
+//Create an instance only once, for the duration of the application,
+// otherwise with each api request it creates a new instance
 @ApplicationScoped
 @Path("category")
 public class CategoryResource {
     private final CategoryDAO CATEGORY_DAO = new CategoryDAOImpl();
 
+    //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Context.
     @Context
-    private static HttpServletRequest request;
-
-    private EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory("issueUnit");
-    private EntityManager manager = factory.createEntityManager();
+    //static because the HttpServletRequest should be available throughout the whole class.
+    static HttpServletRequest request;
 
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCategory() {
-        final List<Category> issues = CATEGORY_DAO.getCategoryList();
+        final List<Category> categories = CATEGORY_DAO.getCategoryList();
 
-        /*return Response
-                .status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                .entity(issues)
-                .build();*/
-
+        // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            return Response.ok(issues).build();
-        } else {
+            return Response.ok(categories).build();
+        } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }

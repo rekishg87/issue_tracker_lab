@@ -1,10 +1,10 @@
 package nl.rivium.entities;
 
 import javax.persistence.*;
-import javax.xml.registry.infomodel.EmailAddress;
 
 /**
  * Created by Rekish on 9/15/2015.
+ * JPA Entity class for the Users table
  */
 
 @Entity

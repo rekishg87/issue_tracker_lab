@@ -1,23 +1,31 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.User;
-import org.hibernate.HibernateException;
 import org.mindrot.jbcrypt.BCrypt;
+
+import javax.ejb.EJBException;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Rekish on 9/17/2015.
+ * Authorize and create a new user.
  */
 
 public class UserDAOImpl implements UserDAO {
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
 
+    /**
+     *
+     * @param username to be checked in the database
+     * @param password to be decrypted by JBCrypt and checked for the right match in the database
+     * @return if user has entered correct information corresponding with the database
+     */
     @Override
-    public boolean auth(String username, String password) throws IllegalStateException {
-        boolean found = false;
+    public boolean authenticate (String username, String password) {
+        boolean foundUser = false;
         List<String> listUsers;
 
         try {
@@ -27,37 +35,49 @@ public class UserDAOImpl implements UserDAO {
                     ("SELECT u.password FROM User u where u.username = :username");
 
             query.setParameter("username", username);
-
+            manager.getTransaction().commit();
             listUsers = query.getResultList();
 
             if(listUsers.isEmpty()) {
-                found = false;
+                foundUser = false;
             } else {
                 String uncheckedPass = listUsers.get(0);
 
                 if(BCrypt.checkpw(password, uncheckedPass)) {
-                    found = true;
+                    foundUser = true;
                 } else {
-                    found = false;
+                    foundUser = false;
                 }
             }
-        } catch (IllegalStateException ex) {
+        } catch (EJBException ex) {
             ex.printStackTrace();
         } finally {
-            manager.getTransaction().commit();
+            if (manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
+                manager.close();
+                factory.close();
+            }
         }
 
-        return found;
+        return foundUser;
     }
 
+    /**
+     *
+     * @param username to be persisted in the database for the new user
+     * @param password to be persisted, encrypted by JBCrypt in the database for the new user
+     * @param email to be persisted in the database for the new user
+     * @return the username as a String that has been persisted in the database for the new registered user
+     */
     @Override
-    public List<User> signupUser (String username, String password, String email) throws IllegalStateException {
+    public String registerUser (String username, String password, String email) {
 
-        List<User> userAdded = new ArrayList<>();
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
+        String addedUsername = "";
+
+        // If all fields or one of the fields of username or password is empty,
+        // no user will be registered because of incomplete information
         if(username == null || username.equals("") || password == null || password.equals("")) {
-            userAdded = null;
+            addedUsername = null;
         } else {
 
             try {
@@ -68,43 +88,34 @@ public class UserDAOImpl implements UserDAO {
                         ("SELECT u.username FROM User u where u.username = :username");
 
                 query.setParameter("username", username);
-
+                manager.getTransaction().commit();
                 listUsers = query.getResultList();
-                if(listUsers.isEmpty()) {
-                    System.out.println("No Users Found!");
-                } else {
-                    String checkUsername = listUsers.get(0);
-                    System.out.println("UsernameCheck: " + checkUsername);
-                }
-
 
                 if(!listUsers.isEmpty()) {
-                    System.out.println("If statement");
-                    //userAdded.isEmpty();
-
+                    // If an existing user has been found, return an empty String
+                    // which means that no new user has been created
+                    addedUsername = "";
                 } else {
-
-                    System.out.println("Else statement");
-                    //transaction.begin();
                     User user = new User();
                     user.setUsername(username);
                     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
                     user.setEmail(email);
-                    user.setRoles_id(2);
+                    user.setRoles_id(2); // Default value for the User group when a new user registers.
                     manager.persist(user);
-                    userAdded.add(user);
-                    //transaction.commit();
-
-                    System.out.println("userAdded: " +  userAdded);
+                    addedUsername = username;
                 }
 
-            } catch (IllegalStateException ex) {
+            } catch (EJBException ex) {
                 ex.printStackTrace();
             } finally {
-                manager.getTransaction().commit();
+                if (manager.getTransaction().isActive()){
+                    manager.getTransaction().rollback();
+                    manager.close();
+                    factory.close();
+                }
             }
         }
-        return userAdded;
-    }
 
+        return addedUsername;
+    }
 }

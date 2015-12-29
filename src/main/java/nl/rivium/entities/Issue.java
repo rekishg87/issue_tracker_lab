@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by Rekish on 9/14/2015.
+ * JPA Entity class for the Issues table
  */
 
 @Entity
@@ -16,6 +17,24 @@ public class Issue {
     private int statusId;
     private int priorityId;
     private int assigneeId;
+
+    private Assignee assignee;
+
+    // No argument Constructor
+    public Issue() {
+
+    }
+
+    public Issue(int id, int categoryId, String subject, String description,
+                 int statusId, int priorityId, int assigneeId) {
+        this.id = id;
+        this.categoryId = categoryId;
+        this.subject = subject;
+        this.description = description;
+        this.statusId = statusId;
+        this.priorityId = priorityId;
+        this.assigneeId = assigneeId;
+    }
 
     @Id
     @Column(name = "ID")
@@ -81,4 +100,15 @@ public class Issue {
     public void setAssigneeId(int assigneeId) {
         this.assigneeId = assigneeId;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "ISSUE_IDs")
+    public Assignee getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(Assignee assignee) {
+        this.assignee = assignee;
+    }
+
 }

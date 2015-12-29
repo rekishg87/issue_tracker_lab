@@ -5,8 +5,9 @@
 angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
     .constant("allIssuesUrl", "api/issues/getAllIssues")
     .constant("createIssueUrl", "api/issues/create")
-    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl', 'createIssueUrl',
-        function($http, $location, allIssuesUrl, createIssueUrl) {
+    .constant("updateIssueUrl", "api/issues/update")
+    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl', 'createIssueUrl', 'updateIssueUrl',
+        function($http, $location, allIssuesUrl, createIssueUrl, updateIssueUrl) {
             var service = {};
 
             service.getAllIssues = function(callback) {
@@ -29,6 +30,22 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
             service.createIssue = function(description, subject, category, priority, callback) {
                 var data = {description: description, subject: subject, categoryId: category, priorityId: priority};
                 $http.post(createIssueUrl, data)
+                    .then(
+                        function success(response) {
+                            callback(response);
+                        },
+                        function error(err) {
+                            if(err.status === 403) {
+                                window.location = '#/login';
+                                callback(err);
+                            }
+                        }
+                    )
+            };
+
+            service.updateIssue = function(description, subject, category, priority, callback) {
+                var data = {description: description, subject: subject, categoryId: category, priorityId: priority};
+                $http.post(updateIssueUrl, data)
                     .then(
                         function success(response) {
                             callback(response);

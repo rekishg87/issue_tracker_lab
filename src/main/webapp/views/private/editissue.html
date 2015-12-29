@@ -39,7 +39,7 @@
             <div class="row">
                 <div class="large-12 columns">
                     <h2 class="text-center">
-                        Create new issue
+                        Update issue
                     </h2>
                     <p class="text-center">
                         Please fill in issue information
@@ -55,6 +55,7 @@
         <div class="containerBox">
             <div class="containerLeft">
                 <div>
+                    <input type="text" name="issueId" ng-model="issueId" disabled />
                     <!--<input type="text" name="category" placeholder="Category" ng-model="category"/>-->
                     <label class="small-text-center label-primary" for="categoryId">Category</label>
                     <select id="categoryId" ng-model="category" ng-init="categoryData()">
@@ -64,12 +65,15 @@
                     <!--<input type="text" name="Priority" placeholder="priority" ng-model="priority"/>-->
                     <label class="small-text-center label-primary" for="priorityId">Priority</label>
                     <select id="priorityId" ng-model="priority" ng-init="priorityData()">
+                        <!--<option ng-repeat="priority in priorityDataScope" value="{{ priority.id }}" selected="{{ priorityDataScope[1].name }}">{{ priority.name }}</option>-->
                         <option value="">NONE</option>
-                        <option ng-repeat="priority in priorityDataScope" value="{{ priority.id }}">{{ priority.name }}</option>
+                        <!--<option ng-selected="{{ value.id == priority }}" ng-repeat="value in priorityDataScope" value="{{ value.id }}">{{ value.value }}</option>-->
                     </select>
                     <div class="box">
-                        <button class="button-primary" ng-controller="IssueController"
+                        <button class="btn-sm" ng-controller="IssueController"
                                 ng-click="createIssue()">Create</button>
+                        <button class="btn-sm" ng-controller="EditIssueController"
+                                ng-click="updateIssue()">Update</button>
                     </div>
                 </div>
             </div>

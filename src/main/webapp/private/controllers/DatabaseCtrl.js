@@ -13,10 +13,6 @@ angular.module("DatabaseFactory")
                 ValidationFactory.validate();
             };
 
-            $scope.retrieveData = function() {
-                categoryData();
-            };
-
             $scope.categoryData = function() {
                 IssueDatabase.getCategory(function(response) {
                     if (response.status === 200) {

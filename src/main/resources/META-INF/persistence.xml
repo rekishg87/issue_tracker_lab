@@ -5,13 +5,13 @@
         http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
         version="2.0">
 
-    <persistence-unit name="issueUnit">
+    <persistence-unit name="issueUnit" transaction-type="RESOURCE_LOCAL">
         <description>
-            Persistence unit for Hibernate
+            Persistence unit
         </description>
        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
-        <!-- lijst van classes die @Entity zijn -->
+        <!-- lijst van classes die een Entity zijn -->
         <class>nl.rivium.entities.Issue</class>
         <class>nl.rivium.entities.User</class>
         <class>nl.rivium.entities.Assignee</class>
@@ -20,31 +20,16 @@
         <class>nl.rivium.entities.Status</class>
 
         <properties>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
-            <property name="hibernate.hbm2ddl.auto" value="update" />
-            <property name="hibernate.show_sql" value="false" />
-            <!--<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.user" value="root" />
-            <property name="javax.persistence.jdbc.password" value="Admin2015" />
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/issue_tracker_new" />-->
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/issue_tracker_new" />
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
             <property name="hibernate.connection.username" value="root" />
             <property name="hibernate.connection.password" value="Admin2015" />
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/issue_tracker_new" />
 
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+            <property name="hibernate.hbm2ddl.auto" value="update" />
+            <property name="hibernate.show_sql" value="false" />
 
-            <!-- c3p0 hibernate connection pooling settings
-            <property name="hibernate.connection.pool_size" value="10" />
-            <property name="hibernate.connection.shutdown" value="true" />
-            <property name="connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
-            <property name="hibernate.c3p0.min_size" value="5"/>
-            <property name="hibernate.c3p0.max_size" value="100"/>
-            <property name="hibernate.c3p0.idle_test_period" value="300"/>
-            <property name="hibernate.c3p0.timeout" value="300"/>
-            <property name="hibernate.c3p0.max_statements" value="200"/>
-            <property name="hibernate.c3p0.acquire_increment" value="5" /> -->
-
-            <!--<property name="hibernate.ejb.entitymanager_factory_name" value="issueUnit" />-->
+            <!-- C3P0 Connection Pooling Configuration -->
             <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
             <property name="hibernate.c3p0.min_size" value="0" />
             <property name="hibernate.c3p0.max_size" value="10" />
@@ -53,20 +38,10 @@
             <property name="hibernate.c3p0.max_statements" value="50" />
             <property name="hibernate.c3p0.timeout" value="1800" />
 
+            <!--<property name="hibernate.ejb.entitymanager_factory_name" value="test" />-->
 
-
-            <!-- org.hibernate.HibernateException: No CurrentSessionContext configured! -->
-            <!--<property name="hibernate.current_session_context_class" value="thread"/>-->
-            <!--<property name="hibernate.transaction.auto_close_session" value="true"/>-->
-            
-            <!-- -->
-            <!--<property name="hibernate.temp.use_jdbc_metadata_defaults" value="false" />-->
 
         </properties>
-
-
     </persistence-unit>
-
-
 </persistence>
 

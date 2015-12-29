@@ -4,6 +4,7 @@ import javax.persistence.*;
 
 /**
  * Created by Rekish on 11/13/2015.
+ * JPA Entity class for the Category table
  */
 
 @Entity

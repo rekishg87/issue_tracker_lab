@@ -5,9 +5,6 @@ import nl.rivium.dao.AssigneeDAOImpl;
 import nl.rivium.entities.Assignee;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,35 +17,32 @@ import java.util.List;
 
 /**
  * Created by Rekish on 11/13/2015.
+ * API Calls that are associated with Assignee.
  */
 
+//Create an instance only once, for the duration of the application,
+// otherwise with each api request it creates a new instance.
 @ApplicationScoped
 @Path("assignee")
 public class AssigneeResource {
     private final AssigneeDAO ASSIGNEE_DAO = new AssigneeDAOImpl();
 
+    //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Context.
     @Context
-    private static HttpServletRequest request;
+    //static because the HttpServletRequest should be available throughout the whole class.
+    static HttpServletRequest request;
 
-    private EntityManagerFactory factory =
-            Persistence.createEntityManagerFactory("issueUnit");
-    private EntityManager manager = factory.createEntityManager();
-
+    //When accessing the api call there should be a valid session (a user must be logged in)
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAssignee() {
-        final List<Assignee> issues = ASSIGNEE_DAO.getAssigneeList();
+        final List<Assignee> assignees = ASSIGNEE_DAO.getAssigneeList();
 
-        /*return Response
-                .status(Response.Status.OK)
-                .header("Access-Control-Allow-Origin", "http://localhost:8080")
-                .entity(issues)
-                .build();*/
-
+        // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            return Response.ok(issues).build();
-        } else {
+            return Response.ok(assignees).build();
+        } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }

@@ -3,32 +3,42 @@ package nl.rivium.dao;
 import nl.rivium.entities.Category;
 import org.hibernate.HibernateException;
 
+import javax.ejb.EJBException;
 import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Rekish on 11/13/2015.
+ * Retrieve data from the Category table in the database
  */
 public class CategoryDAOImpl implements CategoryDAO {
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
 
+    /**
+     *
+     * @return all the possible options from the Category table as a List<>
+     */
     @Override
-    public List<Category> getCategoryList() throws IllegalStateException {
+    public List<Category> getCategoryList(){
         List<Category> categoryList = null;
 
         try {
             manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT c FROM Category c");
-
+            manager.getTransaction().commit();
             categoryList = query.getResultList();
 
 
-        } catch (IllegalStateException ex) {
+        } catch (EJBException ex) {
             ex.printStackTrace();
         } finally {
-            manager.getTransaction().commit();
+            if (manager.getTransaction().isActive()){
+                manager.getTransaction().rollback();
+                manager.close();
+                factory.close();
+            }
         }
 
         return categoryList;

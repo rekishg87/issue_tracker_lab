@@ -15,9 +15,16 @@
                 <th>Category</th>
                 <th>Subject</th>
             </tr>
-            <tr ng-repeat="issue in data">
-                <td ng-repeat="i in issue">{{i}}</td>
+            <tr ng-repeat="issue in data[0]">
+                <td ng-repeat="i in issue" option="">{{ i }}</td>
+                <td>
+                    <button class="btn-sm" ng-click="editIssue(issue)">Edit</button>
+                </td>
+                <td ng-repeat="assignee in data[1]">{{ assignee.name }}
+                </td>
+                <!--<td>{{ data }}</td>-->
             </tr>
+            issue {{ i }}
         </table>
     </div>
 </div>

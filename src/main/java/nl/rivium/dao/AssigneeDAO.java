@@ -5,7 +5,12 @@ import java.util.List;
 
 /**
  * Created by Rekish on 11/13/2015.
+ * Interface for the Assignee class
  */
+
 public interface AssigneeDAO {
-    List<Assignee> getAssigneeList() throws IllegalStateException;
+    /**
+     * Method to retrieve all assignee's from the database as a List<>
+     */
+    List<Assignee> getAssigneeList();
 }

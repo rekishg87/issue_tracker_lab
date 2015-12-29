@@ -30,16 +30,22 @@ angular.module("IssueMod")
             $scope.createIssue = function() {
                 IssueFactory.createIssue($scope.description, $scope.subject, $scope.category, $scope.priority, function(response) {
                     if(response.status === 200) {
-                        $scope.subject = "";
-                        $scope.description = "";
-                        $scope.category = "";
-                        $scope.priority = "";
                        console.log("Issue Created!");
                     } else if(response.status === 403) {
                        console.log("Failed!");
                     }
-                })
+                });
+
             };
+
+            $scope.editIssue = function(issue) {
+                window.location = '#/issue/edit';
+            };
+
+            $scope.updateIssue = function(issue) {
+                $scope.description = issue.description;
+            };
+
 
             $scope.createNewIssue = function() {
                 window.location = '#/issue/new';
