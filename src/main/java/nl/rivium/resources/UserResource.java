@@ -63,11 +63,19 @@ public class UserResource {
 
         // If no valid information is entered, return a bad request (400).
         if(addUser == null) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            String empty = "EMPTY";
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(empty)
+                    .build();
         }
-        // If a dublicate user has been found, return a bad request (400).
+        // If a duplicate user has been found, return a bad request (400).
         else if (addUser.isEmpty()) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            String duplicateUsername = "duplicateUsername";
+            return Response
+                    .status(Response.Status.BAD_REQUEST)
+                    .entity(duplicateUsername)
+                    .build();
         }
         // When an new user has successfully been registered, return a OK (200).
         else {

@@ -8,11 +8,13 @@ angular.module("IssueMod")
 
             console.log("Edit Issue Controller Initialized...");
 
+            // Validate if user has a valid session.
             $scope.checkValidity = function() {
                 console.log("checkValidity() loaded...");
                 ValidationFactory.validate();
             };
 
+            // Edit/Update an issue (DOES NOT WORK YET)
             $scope.updateIssue = function() {
                 IssueFactory.updateIssue($scope.description, $scope.subject, $scope.category, $scope.priority, function(response) {
                     if(response.status === 200) {

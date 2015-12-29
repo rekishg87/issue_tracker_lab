@@ -9,12 +9,12 @@ angular.module("LogoutMod", [])
 
             var service = {};
 
+            // Service to logout the user int the front and as well on the backend.
             service.logoutService = function(sessionId) {
-                var sID = {sessionId: sessionId};
-                $http.post(logoutUrl, sID)
+                var sessionID = {sessionId: sessionId};
+                $http.post(logoutUrl, sessionID)
                     .then(
                     function onSuccess() {
-
                         $localStorage.usernameStr = undefined;
                         $localStorage.sessionIdStorage = undefined;
                         window.location = '#/login';

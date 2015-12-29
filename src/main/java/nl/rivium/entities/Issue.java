@@ -18,8 +18,6 @@ public class Issue {
     private int priorityId;
     private int assigneeId;
 
-    private Assignee assignee;
-
     // No argument Constructor
     public Issue() {
 
@@ -100,15 +98,4 @@ public class Issue {
     public void setAssigneeId(int assigneeId) {
         this.assigneeId = assigneeId;
     }
-
-    @ManyToOne
-    @JoinColumn(name = "ISSUE_IDs")
-    public Assignee getAssignee() {
-        return assignee;
-    }
-
-    public void setAssignee(Assignee assignee) {
-        this.assignee = assignee;
-    }
-
 }

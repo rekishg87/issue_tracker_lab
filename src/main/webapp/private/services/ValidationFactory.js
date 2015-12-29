@@ -30,6 +30,5 @@ angular.module("ValidationMod", [])
                 );
             };
 
-
             return service;
         }]);

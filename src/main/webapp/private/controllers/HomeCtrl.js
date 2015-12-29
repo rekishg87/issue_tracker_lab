@@ -6,13 +6,17 @@ angular.module("HomeMod")
     .controller("HomeController", ['$scope', '$rootScope', '$localStorage', 'ValidationFactory',
         function($scope, $rootScope, $localStorage, ValidationFactory) {
 
+            // If there is no user logged in (there is no data in usernameStr),
+            // set isLoggedIn to false and redirect to the login page.
             if($localStorage.usernameStr == undefined) {
                 console.log("HomeCtrl if SessionStorage: " + $localStorage.usernameStr);
                 console.log("HomeCtrl if sessionData: " + $rootScope.sessionData);
                 console.log("HomeCtrl if SessionStorageId: " + $localStorage.sessionIdStorage);
                 $localStorage.isLoggedIn = false;
                 window.location = '#/login';
-            } else {
+            }
+            // If there is a valid user logged in, set isLoggedIn to true and redirect to the homepage.
+            else {
                 console.log("HomeCtrl else SessionStorageUser: " + $localStorage.usernameStr);
                 $rootScope.sessionData = $localStorage.usernameStr;
                 $rootScope.sessionId = $localStorage.sessionIdStorage;
@@ -22,18 +26,20 @@ angular.module("HomeMod")
                 window.location = '#/home';
             }
 
+            // When the user goes to the homepage it must check if the user is authorized to access the page,
+            // by validating if the user had a valid session.
             $scope.userState = function() {
                 console.log("UserState() loaded...");
                 ValidationFactory.validate();
 
-            if($localStorage.sessionIdStorage == undefined) {
-                $localStorage.isLoggedIn = false;
-                window.location = '#/login';
-            } else {
-                $localStorage.isLoggedIn = true;
+                // If there is no session data stored in the $localStorage of sessionIdStorage,
+                // set isloggedIn to false and redirect to the homepage
+                if($localStorage.sessionIdStorage == undefined) {
+                    $localStorage.isLoggedIn = false;
+                    window.location = '#/login';
+                } else {
+                    $localStorage.isLoggedIn = true;
             }
         };
-
-
 
     }]);

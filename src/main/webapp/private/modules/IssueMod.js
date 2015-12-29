@@ -1,5 +1,6 @@
 /**
  * Created by Rekish on 10/29/2015.
+ * Issue module
  */
 
 angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
@@ -10,6 +11,7 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
         function($http, $location, allIssuesUrl, createIssueUrl, updateIssueUrl) {
             var service = {};
 
+            // Service to get all issues from the backend.
             service.getAllIssues = function(callback) {
 
                 $http.get(allIssuesUrl)
@@ -27,6 +29,7 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
                 );
             };
 
+            // Service to create a new issue and post it to the backend.
             service.createIssue = function(description, subject, category, priority, callback) {
                 var data = {description: description, subject: subject, categoryId: category, priorityId: priority};
                 $http.post(createIssueUrl, data)
@@ -43,6 +46,7 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod'])
                     )
             };
 
+            // Service to edit/update an issue and post it to the backend (DOES NOT WORK YET).
             service.updateIssue = function(description, subject, category, priority, callback) {
                 var data = {description: description, subject: subject, categoryId: category, priorityId: priority};
                 $http.post(updateIssueUrl, data)

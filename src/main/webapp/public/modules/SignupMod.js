@@ -9,6 +9,7 @@ angular.module("SignupMod", [])
 
             var service = {};
 
+            // Service to register for a new user to the backend and database.
             service.signup = function(username, password, email, callback) {
                 var signupData = {
                     username: username,

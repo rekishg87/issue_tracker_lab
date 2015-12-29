@@ -6,6 +6,7 @@ angular.module("LogoutMod")
     .controller("LogoutController", ['$scope', 'LogoutFactory',
         function($scope, LogoutFactory) {
 
+        // Logout user function.
         $scope.logout = function() {
             LogoutFactory.logoutService($scope.sessionId, function(response){
                 if(response.status === 200) {

@@ -8,11 +8,13 @@ angular.module("DatabaseFactory")
 
             console.log("Database Controller Initialized...");
 
+            // Validate if user has a valid session.
             $scope.checkValidity = function() {
                 console.log("checkValidity() loaded...");
                 ValidationFactory.validate();
             };
 
+            // Get all category data and add it to a $localStorage to persist the data.
             $scope.categoryData = function() {
                 IssueDatabase.getCategory(function(response) {
                     if (response.status === 200) {
@@ -25,6 +27,7 @@ angular.module("DatabaseFactory")
                 });
             };
 
+            // Get all priority data and add it to a $localStorage to persist the data.
             $scope.priorityData = function() {
                 IssueDatabase.getPriority(function(response) {
                     if (response.status === 200) {

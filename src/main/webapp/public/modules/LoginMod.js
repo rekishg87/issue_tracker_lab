@@ -9,6 +9,7 @@ angular.module("LoginMod", [])
 
             var service = {};
 
+            // Service to authenticate the user from the backend.
             service.login = function(username, password, callback) {
                 var credentials = {username: username, password: password};
 
