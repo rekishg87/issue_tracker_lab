@@ -8,10 +8,9 @@
     <artifactId>issueTrackerlab</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <name>Issue Tracker Project</name>
-    <description>Issue Tracker</description>
+    <name>Issue Tracker</name>
+    <description>Issue Tracker Project</description>
 
-    <!-- We willen een Web ARchive -->
     <packaging>war</packaging>
 
     <properties>
@@ -53,12 +52,6 @@
             <version>${hibernate.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>${hibernate.version}</version>
-        </dependency>
-
         <!-- Hibernate dependency for connection pooling -->
         <dependency>
             <groupId>c3p0</groupId>
@@ -71,6 +64,7 @@
             <version>5.0.4.Final</version>
         </dependency>
 
+        <!-- Password encryption/decryption dependency for JBCrypt. -->
         <dependency>
             <groupId>org.mindrot</groupId>
             <artifactId>jbcrypt</artifactId>
