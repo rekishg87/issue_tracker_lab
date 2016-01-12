@@ -1,10 +1,11 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Issue;
-import org.hibernate.HibernateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.ejb.EJBException;
 import javax.persistence.*;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,67 +14,59 @@ import java.util.List;
  * Retrieve data from the Issue table in the database
  */
 public class IssueDAOImpl implements IssueDAO {
+    private static final Logger logger = LoggerFactory.getLogger(IssueDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
 
     /**
-     *
      * @return all the issues registered in the database as a List<>
      */
     @Override
     public List<Issue> getAllIssuesList() {
-        List<Issue> issues;
-        List<Issue> assignees;
-        ArrayList allIssues = new ArrayList<>();
+        List<Issue> issueTable;
+        List<Issue> statusTable;
+        ArrayList tables = new ArrayList<>();
+        logger.info("Getting all Issues API Call started");
 
         try {
             manager.getTransaction().begin();
-//            Query query = manager.createQuery
-//                    ("SELECT i.id, p.name, s.name, a.name, i.description, c.name, i.subject " +
-//                            "FROM Issue i, Priority p, Status s, Assignee a, Category c " +
-//                            "WHERE a.id = i.assigneeId " +
-//                            "AND c.id = i.categoryId " +
-//                            "AND s.id = i.statusId " +
-//                            "AND p.id = i.priorityId");
 
-            Query issuesQuery = manager.createQuery
+            Query issueTableQuery = manager.createQuery
                     ("SELECT i FROM Issue i");
-            Query assigneeQuery = manager.createQuery
-                    ("SELECT a FROM Assignee a");
-
+            Query statusTableQuery = manager.createQuery
+                    ("SELECT s FROM Status s");
 
             manager.getTransaction().commit();
-            issues = issuesQuery.getResultList();
-            assignees = assigneeQuery.getResultList();
-            allIssues.add(issues);
-            allIssues.add(assignees);
 
+            issueTable = issueTableQuery.getResultList();
+            statusTable = statusTableQuery.getResultList();
+            tables.add(issueTable);
+            tables.add(statusTable);
 
-        } catch (EJBException ex) {
-            System.out.println("EJBException Catched: ");
-            ex.printStackTrace();
+        } catch (IllegalStateException | RollbackException exception) {
+            logger.error(exception.getMessage());
         } finally {
-            if (manager.getTransaction().isActive()){
+            if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
                 manager.close();
                 factory.close();
             }
         }
 
-        return allIssues;
+        return tables;
     }
 
     /**
-     *
      * @param description of a new issue
-     * @param subject of a new issue
-     * @param categoryId of a new issue
-     * @param priorityId of a new issue
+     * @param subject     of a new issue
+     * @param categoryId  of a new issue
+     * @param priorityId  of a new issue
      * @return nothing because nothing is being retrieved.
      */
     @Override
-    public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId) {
+    public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, Blob screenshot) {
 
+//        byte[] byteFile = new byte[(int) screenshot.length()];
         try {
             manager.getTransaction().begin();
             Issue issue = new Issue();
@@ -83,19 +76,87 @@ public class IssueDAOImpl implements IssueDAO {
             issue.setAssigneeId(1); //For now it has a default, later when finalizing project, it will be set from the client-side
             issue.setPriorityId(priorityId);
             issue.setStatusId(1); //For now it has a default, later when finalizing project, it will be set from the client-side
+            issue.setScreenshot(screenshot);
             manager.persist(issue);
             manager.getTransaction().commit();
 
-        } catch (EJBException ex) {
-            ex.printStackTrace();
+        } catch (IllegalStateException | RollbackException exception) {
+            logger.error(exception.getMessage());
         } finally {
-            if (manager.getTransaction().isActive()){
+            if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
                 manager.close();
                 factory.close();
             }
         }
+        return null;
+    }
 
+    @Override
+    public Issue findIssue(int id) {
+        Issue foundIssue = null;
+
+        try {
+            manager.getTransaction().begin();
+            Query query = manager.createQuery
+                    ("SELECT i from Issue i where i.id = :id");
+            query.setParameter("id", id);
+            foundIssue = (Issue) query.getSingleResult();
+            logger.info("findIssue method: " + foundIssue);
+        } catch (IllegalStateException exception) {
+            logger.error(exception.getMessage());
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+                //manager.close();
+                //factory.close();
+            }
+        }
+        return foundIssue;
+    }
+
+    @Override
+    public List<Issue> updateIssue(int id, String description, String subject, int statusId) {
+        Issue selectedIssue = findIssue(id);
+        logger.info("updateIssue method: " + selectedIssue);
+        try {
+            manager.getTransaction().begin();
+            selectedIssue.setSubject(subject);
+            selectedIssue.setDescription(description);
+            selectedIssue.setStatusId(statusId);
+            manager.merge(selectedIssue);
+            manager.getTransaction().commit();
+        } catch (IllegalArgumentException | TransactionRequiredException |
+                IllegalStateException | RollbackException exception) {
+                    logger.error(exception.getMessage());
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+                manager.close();
+                factory.close();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<Issue> removeIssue(int id) {
+        Issue selectedIssue = findIssue(id);
+        logger.info("removeIssue method: " + selectedIssue);
+        try {
+            manager.getTransaction().begin();
+            manager.remove(manager.contains(selectedIssue) ? selectedIssue : manager.merge(selectedIssue));
+            manager.getTransaction().commit();
+        } catch (IllegalArgumentException | TransactionRequiredException |
+                IllegalStateException | RollbackException exception) {
+                    logger.error(exception.getMessage());
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+                manager.close();
+                factory.close();
+            }
+        }
         return null;
     }
 }

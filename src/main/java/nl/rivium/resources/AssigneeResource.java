@@ -4,7 +4,7 @@ import nl.rivium.dao.AssigneeDAO;
 import nl.rivium.dao.AssigneeDAOImpl;
 import nl.rivium.entities.Assignee;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,9 +20,9 @@ import java.util.List;
  * API Calls that are associated with Assignee.
  */
 
-//Create an instance only once, for the duration of the application,
-// otherwise with each api request it creates a new instance.
-@ApplicationScoped
+// Create an instance only once for every request.
+// Because a second API call should get new data from the database.
+@RequestScoped
 @Path("assignee")
 public class AssigneeResource {
     private final AssigneeDAO ASSIGNEE_DAO = new AssigneeDAOImpl();

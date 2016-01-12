@@ -5,7 +5,7 @@ import javax.ws.rs.core.Application;
 
 /**
  * Created by Rekish on 9/14/2015.
- * // Root path of the application
+ * Root path of the application
  */
 
 @ApplicationPath("api")

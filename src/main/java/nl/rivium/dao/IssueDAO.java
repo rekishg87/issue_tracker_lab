@@ -1,6 +1,8 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Issue;
+
+import java.sql.Blob;
 import java.util.List;
 
 /**
@@ -24,5 +26,29 @@ public interface IssueDAO {
      * @param priorityId of a new issue
      * @return nothing because nothing is being retrieved.
      */
-    List<Issue> createIssue(String description, String subject, int categoryId, int priorityId);
+    List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, Blob screenshot);
+
+    /**
+     *
+     * @param id
+     * @return issueId
+     */
+    Issue findIssue(int id);
+
+    /**
+     *
+     * @param id
+     * @param description
+     * @param subject
+     * @param statusId
+     * @return nothing
+     */
+    List<Issue> updateIssue(int id, String description, String subject, int statusId);
+
+    /**
+     *
+     * @param id
+     * @return nothing
+     */
+    List<Issue> removeIssue(int id);
 }

@@ -1,8 +1,12 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Assignee;
+
 import javax.ejb.EJBException;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.List;
 
 /**

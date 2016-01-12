@@ -4,7 +4,7 @@ import nl.rivium.dao.StatusDAO;
 import nl.rivium.dao.StatusDAOImpl;
 import nl.rivium.entities.Status;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -19,9 +19,9 @@ import java.util.List;
  * API Calls that are associated with Status.
  */
 
-//Create an instance only once, for the duration of the application,
-// otherwise with each api request it creates a new instance
-@ApplicationScoped
+// Create an instance only once for every request.
+// Because a second API call should get new data from the database.
+@RequestScoped
 @Path("status")
 public class StatusResource {
     private final StatusDAO STATUS_DAO = new StatusDAOImpl();

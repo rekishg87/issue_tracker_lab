@@ -32,11 +32,6 @@ angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutM
                 templateUrl: "views/private/newissue.html"
             })
 
-            .when("/issue/edit", {
-                controller: "IssueController",
-                templateUrl: "views/private/editissue.html"
-            })
-
             .when("/assignee", {
                 controller: "DatabaseController",
                 templateUrl: "views/private/assignee.html"

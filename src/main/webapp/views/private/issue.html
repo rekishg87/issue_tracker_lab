@@ -9,22 +9,35 @@
             <tr>
                 <th>ID</th>
                 <th>Priority</th>
-                <th>Status</th>
-                <th>Assignee</th>
-                <th>Description</th>
-                <th>Category</th>
                 <th>Subject</th>
+                <th>Description</th>
+                <th>Assignee</th>
+                <th>Category</th>
+                <th>Status</th>
             </tr>
             <tr ng-repeat="issue in data[0]">
-                <td ng-repeat="i in issue" option="">{{ i }}</td>
                 <td>
-                    <button class="btn-sm" ng-click="editIssue(issue)">Edit</button>
+                   <span editable-select="issue.statusId" e-name="status" e-form="rowform" e-ng-options="s.id as s.name for s in status">
+                        {{ showStatus(issue) }}
+                   </span>
                 </td>
-                <td ng-repeat="assignee in data[1]">{{ assignee.name }}
+                <td style="white-space: nowrap">
+                    <!-- form -->
+                    <form editable-form name="rowform" onbeforesave="updateIssue($data, issue.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == issue">
+                        <button type="submit" ng-click="" ng-disabled="rowform.$waiting" class="btn btn-primary">
+                            save
+                        </button>
+                        <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-default">
+                            cancel
+                        </button>
+                    </form>
+
+                    <div class="buttons" ng-show="!rowform.$visible">
+                        <button class="btn btn-primary" ng-click="rowform.$show()">edit</button>
+                        <button class="btn btn-danger" ng-click="removeIssue(issue.id)">del</button>
+                    </div>
                 </td>
-                <!--<td>{{ data }}</td>-->
             </tr>
-            issue {{ i }}
         </table>
     </div>
 </div>

@@ -3,7 +3,8 @@ package nl.rivium.resources;
 import nl.rivium.dao.IssueDAO;
 import nl.rivium.dao.IssueDAOImpl;
 import nl.rivium.entities.Issue;
-import javax.enterprise.context.ApplicationScoped;
+
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -16,9 +17,9 @@ import java.util.List;
  * API Calls that are associated with Issue.
  */
 
-//Create an instance only once, for the duration of the application,
-// otherwise with each api request it creates a new instance
-@ApplicationScoped
+// Create an instance only once for every request.
+// Because a second API call should get new data from the database.
+@RequestScoped
 @Path("issues")
 public class IssueResource {
     private final IssueDAO ISSUE_DAO = new IssueDAOImpl();
@@ -48,7 +49,38 @@ public class IssueResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createIssue(Issue input) {
         final List<Issue> issues = ISSUE_DAO.createIssue
-                (input.getDescription(), input.getSubject(), input.getCategoryId(), input.getPriorityId());
+                (input.getDescription(), input.getSubject(), input.getCategoryId(), input.getPriorityId(), input.getScreenshot());
+
+        // When there is a valid session without creating a new session, the api call can be accessed.
+        if (request.getSession(false) != null) {
+            return Response.ok(issues).build();
+        } else { // No valid session, so no user is logged in or session became invalid.
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+    }
+
+    @POST
+    @Path("update")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateIssue(Issue input) {
+        final List<Issue> issues = ISSUE_DAO.updateIssue(
+               input.getId(), input.getDescription(), input.getSubject(), input.getStatusId());
+
+        // When there is a valid session without creating a new session, the api call can be accessed.
+        if (request.getSession(false) != null) {
+            return Response.ok(issues).build();
+        } else { // No valid session, so no user is logged in or session became invalid.
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+    }
+
+    @POST
+    @Path("remove")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response removeIssue(Issue input) {
+        final List<Issue> issues = ISSUE_DAO.removeIssue(input.getId());
 
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {

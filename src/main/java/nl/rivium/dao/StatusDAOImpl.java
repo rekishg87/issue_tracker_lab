@@ -1,10 +1,12 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Status;
-import org.hibernate.HibernateException;
 
 import javax.ejb.EJBException;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import java.util.List;
 
 /**

@@ -1,6 +1,7 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Priority;
+
 import java.util.List;
 
 /**

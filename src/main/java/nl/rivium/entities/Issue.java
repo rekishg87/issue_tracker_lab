@@ -1,6 +1,8 @@
 package nl.rivium.entities;
 
 import javax.persistence.*;
+import java.sql.Blob;
+
 
 /**
  * Created by Rekish on 9/14/2015.
@@ -17,14 +19,16 @@ public class Issue {
     private int statusId;
     private int priorityId;
     private int assigneeId;
+    private Blob screenshot;
 
     // No argument Constructor
     public Issue() {
 
     }
 
+    // Constructor
     public Issue(int id, int categoryId, String subject, String description,
-                 int statusId, int priorityId, int assigneeId) {
+                 int statusId, int priorityId, int assigneeId, Blob screenshot) {
         this.id = id;
         this.categoryId = categoryId;
         this.subject = subject;
@@ -32,6 +36,7 @@ public class Issue {
         this.statusId = statusId;
         this.priorityId = priorityId;
         this.assigneeId = assigneeId;
+        this.screenshot = screenshot;
     }
 
     @Id
@@ -97,5 +102,15 @@ public class Issue {
 
     public void setAssigneeId(int assigneeId) {
         this.assigneeId = assigneeId;
+    }
+
+    @Basic(fetch = FetchType.LAZY)
+    @Lob @Column(name="SCREENSHOT")
+    public Blob getScreenshot()  {
+        return screenshot;
+    }
+
+    public void setScreenshot(Blob screenshot) {
+        this.screenshot = screenshot;
     }
 }

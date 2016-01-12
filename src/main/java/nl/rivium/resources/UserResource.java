@@ -4,7 +4,7 @@ import nl.rivium.dao.UserDAO;
 import nl.rivium.dao.UserDAOImpl;
 import nl.rivium.entities.User;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -16,9 +16,9 @@ import javax.ws.rs.core.Response;
  * API Calls that are associated with User.
  */
 
-//Create an instance only once, for the duration of the application,
-// otherwise with each api request it creates a new instance
-@ApplicationScoped
+// Create an instance only once for every request.
+// Because a second API call should get new data from the database.
+@RequestScoped
 @Path("user")
 public class UserResource {
     private final UserDAO USER_DAO = new UserDAOImpl();
