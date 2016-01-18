@@ -90,7 +90,7 @@ public class UserDAOImpl implements UserDAO {
                         ("SELECT u.username FROM User u where u.username = :username");
 
                 query.setParameter("username", username);
-                manager.getTransaction().commit();
+
                 listUsers = query.getResultList();
 
                 if(!listUsers.isEmpty()) {
@@ -104,6 +104,7 @@ public class UserDAOImpl implements UserDAO {
                     user.setEmail(email);
                     user.setRoles_id(2); // Default value for the User group when a new user registers.
                     manager.persist(user);
+                    manager.getTransaction().commit();
                     addedUsername = username;
                 }
 
