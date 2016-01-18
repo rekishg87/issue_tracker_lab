@@ -68,7 +68,6 @@
                         <option ng-repeat="priority in priorityDataScope" value="{{ priority.id }}">{{ priority.name }}</option>
                     </select>
                     <div class="box">
-                        <input type = "file" file-model = "myFile"/>
                         <button class="button-primary" ng-controller="IssueController"
                                 ng-click="createIssue()">Create</button>
                     </div>

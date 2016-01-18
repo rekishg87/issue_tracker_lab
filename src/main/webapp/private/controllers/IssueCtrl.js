@@ -7,12 +7,12 @@ angular.module("IssueMod")
         function($scope, $filter, $rootScope, $localStorage, ValidationFactory, IssueFactory, LogoutFactory) {
 
             console.log("Issue Controller Initialized...");
-            // Check if the File API is supported by the browser.
-            if (window.File && window.FileReader && window.FileList && window.Blob) {
-                //alert('Great success! All the File APIs are supported.');
-            } else {
-                alert('The File APIs are not fully supported in this browser.');
-            }
+            //// Check if the File API is supported by the browser.
+            //if (window.File && window.FileReader && window.FileList && window.Blob) {
+            //    //alert('Great success! All the File APIs are supported.');
+            //} else {
+            //    alert('The File APIs are not fully supported in this browser.');
+            //}
 
             // Initialize $scope.data where the issue response data will be stored in.
             $scope.data = {};
@@ -29,9 +29,23 @@ angular.module("IssueMod")
                     if (response.status === 200) {
                         // In the response.data the
                         // data[0] index has the issues table,
-                        // data[1] index has the status table.
+                        // data[1] index has the priority table.
+                        // data[2] index has the assignee table.
+                        // data[3] index has the category table.
+                        // data[4] index has the status table.
                         $scope.data = response.data;
-                        $scope.status = $scope.data[1];
+                        $scope.issue = $scope.data[0];
+                        $scope.priority = $scope.data[1];
+                        $scope.assignee = $scope.data[2];
+                        $scope.category = $scope.data[3];
+                        $scope.status = $scope.data[4];
+
+                        // Get DateTime from Database as Epoch format and convert it toLocalString(),
+                        // so that it can be a human readable DateTime format.
+                        for(var x = 0; x < $scope.data[0].length; x++) {
+                            $scope.data[0].issueCreatedOn = {};
+                            $scope.data[0][x].issueCreatedOn = new Date($scope.data[0][x].issueCreatedOn).toLocaleString();
+                        }
 
                         // Purely for logging purposes, to log which issue is edited and
                         // which new value is being set for the field that is being edited.
@@ -47,16 +61,9 @@ angular.module("IssueMod")
                 })
             };
 
-            // Function to create a new issue. (The added function to upload a file is not fully working yet!!!)
-            $scope.createIssue = function(opt_startByte, opt_stopByte) {
-                var start = parseInt(opt_startByte) || 0;
-                var stop = parseInt(opt_stopByte) || $scope.myFile.size - 1;
-                var blob = $scope.myFile.slice(start, stop + 1);
-
-                var reader = new FileReader();
-                reader.readAsBinaryString(blob);
-                console.log("FileReader: " + reader);
-                IssueFactory.createIssue($scope.description, $scope.subject, $scope.category, $scope.priority, blob, function(response) {
+            // Function to create a new issue.
+            $scope.createIssue = function() {
+                IssueFactory.createIssue($scope.description, $scope.subject, $scope.category, $scope.priority, $rootScope.usernameData, function(response) {
                     if(response.status === 200) {
                         window.location = '#/issue';
                         alert('Issue created!');
@@ -70,7 +77,7 @@ angular.module("IssueMod")
 
             // Function to edit/update an issue.
             $scope.updateIssue = function(data, issueId) {
-                IssueFactory.updateIssue(issueId, data.status, function(response) {
+                IssueFactory.updateIssue(issueId, data.priority, data.subject, data.description, data.assignee, data.category, data.status, function(response) {
                     if (response.status === 200) {
                         console.log("Updated!");
                     } else if (response.status === 403) {
@@ -86,6 +93,7 @@ angular.module("IssueMod")
                 window.location = '#/issue/new';
             };
 
+            // Remove an issue
             $scope.removeIssue = function (issueId) {
                 IssueFactory.removeIssue(issueId, function(response) {
                     if (response.status === 200) {
@@ -98,6 +106,38 @@ angular.module("IssueMod")
                 });
             };
 
+            // The following show* functions, display the data in the select boxes,
+            // with the corresponding data from the database.
+            $scope.showPriority = function(issue) {
+                var selected = [];
+                if (issue.priorityId) {
+                    selected = $filter('filter')($scope.priority, {
+                        id: issue.priorityId
+                    });
+                }
+                return selected.length ? selected[0].name : 'Not set';
+            };
+
+            $scope.showAssignee = function(issue) {
+                var selected = [];
+                if (issue.assigneeId) {
+                    selected = $filter('filter')($scope.assignee, {
+                        id: issue.assigneeId
+                    });
+                }
+                return selected.length ? selected[0].name : 'Not set';
+            };
+
+            $scope.showCategory = function(issue) {
+                var selected = [];
+                if (issue.categoryId) {
+                    selected = $filter('filter')($scope.category, {
+                        id: issue.categoryId
+                    });
+                }
+                return selected.length ? selected[0].name : 'Not set';
+            };
+
             $scope.showStatus = function(issue) {
                 var selected = [];
                 if (issue.statusId) {
@@ -107,12 +147,4 @@ angular.module("IssueMod")
                 }
                 return selected.length ? selected[0].name : 'Not set';
             };
-
-            $scope.uploadFile = function(){
-                var file = $scope.myFile;
-                console.log('file is ' );
-                console.dir(file);
-
-            };
-
     }]);

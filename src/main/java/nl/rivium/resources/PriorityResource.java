@@ -4,7 +4,7 @@ import nl.rivium.dao.PriorityDAO;
 import nl.rivium.dao.PriorityDAOImpl;
 import nl.rivium.entities.Priority;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,7 +21,7 @@ import java.util.List;
 
 // Create an instance only once for every request.
 // Because a second API call should get new data from the database.
-@RequestScoped
+@ApplicationScoped
 @Path("priority")
 public class PriorityResource {
     private final PriorityDAO PRIORITY_DAO = new PriorityDAOImpl();

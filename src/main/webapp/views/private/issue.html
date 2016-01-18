@@ -14,12 +14,48 @@
                 <th>Assignee</th>
                 <th>Category</th>
                 <th>Status</th>
+                <th>Created By</th>
+                <th>Issue created on</th>
             </tr>
             <tr ng-repeat="issue in data[0]">
                 <td>
-                   <span editable-select="issue.statusId" e-name="status" e-form="rowform" e-ng-options="s.id as s.name for s in status">
+                    {{ issue.id }}
+                </td>
+                <td>
+                    <span editable-select="issue.priorityId" e-name="priority" e-form="rowform" e-ng-options="p.id as p.name for p in priority">
+                        {{ showPriority(issue) }}
+                   </span>
+                </td>
+                <td>
+                    <span editable-text="issue.subject" e-name="subject" e-form="rowform">
+                        {{ issue.subject }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-text="issue.description" e-name="description" e-form="rowform">
+                        {{ issue.description }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-select="issue.assigneeId" e-name="assignee" e-form="rowform" e-ng-options="a.id as a.name for a in assignee">
+                        {{ showAssignee(issue) }}
+                   </span>
+                </td>
+                <td>
+                    <span editable-select="issue.categoryId" e-name="category" e-form="rowform" e-ng-options="c.id as c.name for c in category">
+                            {{ showCategory(issue) }}
+                    </span>
+                </td>
+                <td>
+                    <span editable-select="issue.statusId" e-name="status" e-form="rowform" e-ng-options="s.id as s.name for s in status">
                         {{ showStatus(issue) }}
                    </span>
+                </td>
+                <td>
+                    {{ issue.createdBy }}
+                </td>
+                <td>
+                    {{ issue.issueCreatedOn }}
                 </td>
                 <td style="white-space: nowrap">
                     <!-- form -->

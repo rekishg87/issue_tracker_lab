@@ -14,21 +14,6 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
     .constant("createIssueUrl", "api/issues/create")
     .constant("updateIssueUrl", "api/issues/update")
     .constant("removeIssueUrl", "api/issues/remove")
-    .directive('fileModel', ['$parse', function ($parse) {
-        return {
-            restrict: 'A',
-            link: function(scope, element, attrs) {
-                var model = $parse(attrs.fileModel);
-                var modelSetter = model.assign;
-
-                element.bind('change', function(){
-                    scope.$apply(function(){
-                        modelSetter(scope, element[0].files[0]);
-                    });
-                });
-            }
-        };
-    }])
     .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl', 'createIssueUrl', 'updateIssueUrl', 'removeIssueUrl',
         function($http, $location, allIssuesUrl, createIssueUrl, updateIssueUrl, removeIssueUrl) {
             var service = {};
@@ -51,14 +36,14 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
                 );
             };
 
-            // Service to create a new issue and post it to the backend (UPLOADING SCREENSHOT DOES NOT WORK).
-            service.createIssue = function(description, subject, category, priority, blob, callback) {
+            // Service to create a new issue and post it to the backend.
+            service.createIssue = function(description, subject, category, priority, usernameData, callback) {
                 var data = {
                     description: description,
                     subject: subject,
                     categoryId: category,
                     priorityId: priority,
-                    screenshot: blob
+                    createdBy: usernameData
                 };
                 $http.post(createIssueUrl, data)
                     .then(
@@ -74,10 +59,15 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
                     )
             };
 
-            // Service to edit/update an issue and post it to the backend (NOT COMPLETED YET).
-            service.updateIssue = function(issueId, status, callback) {
+            // Service to edit/update an issue and post it to the backend.
+            service.updateIssue = function(issueId, priority, subject, description, assignee, category, status, callback) {
                 var data = {
                     id: issueId,
+                    priorityId: priority,
+                    subject: subject,
+                    description: description,
+                    assigneeId: assignee,
+                    categoryId: category,
                     statusId: status
                 };
                 $http.post(updateIssueUrl, data)

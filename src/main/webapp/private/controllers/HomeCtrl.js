@@ -10,7 +10,7 @@ angular.module("HomeMod")
             // set isLoggedIn to false and redirect to the login page.
             if($localStorage.usernameStr == undefined) {
                 console.log("HomeCtrl if SessionStorage: " + $localStorage.usernameStr);
-                console.log("HomeCtrl if sessionData: " + $rootScope.sessionData);
+                console.log("HomeCtrl if usernameData: " + $rootScope.usernameData);
                 console.log("HomeCtrl if SessionStorageId: " + $localStorage.sessionIdStorage);
                 $localStorage.isLoggedIn = false;
                 window.location = '#/login';
@@ -18,10 +18,10 @@ angular.module("HomeMod")
             // If there is a valid user logged in, set isLoggedIn to true and redirect to the homepage.
             else {
                 console.log("HomeCtrl else SessionStorageUser: " + $localStorage.usernameStr);
-                $rootScope.sessionData = $localStorage.usernameStr;
+                $rootScope.usernameData = $localStorage.usernameStr;
                 $rootScope.sessionId = $localStorage.sessionIdStorage;
                 $localStorage.isLoggedIn = true;
-                console.log("HomeCtrl else sessionData: " + $rootScope.sessionData);
+                console.log("HomeCtrl else usernameData: " + $rootScope.usernameData);
                 console.log("HomeCtrl else SessionStorageId: " + $localStorage.sessionIdStorage);
                 window.location = '#/home';
             }

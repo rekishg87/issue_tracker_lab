@@ -47,9 +47,9 @@ public class IssueResource {
     @Path("create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response createIssue(Issue input) {
+    public Response createIssue(Issue input ) {
         final List<Issue> issues = ISSUE_DAO.createIssue
-                (input.getDescription(), input.getSubject(), input.getCategoryId(), input.getPriorityId(), input.getScreenshot());
+                (input.getDescription(), input.getSubject(), input.getCategoryId(), input.getPriorityId(), input.getCreatedBy());
 
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
@@ -65,7 +65,7 @@ public class IssueResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateIssue(Issue input) {
         final List<Issue> issues = ISSUE_DAO.updateIssue(
-               input.getId(), input.getDescription(), input.getSubject(), input.getStatusId());
+               input.getId(), input.getPriorityId(), input.getSubject(), input.getDescription(), input.getAssigneeId(), input.getCategoryId(), input.getStatusId());
 
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {

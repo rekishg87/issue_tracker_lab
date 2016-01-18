@@ -1,8 +1,6 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Issue;
-
-import java.sql.Blob;
 import java.util.List;
 
 /**
@@ -24,31 +22,36 @@ public interface IssueDAO {
      * @param subject of a new issue
      * @param categoryId of a new issue
      * @param priorityId of a new issue
+     * @param username of the user that is logged in and created the issue.
      * @return nothing because nothing is being retrieved.
      */
-    List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, Blob screenshot);
+    List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, String username);
 
     /**
      *
-     * @param id
-     * @return issueId
+     * @param id to be searched for in the database.
+     * @return the issueId that needs to be updated or removed.
      */
     Issue findIssue(int id);
 
     /**
      *
-     * @param id
-     * @param description
-     * @param subject
-     * @param statusId
-     * @return nothing
+     * @param id of the issue to be updated.
+     * @param priorityId of the issue to be updated.
+     * @param subject of the issue to be updated.
+     * @param description of the issue to be updated.
+     * @param assigneeId of the issue to be updated.
+     * @param categoryId of the issue to be updated.
+     * @param statusId of the issue to be updated.
+     * @return nothing, data is only being updated.
      */
-    List<Issue> updateIssue(int id, String description, String subject, int statusId);
+    List<Issue> updateIssue(int id, int priorityId, String subject, String description, int assigneeId, int categoryId, int statusId);
 
     /**
      *
-     * @param id
-     * @return nothing
+     * @param id of the issue to be removed.
+     * @return nothing, issue is being removed.
      */
     List<Issue> removeIssue(int id);
+
 }

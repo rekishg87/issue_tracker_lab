@@ -2,6 +2,7 @@ package nl.rivium.entities;
 
 import javax.persistence.*;
 import java.sql.Blob;
+import java.util.Date;
 
 
 /**
@@ -19,6 +20,8 @@ public class Issue {
     private int statusId;
     private int priorityId;
     private int assigneeId;
+    private String createdBy;
+    private Date issueCreatedOn;
     private Blob screenshot;
 
     // No argument Constructor
@@ -28,7 +31,7 @@ public class Issue {
 
     // Constructor
     public Issue(int id, int categoryId, String subject, String description,
-                 int statusId, int priorityId, int assigneeId, Blob screenshot) {
+                 int statusId, int priorityId, int assigneeId, String createdBy, Date issueCreatedOn, Blob screenshot) {
         this.id = id;
         this.categoryId = categoryId;
         this.subject = subject;
@@ -36,6 +39,8 @@ public class Issue {
         this.statusId = statusId;
         this.priorityId = priorityId;
         this.assigneeId = assigneeId;
+        this.createdBy = createdBy;
+        this.issueCreatedOn = issueCreatedOn;
         this.screenshot = screenshot;
     }
 
@@ -104,13 +109,21 @@ public class Issue {
         this.assigneeId = assigneeId;
     }
 
-    @Basic(fetch = FetchType.LAZY)
-    @Lob @Column(name="SCREENSHOT")
-    public Blob getScreenshot()  {
-        return screenshot;
+    @Column(name = "CREATED_BY")
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setScreenshot(Blob screenshot) {
-        this.screenshot = screenshot;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @Column(name = "DATE_CREATED")
+    public Date getIssueCreatedOn() {
+        return issueCreatedOn;
+    }
+
+    public void setIssueCreatedOn(Date issueCreatedOn) {
+        this.issueCreatedOn = issueCreatedOn;
     }
 }

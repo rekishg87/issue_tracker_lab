@@ -38,6 +38,6 @@ angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutM
             })
 
             .otherwise({
-                redirectTo: "/home"
+                redirectTo: "/login"
             })
     }]);

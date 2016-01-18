@@ -6,20 +6,17 @@ angular.module("LoginMod")
     .controller("LoginController", ['$scope', '$rootScope', '$localStorage', '$cookies', 'LoginFactory',
         function($scope, $rootScope, $localStorage, $cookies, LoginFactory) {
 
-            $rootScope.isUserLoggedIn = false;
-            $localStorage.isUserLoggedInStr = $rootScope.isUserLoggedIn;
+
 
             // When there is no data in the sessionIdStorage, stay at the login page.
             if($localStorage.sessionIdStorage == undefined) {
-                console.log("LoginCtrl if SessionStorageUser: " + $localStorage.usernameStr);
-                console.log("LoginCtrl if sessionData: " + $rootScope.sessionData);
-                console.log("LoginCtrl if SessionStorageId: " + $localStorage.sessionIdStorage);
                 $rootScope.isUserLoggedIn = false;
+                $localStorage.isUserLoggedInStr = $rootScope.isUserLoggedIn;
             }
             // If a user tries to go to the login page while logged in, redirect to the homepage.
             else if($localStorage.sessionIdStorage == $cookies.get("JSESSIONID")) {
                 console.log("LoginCtrl else SessionStorageUser: " + $localStorage.usernameStr);
-                console.log("LoginCtrl else sessionData: " + $rootScope.sessionData);
+                console.log("LoginCtrl else usernameData: " + $rootScope.usernameData);
                 console.log("LoginCtrl else SessionStorageId: " + $localStorage.sessionIdStorage);
                 $rootScope.isUserLoggedIn = true;
                 window.location = '#/home';
@@ -37,7 +34,7 @@ angular.module("LoginMod")
                     if(response.status === 200) {
                         $rootScope.isUserLoggedIn = true;
                         $localStorage.usernameStr = $scope.username;
-                        $rootScope.sessionData = $localStorage.usernameStr;
+                        $rootScope.usernameData = $localStorage.usernameStr;
                         $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
                         $rootScope.sessionId = $localStorage.sessionIdStorage;
                         window.location = '#/home';
