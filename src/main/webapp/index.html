@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <title>Issue Tracker LAB</title>
     <!--STYLES-->
-    <link rel="stylesheet" href="vendor/styles/bootstrap.min.css"/>
-    <link rel="stylesheet" href="vendor/styles/foundation.css"/>
-    <link rel="stylesheet" href="vendor/styles/xeditable.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/styles/foundation.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/styles/xeditable.css"/>
+    <link rel="stylesheet" type="text/css" href="vendor/styles/angular-toastr.css"/>
+    <link rel="stylesheet" type="text/css" href="views/styles/custom.css"/>
     <!--STYLES END-->
 </head>
 <body>
@@ -35,29 +37,34 @@
     </nav>
     <div ng-view></div>
 
-    <!--SCRIPTS-->
-    <script src="vendor/jquery.js"></script>
-    <script src="vendor/bootstrap.min.js"></script>
-    <script src="vendor/foundation.js"></script>
-    <script src="vendor/angular_1.4.6.js"></script>
-    <script src="vendor/angular-route.min.js"></script>
-    <script src="vendor/angular-cookies.js"></script>
-    <script src="vendor/xeditable.js"></script>
-    <script src="vendor/ngStorage.js"></script>
-    <script src="app.js"></script>
-    <script src="private/services/ValidationFactory.js"></script>
-    <script src="private/services/DatabaseFactory.js"></script>
-    <script src="public/modules/LoginMod.js"></script>
-    <script src="public/modules/SignupMod.js"></script>
-    <script src="private/modules/HomeMod.js"></script>
-    <script src="private/modules/IssueMod.js"></script>
-    <script src="private/modules/LogoutMod.js"></script>
-    <script src="public/controllers/LoginCtrl.js"></script>
-    <script src="private/controllers/IssueCtrl.js"></script>
-    <script src="public/controllers/SignupCtrl.js"></script>
-    <script src="private/controllers/HomeCtrl.js"></script>
-    <script src="private/controllers/LogoutCtrl.js"></script>
-    <script src="private/controllers/DatabaseCtrl.js"></script>
-    <!--SCRIPTS END-->
+    <!--SCRIPTS VENDOR-->
+    <script type="text/javascript" src="vendor/jquery.js"></script>
+    <script type="text/javascript" src="vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="vendor/foundation.js"></script>
+    <script type="text/javascript" src="vendor/angular_1.4.6.js"></script>
+    <script type="text/javascript" src="vendor/angular-route.min.js"></script>
+    <script type="text/javascript" src="vendor/angular-cookies.js"></script>
+    <script type="text/javascript" src="vendor/xeditable.js"></script>
+    <script type="text/javascript" src="vendor/ngStorage.js"></script>
+    <script type="text/javascript" src="vendor/angular-toastr.tpls.js"></script>
+    <script type="text/javascript" src="vendor/angular-animate.js"></script>
+    <!-- END SCRIPTS VENDOR -->
+
+    <!-- SCRIPTS APPLICATION -->
+    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="private/services/ValidationFactory.js"></script>
+    <script type="text/javascript" src="private/services/DatabaseFactory.js"></script>
+    <script type="text/javascript" src="public/modules/LoginMod.js"></script>
+    <script type="text/javascript" src="public/modules/SignupMod.js"></script>
+    <script type="text/javascript" src="private/modules/HomeMod.js"></script>
+    <script type="text/javascript" src="private/modules/IssueMod.js"></script>
+    <script type="text/javascript" src="private/modules/LogoutMod.js"></script>
+    <script type="text/javascript" src="public/controllers/LoginCtrl.js"></script>
+    <script type="text/javascript" src="private/controllers/IssueCtrl.js"></script>
+    <script type="text/javascript" src="public/controllers/SignupCtrl.js"></script>
+    <script type="text/javascript" src="private/controllers/HomeCtrl.js"></script>
+    <script type="text/javascript" src="private/controllers/LogoutCtrl.js"></script>
+    <script type="text/javascript" src="private/controllers/DatabaseCtrl.js"></script>
+    <!--END SCRIPTS APPLICATION-->
 </body>
 </html>

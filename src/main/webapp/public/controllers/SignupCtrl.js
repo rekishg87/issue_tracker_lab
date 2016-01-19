@@ -3,8 +3,8 @@
  */
 
 angular.module("SignupMod")
-    .controller("SignupController", ['$scope', '$rootScope', '$localStorage', 'SignupFactory',
-            function($scope, $rootScope, $localStorage, SignupFactory) {
+    .controller("SignupController", ['$scope', '$rootScope', '$localStorage', 'SignupFactory', 'toastr',
+            function($scope, $rootScope, $localStorage, SignupFactory, toastr) {
 
         if($rootScope.isUserLoggedIn == false) {
             // Stay on the page, because there is no user logged in and the guest can register to get access to the application.
@@ -22,11 +22,12 @@ angular.module("SignupMod")
                 SignupFactory.signup($scope.username, $scope.password, $scope.email, function (response) {
                     // If all information is valid, redirect to the login page after registration.
                     if (response.status === 200) {
-                        alert($scope.username + " registered successfully.");
+                        toastr.success($scope.username + " registered successfully.");
                         window.location = '#/login';
 
                     } else if (response.status === 400) {
-                        $scope.showUserExistsMsg = true;
+                        toastr.error("User already exists, please try again.");
+                        //$scope.showUserExistsMsg = true;
                     }
                 })
             }

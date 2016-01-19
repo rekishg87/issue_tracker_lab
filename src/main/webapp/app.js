@@ -2,8 +2,19 @@
  * Created by Rekish on 9/24/2015.
  */
 
-angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutMod", "IssueMod",
+angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutMod", "IssueMod", 'ngAnimate', 'toastr',
     "SignupMod", "ngRoute", "ngCookies", "ngStorage", "DatabaseFactory"])
+    // Toastr Configuration
+    .config(function(toastrConfig) {
+        angular.extend(toastrConfig, {
+            positionClass: 'toast-top-center',
+            preventDuplicates: true,
+            preventOpenDuplicates: false,
+            progressBar: true,
+            tapToDismiss: true,
+            timeOut: 4000
+        });
+    })
     .config(['$routeProvider', function($routeProvider) {
 
         $routeProvider
