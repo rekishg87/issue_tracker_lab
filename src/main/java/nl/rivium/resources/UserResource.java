@@ -1,7 +1,10 @@
 package nl.rivium.resources;
 
+import nl.rivium.dao.RolesDAO;
+import nl.rivium.dao.RolesDAOImpl;
 import nl.rivium.dao.UserDAO;
 import nl.rivium.dao.UserDAOImpl;
+import nl.rivium.entities.Roles;
 import nl.rivium.entities.User;
 
 import javax.enterprise.context.RequestScoped;
@@ -22,19 +25,21 @@ import javax.ws.rs.core.Response;
 @Path("user")
 public class UserResource {
     private final UserDAO USER_DAO = new UserDAOImpl();
+    private final RolesDAO ROLES_DAO = new RolesDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Context.
     @Context
     //static because the HttpServletRequest should be available throughout the whole class.
     static HttpServletRequest request;
 
-    // Authenticate user with a username and password
+    // Authenticate user with a username and password and return the user role.
     @POST
     @Path("login")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response authenticate (User input) {
+    public Response authenticate (User input, Roles roles) {
         final boolean userFound = USER_DAO.authenticate(input.getUsername(), input.getPassword());
+        final int userRole = ROLES_DAO.userAccess(input.getUsername());
 
         if(userFound) {
             // When a valid user is found and no new session is being created and there is no session.
@@ -47,7 +52,10 @@ public class UserResource {
                 request.getSession().invalidate();
                 request.getSession(true);
             }
-            return Response.status(Response.Status.OK).build();
+            // If user entered correct credentials, return status 200 and the user role int;
+            return Response.status(Response.Status.OK)
+                    .entity(userRole)
+                    .build();
         } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }

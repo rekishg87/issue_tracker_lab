@@ -2,7 +2,6 @@ package nl.rivium.dao;
 
 import nl.rivium.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
-
 import javax.ejb.EJBException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
