@@ -7,28 +7,48 @@
                         UserAuth
                     </h2>
                     <p class="text-center">Please log in or create an account</p>
-                    <form name="">
+                    <form name="loginForm" ng-submit="login()" novalidate> <!-- novalidate prevents HTML5 validation since the validating will be done here -->
+
+                        <!-- USERNAME FIELD -->
                         <div class="row">
-                            <div class="large-12 columns">
-                                <input ng-model="username" type="text"
-                                       id="inputUsername" placeholder="Username...">
+                            <div class="large-12 columns"
+                                 ng-class="{ 'has-error' : loginForm.username.$invalid &&
+                                    !loginForm.username.$pristine }">
+                                <input type="text" name="username" placeholder="Username..."
+                                       ng-model="username" ng-minlength="3" ng-maxlength="10" required>
+                                <p ng-show="loginForm.username.$error.minlength"
+                                   class="help-block">Username is too short min 3.</p>
+                                <p ng-show="loginForm.username.$error.maxlength"
+                                   class="help-block">Username is too long, max 10.</p>
                             </div>
                         </div>
+
+                        <!-- PASSWORD FIELD -->
                         <div class="row">
-                            <div class="large-12 columns">
-                                <input ng-model="password" type="password"
-                                       id="inputPassword" placeholder="Password...">
+                            <div class="large-12 columns"
+                                 ng-class="{ 'has-error' : loginForm.password.$invalid &&
+                                    !loginForm.password.$pristine }">
+                                <input type="password" name="password" placeholder="Password..."
+                                       ng-model="password" ng-minlength="3" ng-maxlength="10" required>
+                                <p ng-show="loginForm.password.$error.minlength"
+                                   class="help-block">Password is too short min 3.</p>
+                                <p ng-show="loginForm.password.$error.maxlength"
+                                   class="help-block">Password is too long, max 10.</p>
                             </div>
                         </div>
+
+                        <!-- BUTTONS -->
                         <div class="row">
                             <div class="large-5 columns">
-                                <button class="button expand" ng-click="login()">Login</button>
+                                <button type="submit" class="button expand" ng-disabled="loginForm.$invalid">Login</button>
                             </div>
                             <div class="large-7 columns">
                                 <button class="button expand" ng-click="signup()">Create Account</button>
                             </div>
                         </div>
                     </form>
+                    <!-- END LOGIN FORM -->
+
                 </div>
             </div>
         </div>

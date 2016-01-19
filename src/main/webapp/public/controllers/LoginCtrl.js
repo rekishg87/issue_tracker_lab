@@ -22,28 +22,30 @@ angular.module("LoginMod")
 
             // Login user function.
             $scope.login = function() {
-                LoginFactory.login($scope.username, $scope.password, function (response) {
-                    // If the user successfully logs in, set the isUserLoggedIn to true,
-                    // the $localStorage.usernameStr to the username that is logged in,
-                    // the $localStorage.sessionIdStorage to the cookie value obtained from the response data from the backend
-                    // with the appropriate $rootScopes data.
-                    // The $localStorage is used because the data must be persisted when the user refreshes or goes to another page.
-                    // The $rootScope is used to display the data on the web page.
-                    if (response.status === 200) {
-                        $rootScope.userRole = response.data; // Set userRole to $rootScope so it will available in the whole application.
-                        $rootScope.isUserLoggedIn = true;
-                        $localStorage.usernameStr = $scope.username;
-                        $rootScope.usernameData = $localStorage.usernameStr;
-                        $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
-                        $rootScope.sessionId = $localStorage.sessionIdStorage;
-                        window.location = '#/home';
-                    } else if (response.status === 403) {
-                        $scope.usernameFailed = $scope.username;
-                        $rootScope.isUserLoggedIn = false;
-                        $scope.showFailedMsg = true;
+                if ($scope.loginForm.$valid) {
+                    LoginFactory.login($scope.username, $scope.password, function (response) {
+                        // If the user successfully logs in, set the isUserLoggedIn to true,
+                        // the $localStorage.usernameStr to the username that is logged in,
+                        // the $localStorage.sessionIdStorage to the cookie value obtained from the response data from the backend
+                        // with the appropriate $rootScopes data.
+                        // The $localStorage is used because the data must be persisted when the user refreshes or goes to another page.
+                        // The $rootScope is used to display the data on the web page.
+                        if (response.status === 200) {
+                            $rootScope.userRole = response.data; // Set userRole to $rootScope so it will available in the whole application.
+                            $rootScope.isUserLoggedIn = true;
+                            $localStorage.usernameStr = $scope.username;
+                            $rootScope.usernameData = $localStorage.usernameStr;
+                            $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
+                            $rootScope.sessionId = $localStorage.sessionIdStorage;
+                            window.location = '#/home';
+                        } else if (response.status === 403) {
+                            $scope.usernameFailed = $scope.username;
+                            $rootScope.isUserLoggedIn = false;
+                            $scope.showFailedMsg = true;
 
-                    }
-                });
+                        }
+                    });
+                }
             };
 
             // Function for the register new user button to go to the register new user page.
