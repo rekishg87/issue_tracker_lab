@@ -22,7 +22,6 @@ public class Issue {
     private int assigneeId;
     private String createdBy;
     private Date issueCreatedOn;
-    private Blob screenshot;
 
     // No argument Constructor
     public Issue() {
@@ -31,7 +30,7 @@ public class Issue {
 
     // Constructor
     public Issue(int id, int categoryId, String subject, String description,
-                 int statusId, int priorityId, int assigneeId, String createdBy, Date issueCreatedOn, Blob screenshot) {
+                 int statusId, int priorityId, int assigneeId, String createdBy, Date issueCreatedOn) {
         this.id = id;
         this.categoryId = categoryId;
         this.subject = subject;
@@ -41,7 +40,6 @@ public class Issue {
         this.assigneeId = assigneeId;
         this.createdBy = createdBy;
         this.issueCreatedOn = issueCreatedOn;
-        this.screenshot = screenshot;
     }
 
     @Id

@@ -76,12 +76,6 @@ public class UserDAOImpl implements UserDAO {
 
         String addedUsername = "";
 
-        // If all fields or one of the fields of username or password is empty,
-        // no user will be registered because of incomplete information
-        if(username == null || username.equals("") || password == null || password.equals("")) {
-            addedUsername = null;
-        } else {
-
             try {
                 List<String> listUsers;
                 manager.getTransaction().begin();
@@ -94,9 +88,10 @@ public class UserDAOImpl implements UserDAO {
                 listUsers = query.getResultList();
 
                 if(!listUsers.isEmpty()) {
-                    // If an existing user has been found, return an empty String
-                    // which means that no new user has been created
-                    addedUsername = "";
+                    // If an existing user has been found, return the username.
+                    // This means that a existing user has been found.
+                    addedUsername = username;
+                    System.out.println("listUser if: " + addedUsername);
                 } else {
                     User user = new User();
                     user.setUsername(username);
@@ -105,7 +100,6 @@ public class UserDAOImpl implements UserDAO {
                     user.setRoles_id(2); // Default value for the User group when a new user registers.
                     manager.persist(user);
                     manager.getTransaction().commit();
-                    addedUsername = username;
                 }
 
             } catch (EJBException ex) {
@@ -117,8 +111,7 @@ public class UserDAOImpl implements UserDAO {
                     factory.close();
                 }
             }
-        }
-
+        System.out.println("returned: " + addedUsername);
         return addedUsername;
     }
 }

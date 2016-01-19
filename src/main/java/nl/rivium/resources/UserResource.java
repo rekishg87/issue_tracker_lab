@@ -56,27 +56,26 @@ public class UserResource {
     // Register a new user
     @POST
     @Path("signup")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(User input) {
         final String addUser = USER_DAO.registerUser(input.getUsername(), input.getPassword(), input.getEmail());
 
         // If no valid information is entered, return a bad request (400).
-        if(addUser == null) {
-            String empty = "EMPTY";
+        if(addUser.equals(input.getUsername())) {
+            System.out.println("UserResource if 400: " + addUser);
             return Response
                     .status(Response.Status.BAD_REQUEST)
-                    .entity(empty)
                     .build();
         }
         // If a duplicate user has been found, return a bad request (400).
-        else if (addUser.isEmpty()) {
-            String duplicateUsername = "duplicateUsername";
-            return Response
-                    .status(Response.Status.BAD_REQUEST)
-                    .entity(duplicateUsername)
-                    .build();
-        }
+//        else if (addUser.isEmpty()) {
+//            String duplicateUsername = "duplicateUsername";
+//            return Response
+//                    .status(Response.Status.BAD_REQUEST)
+//                    .entity(duplicateUsername)
+//                    .build();
+//        }
         // When an new user has successfully been registered, return a OK (200).
         else {
             return Response.status(Response.Status.OK).build();
@@ -88,7 +87,7 @@ public class UserResource {
     @Path("signout")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response signoutUser(User input) {
+    public Response signoutUser() {
 
         // When there is a session and the session is valid.
         // Do not create a new session and invalidate the valid session.

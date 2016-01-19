@@ -14,8 +14,21 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String sessionId;
     private int roles_id;
+    private String sessionId;
+
+    public User() {
+
+    }
+
+    public User(int id, String username, String password, String email, int roles_id, String sessionId) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.roles_id = roles_id;
+        this.sessionId = sessionId;
+    }
 
     @Id
     @Column(name = "ID")
@@ -55,14 +68,6 @@ public class User {
         this.email = email;
     }
 
-    public String getSessionId() {
-        return sessionId;
-    }
-
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
     @Column(name = "ROLES_ID")
     public int getRoles_id() {
         return roles_id;
@@ -70,5 +75,14 @@ public class User {
 
     public void setRoles_id(int roles_id) {
         this.roles_id = roles_id;
+    }
+
+    @Column(name = "SESSION_ID")
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
     }
 }

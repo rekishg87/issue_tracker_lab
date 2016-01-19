@@ -13,6 +13,15 @@ public class Assignee {
     private int id;
     private String name;
 
+    public Assignee() {
+
+    }
+
+    public Assignee (int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Id
     @Column(name = "ID")
     @GeneratedValue
