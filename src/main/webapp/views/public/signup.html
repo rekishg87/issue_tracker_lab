@@ -11,17 +11,17 @@
                     </p>
 
                     <!-- REGISTER FORM -->
-                    <form name="registerUser" ng-submit="signupUser()" novalidate> <!-- novalidate prevents HTML5 validation since the validating will be done here -->
+                    <form name="registerUserForm" ng-submit="signupUser()" novalidate> <!-- novalidate prevents HTML5 validation since the validating will be done here -->
                        <!-- USERNAME FIELD -->
                         <div class="row">
                             <div class="large-9 large-centered columns"
-                                 ng-class="{ 'has-error' : registerUser.username.$invalid &&
-                                    !registerUser.username.$pristine }">
+                                 ng-class="{ 'has-error' : registerUserForm.username.$invalid &&
+                                    !registerUserForm.username.$pristine }">
                                 <input type="text" name="username" placeholder="Username"
                                        ng-model="username" ng-minlength="3" ng-maxlength="10" required>
-                                <p ng-show="registerUser.username.$error.minlength"
+                                <p ng-show="registerUserForm.username.$error.minlength"
                                    class="help-block">Username is too short min 3.</p>
-                                <p ng-show="registerUser.username.$error.maxlength"
+                                <p ng-show="registerUserForm.username.$error.maxlength"
                                    class="help-block">Username is too long, max 10.</p>
                             </div>
                         </div>
@@ -29,13 +29,13 @@
                         <!-- PASSWORD FIELD -->
                         <div class="row">
                             <div class="large-9 large-centered columns"
-                                 ng-class="{ 'has-error' : registerUser.password.$invalid &&
-                                    !registerUser.password.$pristine }">
+                                 ng-class="{ 'has-error' : registerUserForm.password.$invalid &&
+                                    !registerUserForm.password.$pristine }">
                                 <input type="password" name="password" placeholder="Password"
                                        ng-model="password" ng-minlength="3" ng-maxlength="10" required>
-                                <p ng-show="registerUser.password.$error.minlength"
+                                <p ng-show="registerUserForm.password.$error.minlength"
                                    class="help-block">Password is too short min 3.</p>
-                                <p ng-show="registerUser.password.$error.maxlength"
+                                <p ng-show="registerUserForm.password.$error.maxlength"
                                    class="help-block">Password is too long, max 10.</p>
                             </div>
                         </div>
@@ -43,11 +43,11 @@
                         <!-- EMAIL FIELD -->
                         <div class="row">
                             <div class="large-9 large-centered columns"
-                                 ng-class="{ 'has-error' : registerUser.email.$invalid &&
-                                    !registerUser.email.$pristine }">
+                                 ng-class="{ 'has-error' : registerUserForm.email.$invalid &&
+                                    !registerUserForm.email.$pristine }">
                                 <input type="email" name="email" placeholder="Email Address"
                                        ng-model="email" required>
-                                <p ng-show="registerUser.email.$invalid && !registerUser.email.$pristine"
+                                <p ng-show="registerUserForm.email.$invalid && !registerUserForm.email.$pristine"
                                    class="help-block">Not a valid email address.</p>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                         <!-- SUBMIT BUTTON -->
                         <div class="row">
                             <div class="large-4 large-centered columns">
-                                <button type="submit" class="button expand" ng-disabled="registerUser.$invalid">Sign Up</button>
+                                <button type="submit" class="button expand" ng-disabled="registerUserForm.$invalid">Sign Up</button>
                             </div>
                         </div>
                     </form>

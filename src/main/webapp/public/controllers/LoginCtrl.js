@@ -44,10 +44,10 @@ angular.module("LoginMod")
 
                     }
                 });
+            };
 
-                // Function for the register new user button to go to the register new user page.
-                $scope.signup = function () {
-                    window.location = '#/signup';
-                };
-            }
+            // Function for the register new user button to go to the register new user page.
+            $scope.signup = function () {
+                window.location = '#/signup';
+            };
         }]);

@@ -18,7 +18,7 @@ angular.module("SignupMod")
         // Register a new user function.
         $scope.signupUser = function() {
             console.log("Signup Controller Initialized...");
-            if ($scope.registerUser.$valid) {
+            if ($scope.registerUserForm.$valid) {
                 SignupFactory.signup($scope.username, $scope.password, $scope.email, function (response) {
                     // If all information is valid, redirect to the login page after registration.
                     if (response.status === 200) {
