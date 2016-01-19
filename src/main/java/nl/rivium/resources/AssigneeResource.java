@@ -3,7 +3,6 @@ package nl.rivium.resources;
 import nl.rivium.dao.AssigneeDAO;
 import nl.rivium.dao.AssigneeDAOImpl;
 import nl.rivium.entities.Assignee;
-
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -32,7 +31,8 @@ public class AssigneeResource {
     //static because the HttpServletRequest should be available throughout the whole class.
     static HttpServletRequest request;
 
-    //When accessing the api call there should be a valid session (a user must be logged in)
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // GET all assignee details.
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)

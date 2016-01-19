@@ -13,10 +13,12 @@ public class Category {
     private int id;
     private String name;
 
+    // Empty Constructor
     public Category() {
 
     }
 
+    // Constructor
     public Category(int id, String name) {
         this.id = id;
         this.name = name;

@@ -1,7 +1,6 @@
 package nl.rivium.entities;
 
 import javax.persistence.*;
-import java.sql.Blob;
 import java.util.Date;
 
 
@@ -23,7 +22,7 @@ public class Issue {
     private String createdBy;
     private Date issueCreatedOn;
 
-    // No argument Constructor
+    // Empty Constructor
     public Issue() {
 
     }

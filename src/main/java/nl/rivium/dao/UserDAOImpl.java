@@ -69,7 +69,7 @@ public class UserDAOImpl implements UserDAO {
      * @param username to be persisted in the database for the new user
      * @param password to be persisted, encrypted by JBCrypt in the database for the new user
      * @param email to be persisted in the database for the new user
-     * @return the username as a String that has been persisted in the database for the new registered user
+     * @return the username that has been entered, to check if the username is available.
      */
     @Override
     public String registerUser (String username, String password, String email) {
@@ -91,10 +91,10 @@ public class UserDAOImpl implements UserDAO {
                     // If an existing user has been found, return the username.
                     // This means that a existing user has been found.
                     addedUsername = username;
-                    System.out.println("listUser if: " + addedUsername);
                 } else {
                     User user = new User();
                     user.setUsername(username);
+                    // Encrypt the password first, before storing in the database.
                     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
                     user.setEmail(email);
                     user.setRoles_id(2); // Default value for the User group when a new user registers.
@@ -111,7 +111,6 @@ public class UserDAOImpl implements UserDAO {
                     factory.close();
                 }
             }
-        System.out.println("returned: " + addedUsername);
         return addedUsername;
     }
 }

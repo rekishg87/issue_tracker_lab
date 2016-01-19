@@ -61,27 +61,18 @@ public class UserResource {
     public Response registerUser(User input) {
         final String addUser = USER_DAO.registerUser(input.getUsername(), input.getPassword(), input.getEmail());
 
-        // If no valid information is entered, return a bad request (400).
+        // If a duplicate user has been found, return a bad request (400).
         if(addUser.equals(input.getUsername())) {
             System.out.println("UserResource if 400: " + addUser);
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .build();
-        }
-        // If a duplicate user has been found, return a bad request (400).
-//        else if (addUser.isEmpty()) {
-//            String duplicateUsername = "duplicateUsername";
-//            return Response
-//                    .status(Response.Status.BAD_REQUEST)
-//                    .entity(duplicateUsername)
-//                    .build();
-//        }
-        // When an new user has successfully been registered, return a OK (200).
-        else {
+        } else { // When an new user has successfully been registered, return a OK (200).
             return Response.status(Response.Status.OK).build();
         }
     }
 
+    //When accessing the api call there should be a valid session otherwise invalidate old session.
     // Logout user.
     @POST
     @Path("signout")

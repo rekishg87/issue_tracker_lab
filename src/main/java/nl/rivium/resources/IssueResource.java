@@ -3,7 +3,6 @@ package nl.rivium.resources;
 import nl.rivium.dao.IssueDAO;
 import nl.rivium.dao.IssueDAOImpl;
 import nl.rivium.entities.Issue;
-
 import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -29,6 +28,8 @@ public class IssueResource {
     //static because the HttpServletRequest should be available throughout the whole class.
     static HttpServletRequest request;
 
+    //When accessing the api call there should be a valid session (a user must be logged in)
+    // GET all issues details.
     @GET
     @Path("getAllIssues")
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,14 +43,16 @@ public class IssueResource {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
-
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // POST a new issue API call.
     @POST
     @Path("create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createIssue(Issue input ) {
         final List<Issue> issues = ISSUE_DAO.createIssue
-                (input.getDescription(), input.getSubject(), input.getCategoryId(), input.getPriorityId(), input.getCreatedBy());
+                (input.getDescription(), input.getSubject(), input.getCategoryId(),
+                        input.getPriorityId(), input.getCreatedBy());
 
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
@@ -59,13 +62,16 @@ public class IssueResource {
         }
     }
 
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // POST a new edited/update issue API call.
     @POST
     @Path("update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateIssue(Issue input) {
         final List<Issue> issues = ISSUE_DAO.updateIssue(
-               input.getId(), input.getPriorityId(), input.getSubject(), input.getDescription(), input.getAssigneeId(), input.getCategoryId(), input.getStatusId());
+               input.getId(), input.getPriorityId(), input.getSubject(), input.getDescription(),
+                input.getAssigneeId(), input.getCategoryId(), input.getStatusId());
 
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
@@ -75,6 +81,8 @@ public class IssueResource {
         }
     }
 
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // POST a removed issue API call.
     @POST
     @Path("remove")
     @Produces(MediaType.APPLICATION_JSON)

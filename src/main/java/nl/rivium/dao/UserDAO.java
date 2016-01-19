@@ -1,16 +1,10 @@
 package nl.rivium.dao;
 
-import nl.rivium.entities.Issue;
-import nl.rivium.entities.User;
-import org.hibernate.HibernateException;
-
-import javax.json.JsonArray;
-import java.util.List;
-
 /**
  * Created by Rekish on 11/13/2015.
  * Interface for the User class
  */
+
 public interface UserDAO {
     /**
      *
@@ -25,7 +19,7 @@ public interface UserDAO {
      * @param username to be persisted in the database for the new user
      * @param password to be persisted, encrypted by JBCrypt in the database for the new user
      * @param email to be persisted in the database for the new user
-     * @return
+     * @return the username that has been entered, to check if the username is available.
      */
     String registerUser (String username, String password, String email);
 }

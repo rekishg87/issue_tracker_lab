@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 // Create an instance only once for every request.
-// Because a second API call should get new data from the database.
+// No need to refresh priority data every time an issue is being created.
 @ApplicationScoped
 @Path("priority")
 public class PriorityResource {
@@ -31,6 +31,8 @@ public class PriorityResource {
     //static because the HttpServletRequest should be available throughout the whole class.
     static HttpServletRequest request;
 
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // GET all priority details.
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)

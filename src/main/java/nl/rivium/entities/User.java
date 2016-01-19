@@ -17,10 +17,12 @@ public class User {
     private int roles_id;
     private String sessionId;
 
+    // Empty Constructor
     public User() {
 
     }
 
+    // Constructor
     public User(int id, String username, String password, String email, int roles_id, String sessionId) {
         this.id = id;
         this.username = username;

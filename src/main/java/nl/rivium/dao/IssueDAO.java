@@ -8,8 +8,6 @@ import java.util.List;
  * Interface for the Issue class
  */
 
-
-
 public interface IssueDAO {
     /**
      * Method to retrieve all issues from the database as a List<>

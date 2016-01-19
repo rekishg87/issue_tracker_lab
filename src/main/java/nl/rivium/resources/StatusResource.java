@@ -31,6 +31,8 @@ public class StatusResource {
     //static because the HttpServletRequest should be available throughout the whole class.
     static HttpServletRequest request;
 
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // GET all status details.
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)

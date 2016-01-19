@@ -3,7 +3,6 @@ package nl.rivium.resources;
 import nl.rivium.dao.CategoryDAO;
 import nl.rivium.dao.CategoryDAOImpl;
 import nl.rivium.entities.Category;
-
 import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -20,7 +19,7 @@ import java.util.List;
  */
 
 // Create an instance only once for every request.
-// Because a second API call should get new data from the database.
+// No need to refresh category data every time an issue is being created.
 @ApplicationScoped
 @Path("category")
 public class CategoryResource {
@@ -31,6 +30,8 @@ public class CategoryResource {
     //static because the HttpServletRequest should be available throughout the whole class.
     static HttpServletRequest request;
 
+    //When accessing the api call there should be a valid session (a user must be logged in).
+    // GET all category details.
     @GET
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)

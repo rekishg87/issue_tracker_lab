@@ -13,10 +13,12 @@ public class Assignee {
     private int id;
     private String name;
 
+    // Empty Constructor
     public Assignee() {
 
     }
 
+    // Constructor
     public Assignee (int id, String name) {
         this.id = id;
         this.name = name;

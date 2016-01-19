@@ -13,10 +13,12 @@ public class Status {
     private int id;
     private String name;
 
+    // Empty Constructor
     public Status() {
 
     }
 
+    // Constructor
     public Status(int id, String name) {
         this.id = id;
         this.name = name;

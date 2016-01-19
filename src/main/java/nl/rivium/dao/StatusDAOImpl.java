@@ -1,7 +1,6 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Status;
-
 import javax.ejb.EJBException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

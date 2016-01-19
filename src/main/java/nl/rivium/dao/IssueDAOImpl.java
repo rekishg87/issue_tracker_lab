@@ -3,10 +3,7 @@ package nl.rivium.dao;
 import nl.rivium.entities.Issue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.persistence.*;
-import java.sql.Blob;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
  * Created by Rekish on 10/5/2015.
  * Retrieve data from the Issue table in the database
  */
+
 public class IssueDAOImpl implements IssueDAO {
     private static final Logger logger = LoggerFactory.getLogger(IssueDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
@@ -82,7 +80,6 @@ public class IssueDAOImpl implements IssueDAO {
      * @return nothing because nothing is being retrieved.
      */
 
-
     @Override
     public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, String username) {
         Date currentDate = new Date();
@@ -113,6 +110,12 @@ public class IssueDAOImpl implements IssueDAO {
         return null;
     }
 
+    /**
+     *
+     * @param id to be searched for in the database.
+     * @return the issueId that needs to be updated or removed.
+     */
+
     @Override
     public Issue findIssue(int id) {
         Issue foundIssue = null;
@@ -138,6 +141,17 @@ public class IssueDAOImpl implements IssueDAO {
         return foundIssue;
     }
 
+    /**
+     *
+     * @param id of the issue to be updated.
+     * @param priorityId of the issue to be updated.
+     * @param subject of the issue to be updated.
+     * @param description of the issue to be updated.
+     * @param assigneeId of the issue to be updated.
+     * @param categoryId of the issue to be updated.
+     * @param statusId of the issue to be updated.
+     * @return nothing, data is only being updated.
+     */
     @Override
     public List<Issue> updateIssue(int id, int priorityId, String subject, String description, int assigneeId, int categoryId, int statusId) {
         Issue selectedIssue = findIssue(id);
@@ -165,6 +179,11 @@ public class IssueDAOImpl implements IssueDAO {
         return null;
     }
 
+    /**
+     *
+     * @param id of the issue to be removed.
+     * @return nothing, issue is being removed.
+     */
     @Override
     public List<Issue> removeIssue(int id) {
         Issue selectedIssue = findIssue(id);

@@ -13,10 +13,12 @@ public class Priority {
     private int id;
     private String name;
 
+    // Empty Constructor
     public Priority() {
 
     }
 
+    // Constructor
     public Priority(int id, String name) {
         this.id = id;
         this.name = name;
