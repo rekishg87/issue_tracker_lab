@@ -7,6 +7,7 @@ angular.module("IssueMod")
         function($scope, $filter, $rootScope, $localStorage, ValidationFactory, IssueFactory, LogoutFactory) {
 
             console.log("Issue Controller Initialized...");
+
             //// Check if the File API is supported by the browser.
             //if (window.File && window.FileReader && window.FileList && window.Blob) {
             //    //alert('Great success! All the File APIs are supported.');
