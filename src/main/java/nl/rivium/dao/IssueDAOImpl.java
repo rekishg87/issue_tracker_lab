@@ -1,6 +1,6 @@
 package nl.rivium.dao;
 
-import nl.rivium.entities.Issue;
+import nl.rivium.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.persistence.*;
@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 public class IssueDAOImpl implements IssueDAO {
-    private static final Logger logger = LoggerFactory.getLogger(IssueDAOImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(IssueDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
 
@@ -24,11 +24,11 @@ public class IssueDAOImpl implements IssueDAO {
     @Override
     public List<Issue> getAllIssuesList() {
         List<Issue> issueTable;
-        List<Issue> priorityTable;
-        List<Issue> assigneeTable;
-        List<Issue> categoryTable;
-        List<Issue> statusTable;
-        ArrayList tables = new ArrayList<>();
+        List<Priority> priorityTable;
+        List<Assignee> assigneeTable;
+        List<Category> categoryTable;
+        List<Status> statusTable;
+        ArrayList tables = new ArrayList<Issue>();
         logger.info("Getting all Issues API Call started");
 
         try {

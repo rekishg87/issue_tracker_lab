@@ -25,8 +25,7 @@ public class IssueResource {
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Context.
     @Context
-    //static because the HttpServletRequest should be available throughout the whole class.
-    static HttpServletRequest request;
+    private HttpServletRequest request;
 
     //When accessing the api call there should be a valid session (a user must be logged in)
     // GET all issues details.
@@ -34,15 +33,15 @@ public class IssueResource {
     @Path("getAllIssues")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllIssues() {
-        final List<Issue> issues = ISSUE_DAO.getAllIssuesList();
-
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
+            final List<Issue> issues = ISSUE_DAO.getAllIssuesList();
             return Response.ok(issues).build();
         } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
+
     //When accessing the api call there should be a valid session (a user must be logged in).
     // POST a new issue API call.
     @POST
@@ -50,12 +49,11 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createIssue(Issue input ) {
-        final List<Issue> issues = ISSUE_DAO.createIssue
-                (input.getDescription(), input.getSubject(), input.getCategoryId(),
-                        input.getPriorityId(), input.getCreatedBy());
-
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
+            final List<Issue> issues = ISSUE_DAO.createIssue
+                    (input.getDescription(), input.getSubject(), input.getCategoryId(),
+                            input.getPriorityId(), input.getCreatedBy());
             return Response.ok(issues).build();
         } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -69,12 +67,11 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateIssue(Issue input) {
-        final List<Issue> issues = ISSUE_DAO.updateIssue(
-               input.getId(), input.getPriorityId(), input.getSubject(), input.getDescription(),
-                input.getAssigneeId(), input.getCategoryId(), input.getStatusId());
-
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
+            final List<Issue> issues = ISSUE_DAO.updateIssue(
+                    input.getId(), input.getPriorityId(), input.getSubject(), input.getDescription(),
+                    input.getAssigneeId(), input.getCategoryId(), input.getStatusId());
             return Response.ok(issues).build();
         } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();
@@ -88,10 +85,9 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response removeIssue(Issue input) {
-        final List<Issue> issues = ISSUE_DAO.removeIssue(input.getId());
-
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
+            final List<Issue> issues = ISSUE_DAO.removeIssue(input.getId());
             return Response.ok(issues).build();
         } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();

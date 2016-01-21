@@ -28,8 +28,7 @@ public class AssigneeResource {
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Context.
     @Context
-    //static because the HttpServletRequest should be available throughout the whole class.
-    static HttpServletRequest request;
+    private HttpServletRequest request;
 
     //When accessing the api call there should be a valid session (a user must be logged in).
     // GET all assignee details.
@@ -37,10 +36,9 @@ public class AssigneeResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAssignee() {
-        final List<Assignee> assignees = ASSIGNEE_DAO.getAssigneeList();
-
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
+            final List<Assignee> assignees = ASSIGNEE_DAO.getAssigneeList();
             return Response.ok(assignees).build();
         } else { // No valid session, so no user is logged in or session became invalid.
             return Response.status(Response.Status.FORBIDDEN).build();
