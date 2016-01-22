@@ -19,7 +19,7 @@ public class IssueDAOImpl implements IssueDAO {
     private EntityManager manager = factory.createEntityManager();
 
     /**
-     * @return all the issues registered in the database as a List<>
+     * @return all the issues that are not resolved from the database as a List<>
      */
     @Override
     public List<Issue> getAllIssuesList() {
@@ -35,7 +35,7 @@ public class IssueDAOImpl implements IssueDAO {
             manager.getTransaction().begin();
 
             Query issueTableQuery = manager.createQuery
-                    ("SELECT i FROM Issue i");
+                    ("SELECT i FROM Issue i where i.statusId != 3");
             Query priorityTableQuery = manager.createQuery
                     ("SELECT p FROM Priority p");
             Query assigneeTableQuery = manager.createQuery
@@ -177,6 +177,57 @@ public class IssueDAOImpl implements IssueDAO {
             }
         }
         return null;
+    }
+
+    @Override
+    public List<Issue> getResolvedIssues() {
+        List<Issue> issueTable;
+        List<Priority> priorityTable;
+        List<Assignee> assigneeTable;
+        List<Category> categoryTable;
+        List<Status> statusTable;
+        ArrayList tables = new ArrayList<Issue>();
+        logger.info("Getting all Issues API Call started");
+
+        try {
+            manager.getTransaction().begin();
+
+            Query issueTableQuery = manager.createQuery
+                    ("SELECT i FROM Issue i where i.statusId = 3");
+            Query priorityTableQuery = manager.createQuery
+                    ("SELECT p FROM Priority p");
+            Query assigneeTableQuery = manager.createQuery
+                    ("SELECT a FROM Assignee a");
+            Query categoryTableQuery = manager.createQuery
+                    ("SELECT c FROM Category c");
+            Query statusTableQuery = manager.createQuery
+                    ("SELECT s FROM Status s");
+
+            manager.getTransaction().commit();
+
+            issueTable = issueTableQuery.getResultList();
+            priorityTable = priorityTableQuery.getResultList();
+            assigneeTable = assigneeTableQuery.getResultList();
+            categoryTable = categoryTableQuery.getResultList();
+            statusTable = statusTableQuery.getResultList();
+
+            tables.add(issueTable);
+            tables.add(priorityTable);
+            tables.add(assigneeTable);
+            tables.add(categoryTable);
+            tables.add(statusTable);
+
+        } catch (IllegalStateException | RollbackException exception) {
+            logger.error(exception.getMessage());
+        } finally {
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+                manager.close();
+                factory.close();
+            }
+        }
+
+        return tables;
     }
 
     /**

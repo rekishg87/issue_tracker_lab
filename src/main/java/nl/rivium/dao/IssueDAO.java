@@ -47,6 +47,12 @@ public interface IssueDAO {
 
     /**
      *
+     * @return all resolved issues.
+     */
+    List<Issue> getResolvedIssues();
+
+    /**
+     *
      * @param id of the issue to be removed.
      * @return nothing, issue is being removed.
      */

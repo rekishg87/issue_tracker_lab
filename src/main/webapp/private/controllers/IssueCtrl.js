@@ -62,6 +62,44 @@ angular.module("IssueMod")
                 })
             };
 
+            // Function to get all the resolved issues.
+            $scope.getResolvedIssues = function() {
+                IssueFactory.getResolvedIssues(function(response) {
+                    if (response.status === 200) {
+                        // In the response.data the
+                        // data[0] index has the issues table,
+                        // data[1] index has the priority table.
+                        // data[2] index has the assignee table.
+                        // data[3] index has the category table.
+                        // data[4] index has the status table.
+                        $scope.data = response.data;
+                        $scope.issue = $scope.data[0];
+                        $scope.priority = $scope.data[1];
+                        $scope.assignee = $scope.data[2];
+                        $scope.category = $scope.data[3];
+                        $scope.status = $scope.data[4];
+
+                        // Get DateTime from Database as Epoch format and convert it toLocalString(),
+                        // so that it can be a human readable DateTime format.
+                        for(var x = 0; x < $scope.data[0].length; x++) {
+                            $scope.data[0].issueCreatedOn = {};
+                            $scope.data[0][x].issueCreatedOn = new Date($scope.data[0][x].issueCreatedOn).toLocaleString();
+                        }
+
+                        // Purely for logging purposes, to log which issue is edited and
+                        // which new value is being set for the field that is being edited.
+                        for(var i = 0; i < $scope.data[0].length; i++) {
+                            console.log("DATA " + $scope.data[0][i].statusId);
+                        }
+                        console.log("STATUS " + $scope.status);
+                        console.log("status id 1: " + $scope.status[0]);
+                    } else if (response.status === 403) {
+                        LogoutFactory.logoutService($scope.sessionId);
+                        window.location = '#/login';
+                    }
+                })
+            };
+
             // Function to create a new issue.
             $scope.createIssue = function() {
                 IssueFactory.createIssue($scope.description, $scope.subject, $scope.category, $scope.priority, $rootScope.usernameData, function(response) {

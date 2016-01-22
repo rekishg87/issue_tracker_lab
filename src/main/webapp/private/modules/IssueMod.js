@@ -11,11 +11,12 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
         editableOptions.theme = 'bs3';
     })
     .constant("allIssuesUrl", "api/issues/getAllIssues")
+    .constant("allResolvedIssuesUrl", "api/issues/getResolvedIssues")
     .constant("createIssueUrl", "api/issues/create")
     .constant("updateIssueUrl", "api/issues/update")
     .constant("removeIssueUrl", "api/issues/remove")
-    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl', 'createIssueUrl', 'updateIssueUrl', 'removeIssueUrl',
-        function($http, $location, allIssuesUrl, createIssueUrl, updateIssueUrl, removeIssueUrl) {
+    .factory("IssueFactory", ['$http', '$location', 'allIssuesUrl', 'createIssueUrl', 'updateIssueUrl', 'removeIssueUrl', 'allResolvedIssuesUrl',
+        function($http, $location, allIssuesUrl, createIssueUrl, updateIssueUrl, removeIssueUrl, allResolvedIssuesUrl) {
             var service = {};
 
             // Service to get all issues from the backend.
@@ -34,6 +35,24 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
                         }
                     }
                 );
+            };
+
+            // Service to get all resolved issues from the backend.
+            service.getResolvedIssues = function(callback) {
+
+                $http.get(allResolvedIssuesUrl)
+                    .then(
+                        function success(response) {
+                            callback(response);
+                        },
+                        function error(err) {
+                            var httpStatusCode = err.status;
+                            if (httpStatusCode === 403) {
+                                window.location = '#/login';
+                                callback(err);
+                            }
+                        }
+                    );
             };
 
             // Service to create a new issue and post it to the backend.

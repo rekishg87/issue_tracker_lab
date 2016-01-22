@@ -42,6 +42,21 @@ public class IssueResource {
         }
     }
 
+    //When accessing the api call there should be a valid session (a user must be logged in)
+    // GET all resolved issues details.
+    @GET
+    @Path("getResolvedIssues")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getResolvedIssues() {
+        // When there is a valid session without creating a new session, the api call can be accessed.
+        if (request.getSession(false) != null) {
+            final List<Issue> issues = ISSUE_DAO.getResolvedIssues();
+            return Response.ok(issues).build();
+        } else { // No valid session, so no user is logged in or session became invalid.
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+    }
+
     //When accessing the api call there should be a valid session (a user must be logged in).
     // POST a new issue API call.
     @POST
