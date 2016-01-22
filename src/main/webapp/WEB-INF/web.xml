@@ -7,7 +7,7 @@
     <session-config>
         <session-timeout>30</session-timeout>
         <cookie-config>
-            <max-age>300</max-age>
+            <max-age>86400</max-age> <!-- Cookie expires in 24 hours (a day) -->
         </cookie-config>
     </session-config>
 </web-app>
