@@ -7,9 +7,9 @@ import nl.rivium.dao.UserDAOImpl;
 import nl.rivium.entities.User;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -23,8 +23,8 @@ import javax.ws.rs.core.Response;
 @RequestScoped
 @Path("user")
 public class UserResource {
-    //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Context.
-    @Context
+    //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
+    @Inject
     private HttpServletRequest request;
 
     private final UserDAO USER_DAO = new UserDAOImpl();
