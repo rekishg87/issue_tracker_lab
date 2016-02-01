@@ -4,9 +4,7 @@
             <div class="row">
                 <div class="large-12 columns">
                     <h2 class="text-center">Home Page</h2>
-                    <p class="text-center">You're logged in!!</p>
-                    <p class="text-center">User {{ sessionData }}</p>
-                    <p class="text-center">JESSIONID {{ sessionId }}</p>
+                    <p class="text-center">Welcome {{ usernameData }}</p>
                     <button ng-controller="LogoutController as LogoutCtrl"
                             class="button expand" ng-click="logout()">Logout</button>
                 </div>
