@@ -1,5 +1,6 @@
 package nl.rivium.resources;
 
+
 import nl.rivium.dao.RolesDAO;
 import nl.rivium.dao.RolesDAOImpl;
 import nl.rivium.dao.UserDAO;
@@ -23,12 +24,18 @@ import javax.ws.rs.core.Response;
 @RequestScoped
 @Path("user")
 public class UserResource {
+    //@Inject
+    //private UserDAO USER_DAO;
+
+    private final UserDAO USER_DAO = new UserDAOImpl();
+    private RolesDAO ROLES_DAO = new RolesDAOImpl();
+
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
     private HttpServletRequest request;
 
-    private final UserDAO USER_DAO = new UserDAOImpl();
-    private final RolesDAO ROLES_DAO = new RolesDAOImpl();
+
+
 
     // Authenticate user with a username and password and return the user role.
     @POST

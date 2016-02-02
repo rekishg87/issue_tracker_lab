@@ -1,15 +1,14 @@
 package nl.rivium.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import java.util.List;
 
 /**
  * Created by Rekish on 1/19/2016.
  */
 public class RolesDAOImpl implements RolesDAO {
+    //@PersistenceContext(name = "issueUnit")
+    //private EntityManager manager;
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
 
@@ -24,7 +23,7 @@ public class RolesDAOImpl implements RolesDAO {
         int userRole = 0;
         List<Integer> userRoleList;
         try {
-            manager.getTransaction().begin();
+
             Query query = manager.createQuery
                     ("SELECT u.roles_id FROM User u where u.username = :username");
 
@@ -37,11 +36,7 @@ public class RolesDAOImpl implements RolesDAO {
         } catch (IllegalStateException exception) {
             exception.getMessage();
         } finally {
-            if (manager.getTransaction().isActive()){
-                manager.getTransaction().rollback();
-                manager.close();
-                factory.close();
-            }
+
         }
 
         return userRole;

@@ -1,5 +1,6 @@
 package nl.rivium.dao;
 
+
 /**
  * Created by Rekish on 11/13/2015.
  * Interface for the User class
