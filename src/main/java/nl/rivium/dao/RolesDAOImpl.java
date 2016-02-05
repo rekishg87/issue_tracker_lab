@@ -23,7 +23,7 @@ public class RolesDAOImpl implements RolesDAO {
         int userRole = 0;
         List<Integer> userRoleList;
         try {
-
+            manager.getTransaction().begin();
             Query query = manager.createQuery
                     ("SELECT u.roles_id FROM User u where u.username = :username");
 

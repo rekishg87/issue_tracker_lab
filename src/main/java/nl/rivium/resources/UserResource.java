@@ -28,7 +28,7 @@ public class UserResource {
     //private UserDAO USER_DAO;
 
     private final UserDAO USER_DAO = new UserDAOImpl();
-    private RolesDAO ROLES_DAO = new RolesDAOImpl();
+    private final RolesDAO ROLES_DAO = new RolesDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
