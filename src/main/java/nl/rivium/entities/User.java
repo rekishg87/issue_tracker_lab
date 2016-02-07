@@ -14,7 +14,7 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private int roles_id;
+    private int rolesId;
     private String sessionId;
 
     // Empty Constructor
@@ -23,12 +23,12 @@ public class User {
     }
 
     // Constructor
-    public User(int id, String username, String password, String email, int roles_id, String sessionId) {
+    public User(int id, String username, String password, String email, int rolesId, String sessionId) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
-        this.roles_id = roles_id;
+        this.rolesId = rolesId;
         this.sessionId = sessionId;
     }
 
@@ -71,12 +71,12 @@ public class User {
     }
 
     @Column(name = "ROLES_ID")
-    public int getRoles_id() {
-        return roles_id;
+    public int getRolesId() {
+        return rolesId;
     }
 
-    public void setRoles_id(int roles_id) {
-        this.roles_id = roles_id;
+    public void setRolesId(int rolesId) {
+        this.rolesId = rolesId;
     }
 
     @Column(name = "SESSION_ID")

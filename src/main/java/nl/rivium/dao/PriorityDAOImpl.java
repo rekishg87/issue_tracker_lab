@@ -1,12 +1,9 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Priority;
-
-import javax.ejb.EJBException;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -14,8 +11,10 @@ import java.util.List;
  * Retrieve data from the Priority table in the database
  */
 public class PriorityDAOImpl implements PriorityDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PriorityDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private static final String EXCEPTION_STRING = "Exception Occurred";
 
     /**
      *
@@ -33,8 +32,8 @@ public class PriorityDAOImpl implements PriorityDAO {
             priorityList = query.getResultList();
 
 
-        } catch (EJBException ex) {
-            ex.printStackTrace();
+        } catch (IllegalStateException | RollbackException exception) {
+                    LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()){
                 manager.getTransaction().rollback();

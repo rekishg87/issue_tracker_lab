@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -14,9 +15,10 @@ import java.util.List;
  */
 
 public class IssueDAOImpl implements IssueDAO {
-    private final Logger logger = LoggerFactory.getLogger(IssueDAOImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(IssueDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private static final String EXCEPTION_STRING = "Exception Occurred";
 
     /**
      * @return all the issues that are not resolved from the database as a List<>
@@ -28,8 +30,8 @@ public class IssueDAOImpl implements IssueDAO {
         List<Assignee> assigneeTable;
         List<Category> categoryTable;
         List<Status> statusTable;
-        ArrayList tables = new ArrayList<Issue>();
-        logger.info("Getting all Issues API Call started");
+        List tables = new ArrayList<Issue>();
+        LOGGER.info("Getting all Issues API Call started");
 
         try {
             manager.getTransaction().begin();
@@ -60,7 +62,7 @@ public class IssueDAOImpl implements IssueDAO {
             tables.add(statusTable);
 
         } catch (IllegalStateException | RollbackException exception) {
-            logger.error(exception.getMessage());
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -68,7 +70,6 @@ public class IssueDAOImpl implements IssueDAO {
                 factory.close();
             }
         }
-
         return tables;
     }
 
@@ -83,6 +84,8 @@ public class IssueDAOImpl implements IssueDAO {
     @Override
     public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, String username) {
         Date currentDate = new Date();
+        final int notAssigned = 1;
+        final int registered = 1;
 
         try {
             manager.getTransaction().begin();
@@ -90,16 +93,17 @@ public class IssueDAOImpl implements IssueDAO {
             issue.setSubject(subject);
             issue.setDescription(description);
             issue.setCategoryId(categoryId);
-            issue.setAssigneeId(1); // Default 1 for not assigned, because an new issue is not yet assigned to an assignee
+            // Default 1 for not assigned, because an new issue is not yet assigned to an assignee
+            issue.setAssigneeId(notAssigned);
             issue.setPriorityId(priorityId);
-            issue.setStatusId(1); // Default for Registered.
+            // Default for Registered.
+            issue.setStatusId(registered);
             issue.setCreatedBy(username);
             issue.setIssueCreatedOn(currentDate);
             manager.persist(issue);
             manager.getTransaction().commit();
-
         } catch (IllegalStateException | RollbackException exception) {
-            logger.error(exception.getMessage());
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -107,7 +111,7 @@ public class IssueDAOImpl implements IssueDAO {
                 factory.close();
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
     /**
@@ -126,9 +130,9 @@ public class IssueDAOImpl implements IssueDAO {
                     ("SELECT i from Issue i where i.id = :id");
             query.setParameter("id", id);
             foundIssue = (Issue) query.getSingleResult();
-            logger.info("findIssue method: " + foundIssue);
+            LOGGER.info("findIssue method: " + foundIssue);
         } catch (IllegalStateException exception) {
-            logger.error(exception.getMessage());
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -152,10 +156,12 @@ public class IssueDAOImpl implements IssueDAO {
      * @param statusId of the issue to be updated.
      * @return nothing, data is only being updated.
      */
+
     @Override
-    public List<Issue> updateIssue(int id, int priorityId, String subject, String description, int assigneeId, int categoryId, int statusId) {
+    public List<Issue> updateIssue(int id, int priorityId, String subject, String description,
+                                   int assigneeId, int categoryId, int statusId) {
         Issue selectedIssue = findIssue(id);
-        logger.info("updateIssue method: " + selectedIssue);
+        LOGGER.info("updateIssue method: " + selectedIssue);
         try {
             manager.getTransaction().begin();
             selectedIssue.setPriorityId(priorityId);
@@ -168,7 +174,7 @@ public class IssueDAOImpl implements IssueDAO {
             manager.getTransaction().commit();
         } catch (IllegalArgumentException | TransactionRequiredException |
                 IllegalStateException | RollbackException exception) {
-                    logger.error(exception.getMessage());
+                    LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -176,7 +182,7 @@ public class IssueDAOImpl implements IssueDAO {
                 factory.close();
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
@@ -186,8 +192,8 @@ public class IssueDAOImpl implements IssueDAO {
         List<Assignee> assigneeTable;
         List<Category> categoryTable;
         List<Status> statusTable;
-        ArrayList tables = new ArrayList<Issue>();
-        logger.info("Getting all Issues API Call started");
+        List tables = new ArrayList<Issue>();
+        LOGGER.info("Getting all Issues API Call started");
 
         try {
             manager.getTransaction().begin();
@@ -218,7 +224,7 @@ public class IssueDAOImpl implements IssueDAO {
             tables.add(statusTable);
 
         } catch (IllegalStateException | RollbackException exception) {
-            logger.error(exception.getMessage());
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -226,7 +232,6 @@ public class IssueDAOImpl implements IssueDAO {
                 factory.close();
             }
         }
-
         return tables;
     }
 
@@ -235,17 +240,18 @@ public class IssueDAOImpl implements IssueDAO {
      * @param id of the issue to be removed.
      * @return nothing, issue is being removed.
      */
+
     @Override
     public List<Issue> removeIssue(int id) {
         Issue selectedIssue = findIssue(id);
-        logger.info("removeIssue method: " + selectedIssue);
+        LOGGER.info("removeIssue method: " + selectedIssue);
         try {
             manager.getTransaction().begin();
             manager.remove(manager.contains(selectedIssue) ? selectedIssue : manager.merge(selectedIssue));
             manager.getTransaction().commit();
         } catch (IllegalArgumentException | TransactionRequiredException |
                 IllegalStateException | RollbackException exception) {
-                    logger.error(exception.getMessage());
+                    LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()) {
                 manager.getTransaction().rollback();
@@ -253,6 +259,6 @@ public class IssueDAOImpl implements IssueDAO {
                 factory.close();
             }
         }
-        return null;
+        return Collections.emptyList();
     }
 }

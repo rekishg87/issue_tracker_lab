@@ -1,5 +1,7 @@
 package nl.rivium.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.persistence.*;
 import java.util.List;
 
@@ -7,10 +9,10 @@ import java.util.List;
  * Created by Rekish on 1/19/2016.
  */
 public class RolesDAOImpl implements RolesDAO {
-    //@PersistenceContext(name = "issueUnit")
-    //private EntityManager manager;
+    private static final Logger LOGGER = LoggerFactory.getLogger(RolesDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private static final String EXCEPTION_STRING = "Exception Occurred";
 
     /**
      *
@@ -25,7 +27,7 @@ public class RolesDAOImpl implements RolesDAO {
         try {
             manager.getTransaction().begin();
             Query query = manager.createQuery
-                    ("SELECT u.roles_id FROM User u where u.username = :username");
+                    ("SELECT u.rolesId FROM User u where u.username = :username");
 
             query.setParameter("username", username);
             manager.getTransaction().commit();
@@ -33,10 +35,14 @@ public class RolesDAOImpl implements RolesDAO {
             userRoleList = query.getResultList();
             userRole = userRoleList.get(0);
 
-        } catch (IllegalStateException exception) {
-            exception.getMessage();
+        } catch (IllegalStateException | RollbackException exception) {
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
-
+            if (manager.getTransaction().isActive()) {
+                manager.getTransaction().rollback();
+                manager.close();
+                factory.close();
+            }
         }
 
         return userRole;

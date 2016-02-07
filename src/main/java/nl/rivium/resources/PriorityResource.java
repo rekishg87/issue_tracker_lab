@@ -24,7 +24,7 @@ import java.util.List;
 @ApplicationScoped
 @Path("priority")
 public class PriorityResource {
-    private final PriorityDAO PRIORITY_DAO = new PriorityDAOImpl();
+    private final PriorityDAO priorityDAO = new PriorityDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
@@ -38,9 +38,10 @@ public class PriorityResource {
     public Response getPriority() {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Priority> priorities = PRIORITY_DAO.getPriorityList();
+            final List<Priority> priorities = priorityDAO.getPriorityList();
             return Response.ok(priorities).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }

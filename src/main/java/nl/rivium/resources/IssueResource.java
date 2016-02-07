@@ -21,7 +21,7 @@ import java.util.List;
 @RequestScoped
 @Path("issues")
 public class IssueResource {
-    private final IssueDAO ISSUE_DAO = new IssueDAOImpl();
+    private final IssueDAO issueDAO = new IssueDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
@@ -35,9 +35,10 @@ public class IssueResource {
     public Response getAllIssues() {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Issue> issues = ISSUE_DAO.getAllIssuesList();
+            final List<Issue> issues = issueDAO.getAllIssuesList();
             return Response.ok(issues).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
@@ -50,9 +51,10 @@ public class IssueResource {
     public Response getResolvedIssues() {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Issue> issues = ISSUE_DAO.getResolvedIssues();
+            final List<Issue> issues = issueDAO.getResolvedIssues();
             return Response.ok(issues).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
@@ -66,11 +68,12 @@ public class IssueResource {
     public Response createIssue(Issue input ) {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Issue> issues = ISSUE_DAO.createIssue
+            final List<Issue> issues = issueDAO.createIssue
                     (input.getDescription(), input.getSubject(), input.getCategoryId(),
                             input.getPriorityId(), input.getCreatedBy());
             return Response.ok(issues).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
@@ -84,11 +87,12 @@ public class IssueResource {
     public Response updateIssue(Issue input) {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Issue> issues = ISSUE_DAO.updateIssue(
+            final List<Issue> issues = issueDAO.updateIssue(
                     input.getId(), input.getPriorityId(), input.getSubject(), input.getDescription(),
                     input.getAssigneeId(), input.getCategoryId(), input.getStatusId());
             return Response.ok(issues).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
@@ -102,9 +106,10 @@ public class IssueResource {
     public Response removeIssue(Issue input) {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Issue> issues = ISSUE_DAO.removeIssue(input.getId());
+            final List<Issue> issues = issueDAO.removeIssue(input.getId());
             return Response.ok(issues).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }

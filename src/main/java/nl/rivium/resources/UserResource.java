@@ -6,6 +6,8 @@ import nl.rivium.dao.RolesDAOImpl;
 import nl.rivium.dao.UserDAO;
 import nl.rivium.dao.UserDAOImpl;
 import nl.rivium.entities.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -24,18 +26,13 @@ import javax.ws.rs.core.Response;
 @RequestScoped
 @Path("user")
 public class UserResource {
-    //@Inject
-    //private UserDAO USER_DAO;
-
-    private final UserDAO USER_DAO = new UserDAOImpl();
-    private final RolesDAO ROLES_DAO = new RolesDAOImpl();
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserResource.class);
+    private final UserDAO userDAO = new UserDAOImpl();
+    private final RolesDAO rolesDAO = new RolesDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
     private HttpServletRequest request;
-
-
-
 
     // Authenticate user with a username and password and return the user role.
     @POST
@@ -43,9 +40,9 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticate (User input) {
-        final boolean userFound = USER_DAO.authenticate(input.getUsername(), input.getPassword());
+        final boolean userFound = userDAO.authenticate(input.getUsername(), input.getPassword());
 
-
+        // If user entered correct credentials, return status 200 and the user role int.
         if(userFound) {
             // When a valid user is found and no new session is being created and there is no session.
             // Create a new session for that user.
@@ -57,8 +54,8 @@ public class UserResource {
                 request.getSession().invalidate();
                 request.getSession(true);
             }
-            // If user entered correct credentials, return status 200 and the user role int;
-            final int userRole = ROLES_DAO.userAccess(input.getUsername());
+
+            final int userRole = rolesDAO.userAccess(input.getUsername());
             return Response.status(Response.Status.OK)
                     .entity(userRole)
                     .build();
@@ -73,15 +70,16 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(User input) {
-        final String addUser = USER_DAO.registerUser(input.getUsername(), input.getPassword(), input.getEmail());
+        final String addUser = userDAO.registerUser(input.getUsername(), input.getPassword(), input.getEmail());
 
         // If a duplicate user has been found, return a bad request (400).
         if(addUser.equals(input.getUsername())) {
-            System.out.println("UserResource if 400: " + addUser);
+            LOGGER.info("UserResource if 400: " + addUser);
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .build();
-        } else { // When an new user has successfully been registered, return a OK (200).
+        // When an new user has successfully been registered, return a OK (200).
+        } else {
             return Response.status(Response.Status.OK).build();
         }
     }
@@ -99,10 +97,10 @@ public class UserResource {
         if(request.getRequestedSessionId() != null && request.isRequestedSessionIdValid()) {
             request.getSession(false).invalidate();
             return Response.status(Response.Status.OK).build();
-        }
-        // When there is no valid session but there is a old session.
-        // Invalidate that old session.
-        else if(!request.isRequestedSessionIdValid() && request.getRequestedSessionId() != null) {
+
+         // When there is no valid session but there is a old session.
+         // Invalidate that old session.
+        }else if(!request.isRequestedSessionIdValid() && request.getRequestedSessionId() != null) {
             request.getSession(false).invalidate();
             return Response.status(Response.Status.OK).build();
         }
@@ -120,13 +118,12 @@ public class UserResource {
         // If there is no sessionId, return FORBIDDEN (403).
         if(request.getRequestedSessionId() == null) {
             return Response.status(Response.Status.FORBIDDEN).build();
-        }
-        // If there is a sessionId but it is not valid, return FORBIDDEN (403).
-        else if(!request.isRequestedSessionIdValid()) {
+         // If there is a sessionId but it is not valid, return FORBIDDEN (403).
+        }else if(!request.isRequestedSessionIdValid()) {
             return Response.status(Response.Status.FORBIDDEN).build();
-        }
+
         // When there is a sessionId and it is valid, return (200).
-        else {
+        }else {
             return Response.status(Response.Status.OK).build();
         }
 

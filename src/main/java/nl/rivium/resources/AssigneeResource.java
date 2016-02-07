@@ -24,7 +24,7 @@ import java.util.List;
 @RequestScoped
 @Path("assignee")
 public class AssigneeResource {
-    private final AssigneeDAO ASSIGNEE_DAO = new AssigneeDAOImpl();
+    private final AssigneeDAO assigneeDAO = new AssigneeDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
@@ -38,9 +38,10 @@ public class AssigneeResource {
     public Response getAssignee() {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Assignee> assignees = ASSIGNEE_DAO.getAssigneeList();
+            final List<Assignee> assignees = assigneeDAO.getAssigneeList();
             return Response.ok(assignees).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }

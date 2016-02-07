@@ -15,11 +15,11 @@ import java.util.List;
  */
 @Stateless
 public class UserDAOImpl implements UserDAO {
-    private final Logger logger = LoggerFactory.getLogger(UserDAOImpl.class);
-    //@PersistenceContext(name = "issueUnit")
-    //private EntityManager manager;
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private static final String EXCEPTION_STRING = "Exception Occurred";
+    public static final int GROUP_USER = 2;
 
     /**
      *
@@ -29,13 +29,13 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public boolean authenticate (String username, String password) {
-        logger.info("User authentication API call started...");
+        LOGGER.info("User authentication API call started...");
         boolean foundUser = false;
         List<String> listUsers;
 
         try {
             manager.getTransaction().begin();
-            logger.info("Query statement invoked.");
+            LOGGER.info("Query statement invoked.");
             Query query = manager.createQuery
                     ("SELECT u.password FROM User u where u.username = :username");
 
@@ -44,10 +44,10 @@ public class UserDAOImpl implements UserDAO {
             listUsers = query.getResultList();
 
             if(listUsers.isEmpty()) {
-                logger.info("No User Found.");
+                LOGGER.info("No User Found.");
                 foundUser = false;
             } else {
-                logger.info("User " + username + " found, logging in.");
+                LOGGER.info("User " + username + " found, logging in.");
                 String uncheckedPass = listUsers.get(0);
 
                 if(BCrypt.checkpw(password, uncheckedPass)) {
@@ -56,8 +56,8 @@ public class UserDAOImpl implements UserDAO {
                     foundUser = false;
                 }
             }
-        } catch (IllegalArgumentException  exception) {
-            logger.error(exception.getMessage());
+        } catch (IllegalStateException | RollbackException | IllegalArgumentException exception) {
+            LOGGER.error(EXCEPTION_STRING, exception);
         }
         return foundUser;
     }
@@ -69,15 +69,17 @@ public class UserDAOImpl implements UserDAO {
      * @param email to be persisted in the database for the new user
      * @return the username that has been entered, to check if the username is available.
      */
+
     @Override
     public String registerUser (String username, String password, String email) {
-        logger.info("Register user API call started...");
+        LOGGER.info("Register user API call started...");
         String addedUsername = "";
+
 
             try {
                 List<String> listUsers;
                 manager.getTransaction().begin();
-                logger.info("Query method invoked.");
+                LOGGER.info("Query method invoked.");
                 Query query = manager.createQuery
                         ("SELECT u.username FROM User u where u.username = :username");
 
@@ -86,26 +88,28 @@ public class UserDAOImpl implements UserDAO {
                 listUsers = query.getResultList();
 
                 if(!listUsers.isEmpty()) {
-                    logger.info("Duplicate user found.");
+                    LOGGER.info("Duplicate user found.");
                     // If an existing user has been found, return the username.
                     // This means that a existing user has been found.
                     addedUsername = username;
                 } else {
-                    logger.info("No User Found, registering new user.");
+
+                    LOGGER.info("No User Found, registering new user.");
                     User user = new User();
                     user.setUsername(username);
                     // Encrypt the password first, before storing in the database.
                     user.setPassword(BCrypt.hashpw(password, BCrypt.gensalt()));
                     user.setEmail(email);
-                    user.setRoles_id(2); // Default value for the User group when a new user registers.
+                    // Default value for the User group when a new user registers.
+                    user.setRolesId(GROUP_USER);
                     manager.persist(user);
                     manager.getTransaction().commit();
-                    logger.info("USer persisted " + user);
+                    LOGGER.info("USer persisted " + user);
                 }
 
             } catch (IllegalArgumentException | EntityExistsException |
                     TransactionRequiredException  exception) {
-                logger.error(exception.getMessage());
+                    LOGGER.error(EXCEPTION_STRING, exception);
             }
         return addedUsername;
     }

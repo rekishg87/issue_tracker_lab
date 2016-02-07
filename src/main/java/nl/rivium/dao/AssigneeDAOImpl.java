@@ -1,8 +1,8 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Assignee;
-
-import javax.ejb.EJBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,8 +14,10 @@ import java.util.List;
  * Retrieve data from the Assignee table in the database
  */
 public class AssigneeDAOImpl implements AssigneeDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssigneeDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private static final String EXCEPTION_STRING = "Exception Occurred";
 
     /**
      *
@@ -31,9 +33,8 @@ public class AssigneeDAOImpl implements AssigneeDAO {
                     ("SELECT a FROM Assignee a");
             manager.getTransaction().commit();
             assigneeList = query.getResultList();
-
-        } catch (EJBException ex) {
-            ex.printStackTrace();
+        } catch (IllegalStateException exception) {
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()){
                 manager.getTransaction().rollback();
@@ -41,7 +42,6 @@ public class AssigneeDAOImpl implements AssigneeDAO {
                 factory.close();
             }
         }
-
         return assigneeList;
     }
 }

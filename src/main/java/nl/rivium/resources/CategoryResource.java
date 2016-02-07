@@ -23,7 +23,7 @@ import java.util.List;
 @ApplicationScoped
 @Path("category")
 public class CategoryResource {
-    private final CategoryDAO CATEGORY_DAO = new CategoryDAOImpl();
+    private final CategoryDAO categoryDAO = new CategoryDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
@@ -37,9 +37,10 @@ public class CategoryResource {
     public Response getCategory() {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Category> categories = CATEGORY_DAO.getCategoryList();
+            final List<Category> categories = categoryDAO.getCategoryList();
             return Response.ok(categories).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }

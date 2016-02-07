@@ -1,8 +1,8 @@
 package nl.rivium.dao;
 
 import nl.rivium.entities.Category;
-
-import javax.ejb.EJBException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,8 +14,10 @@ import java.util.List;
  * Retrieve data from the Category table in the database
  */
 public class CategoryDAOImpl implements CategoryDAO {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
     private EntityManager manager = factory.createEntityManager();
+    private static final String EXCEPTION_STRING = "Exception Occurred";
 
     /**
      *
@@ -31,10 +33,8 @@ public class CategoryDAOImpl implements CategoryDAO {
                     ("SELECT c FROM Category c");
             manager.getTransaction().commit();
             categoryList = query.getResultList();
-
-
-        } catch (EJBException ex) {
-            ex.printStackTrace();
+        } catch (IllegalStateException exception) {
+            LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
             if (manager.getTransaction().isActive()){
                 manager.getTransaction().rollback();
@@ -42,7 +42,6 @@ public class CategoryDAOImpl implements CategoryDAO {
                 factory.close();
             }
         }
-
         return categoryList;
     }
 }

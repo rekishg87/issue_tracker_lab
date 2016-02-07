@@ -24,7 +24,7 @@ import java.util.List;
 @RequestScoped
 @Path("status")
 public class StatusResource {
-    private final StatusDAO STATUS_DAO = new StatusDAOImpl();
+    private final StatusDAO statusDAO = new StatusDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
     @Inject
@@ -38,9 +38,10 @@ public class StatusResource {
     public Response getStatus() {
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
-            final List<Status> statuses = STATUS_DAO.getStatusList();
+            final List<Status> statuses = statusDAO.getStatusList();
             return Response.ok(statuses).build();
-        } else { // No valid session, so no user is logged in or session became invalid.
+        // No valid session, so no user is logged in or session became invalid.
+        } else {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
     }
