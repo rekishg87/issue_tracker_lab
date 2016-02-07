@@ -37,7 +37,7 @@ angular.module("LoginMod")
                             $rootScope.usernameData = $localStorage.usernameStr;
                             $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
                             $rootScope.sessionId = $localStorage.sessionIdStorage;
-                            toastr.success("Logging In!");
+                            toastr.success("Welcome " + $scope.username);
                             window.location = '#/home';
                         } else if (response.status === 403) {
                             $scope.usernameFailed = $scope.username;

@@ -12,7 +12,7 @@ angular.module("issueTracker", ["ValidationMod", "LoginMod", "HomeMod", "LogoutM
             preventOpenDuplicates: false,
             progressBar: true,
             tapToDismiss: true,
-            timeOut: 4000
+            timeOut: 2000
         });
     })
     .config(['$routeProvider', function($routeProvider) {
