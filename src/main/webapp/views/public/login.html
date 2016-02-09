@@ -16,9 +16,9 @@
                                     !loginForm.username.$pristine }">
                                 <input type="text" name="username" placeholder="Username..."
                                        ng-model="username" ng-minlength="3" ng-maxlength="10" required>
-                                <span class="error" ng-show="loginForm.username.$error.minlength"
+                                <span class="customValidation" ng-show="loginForm.username.$error.minlength"
                                    >Username is too short min 3.</span>
-                                <small class="error" ng-show="loginForm.username.$error.maxlength"
+                                <small class="customValidation" ng-show="loginForm.username.$error.maxlength"
                                    >Username is too long, max 10.</small>
                             </div>
                         </div>
@@ -30,9 +30,9 @@
                                     !loginForm.password.$pristine }">
                                 <input type="password" name="password" placeholder="Password..."
                                        ng-model="password" ng-minlength="3" ng-maxlength="10" required>
-                                <small class="error" ng-show="loginForm.password.$error.minlength"
+                                <small class="customValidation" ng-show="loginForm.password.$error.minlength"
                                    >Password is too short min 3.</small>
-                                <small class="error" ng-show="loginForm.password.$error.maxlength"
+                                <small class="customValidation" ng-show="loginForm.password.$error.maxlength"
                                    >Password is too long, max 10.</small>
                             </div>
                         </div>

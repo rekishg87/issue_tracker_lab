@@ -20,10 +20,10 @@
                                     !registerUserForm.username.$pristine }">
                                 <input type="text" name="username" placeholder="Username"
                                        ng-model="username" ng-minlength="3" ng-maxlength="10" required>
-                                <p ng-show="registerUserForm.username.$error.minlength"
-                                   class="help-block">Username is too short min 3.</p>
-                                <p ng-show="registerUserForm.username.$error.maxlength"
-                                   class="help-block">Username is too long, max 10.</p>
+                                <span ng-show="registerUserForm.username.$error.minlength"
+                                   class="customValidation">Username is too short min 3.</span>
+                                <span ng-show="registerUserForm.username.$error.maxlength"
+                                   class="customValidation">Username is too long, max 10.</span>
                             </div>
                         </div>
 
@@ -34,10 +34,10 @@
                                     !registerUserForm.password.$pristine }">
                                 <input type="password" name="password" placeholder="Password"
                                        ng-model="password" ng-minlength="3" ng-maxlength="10" required>
-                                <p ng-show="registerUserForm.password.$error.minlength"
-                                   class="help-block">Password is too short min 3.</p>
-                                <p ng-show="registerUserForm.password.$error.maxlength"
-                                   class="help-block">Password is too long, max 10.</p>
+                                <span ng-show="registerUserForm.password.$error.minlength"
+                                   class="customValidation">Password is too short min 3.</span>
+                                <span ng-show="registerUserForm.password.$error.maxlength"
+                                   class="customValidation">Password is too long, max 10.</span>
                             </div>
                         </div>
 
@@ -48,8 +48,8 @@
                                     !registerUserForm.email.$pristine }">
                                 <input type="email" name="email" placeholder="Email Address"
                                        ng-model="email" required>
-                                <p ng-show="registerUserForm.email.$invalid && !registerUserForm.email.$pristine"
-                                   class="help-block">Not a valid email address.</p>
+                                <span ng-show="registerUserForm.email.$invalid && !registerUserForm.email.$pristine"
+                                   class="customValidation">Not a valid email address.</span>
                             </div>
                         </div>
 
