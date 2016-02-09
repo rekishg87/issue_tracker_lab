@@ -10,11 +10,9 @@ angular.module("ValidationMod", [])
             var service = {};
 
             service.validate = function() {
-                console.log("validateService loaded...");
                 $http.get(validateUrl)
                     .then(
                     function onSuccess() {
-                        console.log("validate Success");
                         $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
                     },
                     function onError(err) {

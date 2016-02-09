@@ -21,7 +21,7 @@ angular.module("DatabaseFactory", ["ValidationMod"])
                         function onError(err) {
                             callback(err);
                         }
-                    )
+                    );
             };
 
             service.getCategory = function(callback) {
@@ -33,7 +33,7 @@ angular.module("DatabaseFactory", ["ValidationMod"])
                         function onError(err) {
                             callback(err);
                         }
-                    )
+                    );
             };
 
             service.getPriority = function(callback) {
@@ -45,7 +45,7 @@ angular.module("DatabaseFactory", ["ValidationMod"])
                         function onError(err) {
                             callback(err);
                         }
-                    )
+                    );
             };
 
             service.getStatus = function(callback) {
@@ -57,7 +57,7 @@ angular.module("DatabaseFactory", ["ValidationMod"])
                         function onError(err) {
                             callback(err);
                         }
-                    )
+                    );
             };
 
             return service;

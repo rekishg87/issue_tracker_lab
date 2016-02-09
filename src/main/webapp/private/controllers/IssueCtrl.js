@@ -5,22 +5,11 @@
 angular.module("IssueMod")
     .controller("IssueController", ['$scope', '$filter', '$rootScope', '$localStorage', 'ValidationFactory', 'IssueFactory', 'LogoutFactory',
         function($scope, $filter, $rootScope, $localStorage, ValidationFactory, IssueFactory, LogoutFactory) {
-
-            console.log("Issue Controller Initialized...");
-
-            //// Check if the File API is supported by the browser.
-            //if (window.File && window.FileReader && window.FileList && window.Blob) {
-            //    //alert('Great success! All the File APIs are supported.');
-            //} else {
-            //    alert('The File APIs are not fully supported in this browser.');
-            //}
-
             // Initialize $scope.data where the issue response data will be stored in.
             $scope.data = {};
 
             // Validate if user has a valid session.
             $scope.checkValidity = function() {
-                console.log("checkValidity() loaded...");
                 ValidationFactory.validate();
             };
 
@@ -47,19 +36,11 @@ angular.module("IssueMod")
                             $scope.data[0].issueCreatedOn = {};
                             $scope.data[0][x].issueCreatedOn = new Date($scope.data[0][x].issueCreatedOn).toLocaleString();
                         }
-
-                        // Purely for logging purposes, to log which issue is edited and
-                        // which new value is being set for the field that is being edited.
-                        for(var i = 0; i < $scope.data[0].length; i++) {
-                            console.log("DATA " + $scope.data[0][i].statusId);
-                        }
-                        console.log("STATUS " + $scope.status);
-                        console.log("status id 1: " + $scope.status[0]);
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';
                     }
-                })
+                });
             };
 
             // Function to get all the resolved issues.
@@ -85,19 +66,11 @@ angular.module("IssueMod")
                             $scope.data[0].issueCreatedOn = {};
                             $scope.data[0][x].issueCreatedOn = new Date($scope.data[0][x].issueCreatedOn).toLocaleString();
                         }
-
-                        // Purely for logging purposes, to log which issue is edited and
-                        // which new value is being set for the field that is being edited.
-                        for(var i = 0; i < $scope.data[0].length; i++) {
-                            console.log("DATA " + $scope.data[0][i].statusId);
-                        }
-                        console.log("STATUS " + $scope.status);
-                        console.log("status id 1: " + $scope.status[0]);
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';
                     }
-                })
+                });
             };
 
             // Function to create a new issue.
@@ -106,7 +79,6 @@ angular.module("IssueMod")
                     if(response.status === 200) {
                         window.location = '#/issue';
                         alert('Issue created!');
-                       console.log("Issue Created!");
                     } else if(response.status === 403) {
                        console.log("Failed!");
                     }
@@ -118,7 +90,7 @@ angular.module("IssueMod")
             $scope.updateIssue = function(data, issueId) {
                 IssueFactory.updateIssue(issueId, data.priority, data.subject, data.description, data.assignee, data.category, data.status, function(response) {
                     if (response.status === 200) {
-                        console.log("Updated!");
+                        alert("Updated!");
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';
@@ -137,7 +109,6 @@ angular.module("IssueMod")
                 IssueFactory.removeIssue(issueId, function(response) {
                     if (response.status === 200) {
                         $scope.getAllIssues();
-                        console.log("removed!");
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';

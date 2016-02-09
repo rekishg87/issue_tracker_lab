@@ -15,11 +15,11 @@ angular.module("LoginMod", [])
 
                 $http.post(loginUrl, credentials)
                     .then(
-                    function success(response) {
+                    function onSuccess(response) {
                         callback(response);
 
                     },
-                    function error(err) {
+                    function onError(err) {
                         var httpStatusCode = err.status;
                         if (httpStatusCode === 403 || httpStatusCode === 500) {
                             callback(err);

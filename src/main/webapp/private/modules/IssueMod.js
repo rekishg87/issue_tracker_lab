@@ -24,10 +24,10 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
 
                 $http.get(allIssuesUrl)
                     .then(
-                    function success(response) {
+                    function onSuccess(response) {
                         callback(response);
                     },
-                    function error(err) {
+                    function onError(err) {
                         var httpStatusCode = err.status;
                         if (httpStatusCode === 403) {
                             window.location = '#/login';
@@ -42,10 +42,10 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
 
                 $http.get(allResolvedIssuesUrl)
                     .then(
-                        function success(response) {
+                        function onSuccess(response) {
                             callback(response);
                         },
-                        function error(err) {
+                        function onError(err) {
                             var httpStatusCode = err.status;
                             if (httpStatusCode === 403) {
                                 window.location = '#/login';
@@ -66,16 +66,16 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
                 };
                 $http.post(createIssueUrl, data)
                     .then(
-                        function success(response) {
+                        function onSuccess(response) {
                             callback(response);
                         },
-                        function error(err) {
+                        function onError(err) {
                             if(err.status === 403) {
                                 window.location = '#/login';
                                 callback(err);
                             }
                         }
-                    )
+                    );
             };
 
             // Service to edit/update an issue and post it to the backend.
@@ -91,16 +91,16 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
                 };
                 $http.post(updateIssueUrl, data)
                     .then(
-                        function success(response) {
+                        function onSuccess(response) {
                             callback(response);
                         },
-                        function error(err) {
+                        function onError(err) {
                             if(err.status === 403) {
                                 window.location = '#/login';
                                 callback(err);
                             }
                         }
-                    )
+                    );
             };
 
             // Service to remove an issue.
@@ -110,18 +110,17 @@ angular.module("IssueMod", ['LogoutMod', 'ValidationMod', 'xeditable'])
                 };
                 $http.post(removeIssueUrl, data)
                     .then(
-                        function success(response) {
+                        function onSuccess(response) {
                             callback(response);
                         },
-                        function error(err) {
+                        function onError(err) {
                             if(err.status === 403) {
                                 window.location = '#/login';
                                 callback(err);
                             }
                         }
-                    )
+                    );
             };
-
 
             return service;
         }]);

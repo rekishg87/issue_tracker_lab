@@ -5,12 +5,8 @@
 angular.module("DatabaseFactory")
     .controller("DatabaseController", ['$scope', '$localStorage', 'IssueDatabase', 'ValidationFactory',
         function($scope, $localStorage, IssueDatabase, ValidationFactory) {
-
-            console.log("Database Controller Initialized...");
-
             // Validate if user has a valid session.
             $scope.checkValidity = function() {
-                console.log("checkValidity() loaded...");
                 ValidationFactory.validate();
             };
 
@@ -20,7 +16,6 @@ angular.module("DatabaseFactory")
                     if (response.status === 200) {
                         $localStorage.categoryDataStorage = response.data;
                         $scope.categoryDataScope = $localStorage.categoryDataStorage;
-                        console.log(response.data);
                     } else if (response.status === 403) {
                         console.log(response.data);
                     }
@@ -33,10 +28,9 @@ angular.module("DatabaseFactory")
                     if (response.status === 200) {
                         $localStorage.priorityDataStorage = response.data;
                         $scope.priorityDataScope = $localStorage.priorityDataStorage;
-                        console.log(response.data);
                     } else if (response.status === 403) {
                         console.log(response.data);
                     }
                 });
-            }
+            };
         }]);

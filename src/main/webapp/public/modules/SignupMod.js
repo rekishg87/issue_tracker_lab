@@ -25,7 +25,7 @@ angular.module("SignupMod", [])
                     function onError(err) {
                         callback(err);
                     }
-                )
+                );
             };
 
             return service;
