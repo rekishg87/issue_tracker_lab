@@ -6,8 +6,8 @@
         <button ng-click="createNewIssue()">New Issue</button>
     </div>
     <div>
-        <table class="table">
-            <tr>
+        <table name class="table table-bordered table-hover table-condensed">
+            <tr style="font-weight: bold">
                 <th>ID</th>
                 <th>Priority</th>
                 <th>Subject</th>
@@ -18,7 +18,7 @@
                 <th>Created By</th>
                 <th>Issue created on</th>
             </tr>
-            <tr ng-repeat="issue in data[0]">
+            <tr e-rows="3" e-cols="3" ng-repeat="issue in data[0]">
                 <td>
                     {{ issue.id }}
                 </td>
@@ -28,12 +28,12 @@
                    </span>
                 </td>
                 <td>
-                    <span editable-text="issue.subject" e-name="subject" e-form="rowform">
+                    <span editable-textarea="issue.subject" e-rows="10" e-cols="30" e-name="subject" e-form="rowform">
                         {{ issue.subject }}
                     </span>
                 </td>
                 <td>
-                    <span editable-text="issue.description" e-name="description" e-form="rowform">
+                    <span editable-textarea="issue.description" e-rows="10" e-cols="30" e-name="description" e-form="rowform">
                         {{ issue.description }}
                     </span>
                 </td>

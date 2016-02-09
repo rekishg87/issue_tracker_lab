@@ -8,3 +8,49 @@ span.error, small.error {
     padding: 0.375rem 0.5625rem 0.5625rem;
     background: #f04124;
     color: #FFFFFF; }
+
+.containerBox {
+    height: 50%;
+    margin-left: 33%;
+    align-items: center;
+}
+
+.containerLeft {
+    height: 200px;
+    width: 200px;
+    float: left;
+}
+
+.containerRight {
+    margin-left: 15px;
+    height: 200px;
+    width: 400px;
+    float: left;
+}
+
+.subjectBox {
+    height: 30px;
+    width: 400px;
+}
+
+.descriptionBox {
+    height: 170px;
+    width: 400px;
+}
+
+.box {
+    padding-bottom: 0%;
+}
+
+.table {
+    width: 100%
+}
+form[editable-form] > div {margin: 10px 0;}
+
+.container {
+    width: auto;
+}
+
+.issueBox {
+    margin-left: 33%;
+}

@@ -3,9 +3,8 @@
  */
 
 angular.module("LoginMod")
-    .controller("LoginController", ['$scope', '$rootScope', '$localStorage', '$cookies', 'LoginFactory', 'toastr',
-        function($scope, $rootScope, $localStorage, $cookies, LoginFactory, toastr) {
-
+    .controller("LoginController", ['$scope', '$rootScope', '$localStorage', '$cookies', 'LoginFactory',
+        function($scope, $rootScope, $localStorage, $cookies, LoginFactory) {
             // When there is no data in the sessionIdStorage, stay at the login page.
             if($localStorage.sessionIdStorage === undefined) {
                 $rootScope.isUserLoggedIn = false;
@@ -35,13 +34,11 @@ angular.module("LoginMod")
                             $rootScope.usernameData = $localStorage.usernameStr;
                             $localStorage.sessionIdStorage = $cookies.get("JSESSIONID");
                             $rootScope.sessionId = $localStorage.sessionIdStorage;
-                            toastr.success("Welcome " + $scope.username);
+                            toastr.success("Welcome Home " + $scope.username);
                             window.location = '#/home';
                         } else if (response.status === 403) {
-                            $scope.usernameFailed = $scope.username;
+                            toastr.error("Bad Credentials entered");
                             $rootScope.isUserLoggedIn = false;
-                            $scope.showFailedMsg = true;
-
                         }
                     });
                 }

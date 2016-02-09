@@ -17,11 +17,9 @@ angular.module("LoginMod", [])
                     .then(
                     function onSuccess(response) {
                         callback(response);
-
                     },
                     function onError(err) {
-                        var httpStatusCode = err.status;
-                        if (httpStatusCode === 403 || httpStatusCode === 500) {
+                        if (err.status === 403 || httpStatusCode === 500) {
                             callback(err);
                         }
                     }

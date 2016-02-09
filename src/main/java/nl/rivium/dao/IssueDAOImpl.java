@@ -3,6 +3,8 @@ package nl.rivium.dao;
 import nl.rivium.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,7 +15,7 @@ import java.util.List;
  * Created by Rekish on 10/5/2015.
  * Retrieve data from the Issue table in the database
  */
-
+@Stateless
 public class IssueDAOImpl implements IssueDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(IssueDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");

@@ -3,18 +3,19 @@
  */
 
 angular.module("LogoutMod")
-    .controller("LogoutController", ['$scope', 'LogoutFactory',
-        function($scope, LogoutFactory) {
+    .controller("LogoutController", ['$rootScope', '$scope', 'LogoutFactory',
+        function($rootScope, $scope, LogoutFactory) {
 
         // Logout user function.
         $scope.logout = function() {
             LogoutFactory.logoutService($scope.sessionId, function(response){
                 if(response.status === 200) {
+                    toastr.success($rootScope.usernameData + " Logged out!");
                     window.location = '#/login';
                 } else if(response.status === 403) {
-                    console.log("LogoutService Error: " + response.data);
+                    toastr.error("Not logged in!");
+                    window.location = '#/login';
                 }
-
             });
         };
     }]);

@@ -78,9 +78,9 @@ angular.module("IssueMod")
                 IssueFactory.createIssue($scope.description, $scope.subject, $scope.category, $scope.priority, $rootScope.usernameData, function(response) {
                     if(response.status === 200) {
                         window.location = '#/issue';
-                        alert('Issue created!');
+                       toastr.success('Issue created!');
                     } else if(response.status === 403) {
-                       console.log("Failed!");
+                       toastr.error("Failed to create a new issue!");
                     }
                 });
 
@@ -90,7 +90,7 @@ angular.module("IssueMod")
             $scope.updateIssue = function(data, issueId) {
                 IssueFactory.updateIssue(issueId, data.priority, data.subject, data.description, data.assignee, data.category, data.status, function(response) {
                     if (response.status === 200) {
-                        alert("Updated!");
+                        toastr.success("Issue Updated!");
                     } else if (response.status === 403) {
                         LogoutFactory.logoutService($scope.sessionId);
                         window.location = '#/login';
