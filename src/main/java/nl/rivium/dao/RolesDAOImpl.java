@@ -22,8 +22,10 @@ public class RolesDAOImpl implements RolesDAO {
 
     @Override
     public int userAccess (String username) {
+        LOGGER.info("Getting user role.");
         int userRole = 0;
         List<Integer> userRoleList;
+
         try {
             manager.getTransaction().begin();
             Query query = manager.createQuery
@@ -34,7 +36,6 @@ public class RolesDAOImpl implements RolesDAO {
 
             userRoleList = query.getResultList();
             userRole = userRoleList.get(0);
-
         } catch (IllegalStateException | RollbackException exception) {
             LOGGER.error(EXCEPTION_STRING, exception);
         } finally {

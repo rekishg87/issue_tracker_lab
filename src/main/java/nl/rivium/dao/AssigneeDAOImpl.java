@@ -24,7 +24,8 @@ public class AssigneeDAOImpl implements AssigneeDAO {
      * @return all the possible options from the assignee table as a List<>
      */
     @Override
-    public List<Assignee> getAssigneeList(){
+    public List<Assignee> getAssigneeList() {
+        LOGGER.info("Getting all assignee's.");
         List<Assignee> assigneeList = null;
 
         try {

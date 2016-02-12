@@ -3,8 +3,6 @@ package nl.rivium.dao;
 import nl.rivium.entities.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,7 +13,6 @@ import java.util.List;
  * Created by Rekish on 10/5/2015.
  * Retrieve data from the Issue table in the database
  */
-@Stateless
 public class IssueDAOImpl implements IssueDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(IssueDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
@@ -27,13 +24,13 @@ public class IssueDAOImpl implements IssueDAO {
      */
     @Override
     public List<Issue> getAllIssuesList() {
+        LOGGER.info("Getting all open issues.");
         List<Issue> issueTable;
         List<Priority> priorityTable;
         List<Assignee> assigneeTable;
         List<Category> categoryTable;
         List<Status> statusTable;
         List tables = new ArrayList<Issue>();
-        LOGGER.info("Getting all Issues API Call started");
 
         try {
             manager.getTransaction().begin();
@@ -85,6 +82,7 @@ public class IssueDAOImpl implements IssueDAO {
 
     @Override
     public List<Issue> createIssue(String description, String subject, int categoryId, int priorityId, String username) {
+        LOGGER.info("Creating a new issue.");
         Date currentDate = new Date();
         final int notAssigned = 1;
         final int registered = 1;
@@ -132,7 +130,6 @@ public class IssueDAOImpl implements IssueDAO {
                     ("SELECT i from Issue i where i.id = :id");
             query.setParameter("id", id);
             foundIssue = (Issue) query.getSingleResult();
-            LOGGER.info("findIssue method: " + foundIssue);
         } catch (IllegalStateException exception) {
             LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
@@ -162,8 +159,9 @@ public class IssueDAOImpl implements IssueDAO {
     @Override
     public List<Issue> updateIssue(int id, int priorityId, String subject, String description,
                                    int assigneeId, int categoryId, int statusId) {
+        LOGGER.info("Updating an existing issue.");
         Issue selectedIssue = findIssue(id);
-        LOGGER.info("updateIssue method: " + selectedIssue);
+
         try {
             manager.getTransaction().begin();
             selectedIssue.setPriorityId(priorityId);
@@ -189,13 +187,13 @@ public class IssueDAOImpl implements IssueDAO {
 
     @Override
     public List<Issue> getResolvedIssues() {
+        LOGGER.info("Getting all resolved issues.");
         List<Issue> issueTable;
         List<Priority> priorityTable;
         List<Assignee> assigneeTable;
         List<Category> categoryTable;
         List<Status> statusTable;
         List tables = new ArrayList<Issue>();
-        LOGGER.info("Getting all Issues API Call started");
 
         try {
             manager.getTransaction().begin();
@@ -245,8 +243,9 @@ public class IssueDAOImpl implements IssueDAO {
 
     @Override
     public List<Issue> removeIssue(int id) {
+        LOGGER.info("Removing an existing issue.");
         Issue selectedIssue = findIssue(id);
-        LOGGER.info("removeIssue method: " + selectedIssue);
+
         try {
             manager.getTransaction().begin();
             manager.remove(manager.contains(selectedIssue) ? selectedIssue : manager.merge(selectedIssue));

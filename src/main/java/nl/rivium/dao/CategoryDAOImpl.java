@@ -24,7 +24,8 @@ public class CategoryDAOImpl implements CategoryDAO {
      * @return all the possible options from the Category table as a List<>
      */
     @Override
-    public List<Category> getCategoryList(){
+    public List<Category> getCategoryList() {
+        LOGGER.info("Getting all category options.");
         List<Category> categoryList = null;
 
         try {

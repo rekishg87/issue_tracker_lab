@@ -22,6 +22,7 @@ public class PriorityDAOImpl implements PriorityDAO {
      */
     @Override
     public List<Priority> getPriorityList() {
+        LOGGER.info("Getting all priority options.");
         List<Priority> priorityList = null;
 
         try {
@@ -30,8 +31,6 @@ public class PriorityDAOImpl implements PriorityDAO {
                     ("SELECT p FROM Priority p");
             manager.getTransaction().commit();
             priorityList = query.getResultList();
-
-
         } catch (IllegalStateException | RollbackException exception) {
                     LOGGER.error(EXCEPTION_STRING, exception);
         } finally {

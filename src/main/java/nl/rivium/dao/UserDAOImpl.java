@@ -4,8 +4,6 @@ import nl.rivium.entities.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.ejb.Stateless;
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +11,6 @@ import java.util.List;
  * Created by Rekish on 9/17/2015.
  * Authorize and create a new user.
  */
-@Stateless
 public class UserDAOImpl implements UserDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDAOImpl.class);
     private EntityManagerFactory factory = Persistence.createEntityManagerFactory("issueUnit");
@@ -29,13 +26,12 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public boolean authenticate (String username, String password) {
-        LOGGER.info("User authentication API call started...");
+        LOGGER.info("Authenticating user");
         boolean foundUser = false;
         List<String> listUsers;
 
         try {
             manager.getTransaction().begin();
-            LOGGER.info("Query statement invoked.");
             Query query = manager.createQuery
                     ("SELECT u.password FROM User u where u.username = :username");
 
@@ -72,14 +68,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public String registerUser (String username, String password, String email) {
-        LOGGER.info("Register user API call started...");
+        LOGGER.info("Registering new user");
         String addedUsername = "";
-
 
             try {
                 List<String> listUsers;
                 manager.getTransaction().begin();
-                LOGGER.info("Query method invoked.");
                 Query query = manager.createQuery
                         ("SELECT u.username FROM User u where u.username = :username");
 
@@ -104,9 +98,8 @@ public class UserDAOImpl implements UserDAO {
                     user.setRolesId(GROUP_USER);
                     manager.persist(user);
                     manager.getTransaction().commit();
-                    LOGGER.info("USer persisted " + user);
+                    LOGGER.info(user + " saved in the database.");
                 }
-
             } catch (IllegalArgumentException | EntityExistsException |
                     TransactionRequiredException  exception) {
                     LOGGER.error(EXCEPTION_STRING, exception);

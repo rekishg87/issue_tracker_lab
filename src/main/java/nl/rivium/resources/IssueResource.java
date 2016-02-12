@@ -3,6 +3,9 @@ package nl.rivium.resources;
 import nl.rivium.dao.IssueDAO;
 import nl.rivium.dao.IssueDAOImpl;
 import nl.rivium.entities.Issue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ import java.util.List;
 @RequestScoped
 @Path("issues")
 public class IssueResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(IssueResource.class);
     private final IssueDAO issueDAO = new IssueDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
@@ -33,6 +37,7 @@ public class IssueResource {
     @Path("getAllIssues")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllIssues() {
+        LOGGER.info("API called for retrieving all open issues.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Issue> issues = issueDAO.getAllIssuesList();
@@ -49,6 +54,7 @@ public class IssueResource {
     @Path("getResolvedIssues")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getResolvedIssues() {
+        LOGGER.info("API called for retrieving all resolved issues.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Issue> issues = issueDAO.getResolvedIssues();
@@ -66,6 +72,7 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createIssue(Issue input ) {
+        LOGGER.info("API called for creating a new issue.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Issue> issues = issueDAO.createIssue
@@ -85,6 +92,7 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateIssue(Issue input) {
+        LOGGER.info("API called to update an existing issue.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Issue> issues = issueDAO.updateIssue(
@@ -104,6 +112,7 @@ public class IssueResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response removeIssue(Issue input) {
+        LOGGER.info("API called to remove an existing issue.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Issue> issues = issueDAO.removeIssue(input.getId());

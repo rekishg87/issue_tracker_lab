@@ -1,6 +1,5 @@
 package nl.rivium.resources;
 
-
 import nl.rivium.dao.RolesDAO;
 import nl.rivium.dao.RolesDAOImpl;
 import nl.rivium.dao.UserDAO;
@@ -40,6 +39,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticate (User input) {
+        LOGGER.info("API called for authenticating a user.");
         final boolean userFound = userDAO.authenticate(input.getUsername(), input.getPassword());
 
         // If user entered correct credentials, return status 200 and the user role int.
@@ -70,11 +70,11 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response registerUser(User input) {
+        LOGGER.info("API called to register a new user.");
         final String addUser = userDAO.registerUser(input.getUsername(), input.getPassword(), input.getEmail());
 
         // If a duplicate user has been found, return a bad request (400).
         if(addUser.equals(input.getUsername())) {
-            LOGGER.info("UserResource if 400: " + addUser);
             return Response
                     .status(Response.Status.BAD_REQUEST)
                     .build();
@@ -91,7 +91,7 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signoutUser() {
-
+        LOGGER.info("API called to logout the current logged in user.");
         // When there is a session and the session is valid.
         // Do not create a new session and invalidate the valid session.
         if(request.getRequestedSessionId() != null && request.isRequestedSessionIdValid()) {
@@ -114,7 +114,7 @@ public class UserResource {
     @Path("validate")
     @Produces(MediaType.APPLICATION_JSON)
     public Response validateSession() {
-
+        LOGGER.info("API called to validate the session.");
         // If there is no sessionId, return FORBIDDEN (403).
         if(request.getRequestedSessionId() == null) {
             return Response.status(Response.Status.FORBIDDEN).build();

@@ -3,6 +3,8 @@ package nl.rivium.resources;
 import nl.rivium.dao.PriorityDAO;
 import nl.rivium.dao.PriorityDAOImpl;
 import nl.rivium.entities.Priority;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -24,6 +26,7 @@ import java.util.List;
 @ApplicationScoped
 @Path("priority")
 public class PriorityResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PriorityResource.class);
     private final PriorityDAO priorityDAO = new PriorityDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
@@ -36,6 +39,7 @@ public class PriorityResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPriority() {
+        LOGGER.info("API called for retrieving allPriority options.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Priority> priorities = priorityDAO.getPriorityList();

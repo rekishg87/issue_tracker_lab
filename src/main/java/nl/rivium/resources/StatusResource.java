@@ -3,6 +3,8 @@ package nl.rivium.resources;
 import nl.rivium.dao.StatusDAO;
 import nl.rivium.dao.StatusDAOImpl;
 import nl.rivium.entities.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -24,6 +26,7 @@ import java.util.List;
 @RequestScoped
 @Path("status")
 public class StatusResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatusResource.class);
     private final StatusDAO statusDAO = new StatusDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
@@ -36,6 +39,7 @@ public class StatusResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStatus() {
+        LOGGER.info("API called for retrieving allStatus options.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Status> statuses = statusDAO.getStatusList();

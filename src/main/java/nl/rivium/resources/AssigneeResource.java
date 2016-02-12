@@ -3,6 +3,9 @@ package nl.rivium.resources;
 import nl.rivium.dao.AssigneeDAO;
 import nl.rivium.dao.AssigneeDAOImpl;
 import nl.rivium.entities.Assignee;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +27,7 @@ import java.util.List;
 @RequestScoped
 @Path("assignee")
 public class AssigneeResource {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssigneeResource.class);
     private final AssigneeDAO assigneeDAO = new AssigneeDAOImpl();
 
     //When deploying a JAX-RS application using servlet then, HttpServletRequest is available using @Inject.
@@ -36,6 +40,7 @@ public class AssigneeResource {
     @Path("all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAssignee() {
+        LOGGER.info("API called for retrieving allAssignee's.");
         // When there is a valid session without creating a new session, the api call can be accessed.
         if (request.getSession(false) != null) {
             final List<Assignee> assignees = assigneeDAO.getAssigneeList();

@@ -22,6 +22,7 @@ public class StatusDAOImpl implements StatusDAO {
      */
     @Override
     public List<Status> getStatusList() {
+        LOGGER.info("Getting all status options.");
         List<Status> statusList = null;
 
         try {
@@ -30,8 +31,6 @@ public class StatusDAOImpl implements StatusDAO {
                     ("SELECT s FROM Status s");
             manager.getTransaction().commit();
             statusList = query.getResultList();
-
-
         } catch (IllegalStateException | RollbackException exception) {
             LOGGER.error(EXCEPTION_STRING, exception);
         } finally {
